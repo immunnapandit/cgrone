@@ -20,16 +20,16 @@ export default function App() {
       <Navbar />
       <Hero />
       <About />
-      <MarqueeStrip />
-      <Services />
-      <ImmigrationPrograms />
-      <WhyChooseUs />
-      <Countries />
-      <Process />
-      <Partners />
-      <Stats />
-      <Blog />
-      <Contact />
+      {/* <MarqueeStrip /> */}
+      {/* <Services /> */}
+      {/* <ImmigrationPrograms /> */}
+      {/* <WhyChooseUs /> */}
+      {/* <Countries /> */}
+      {/* <Process /> */}
+      {/* <Partners /> */}
+      {/* <Stats /> */}
+      {/* <Blog /> */}
+      {/* <Contact /> */}
       <Footer />
       <ScrollTop />
     </div>
