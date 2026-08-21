@@ -12,6 +12,5 @@ export const navLinks = [
     ],
   },
   { label: "Our Process", href: "#process" },
-  { label: "Partners", href: "#partners" },
   { label: "Contact", href: "#contact" },
 ];

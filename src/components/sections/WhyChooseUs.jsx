@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { FaPhoneAlt } from "react-icons/fa";
 import Reveal from "@/components/common/Reveal";
 import { whyChooseUsPerks, whyChooseUsBars } from "@/data/whyChooseUs";
+import travelerImage from "@/assets/images/about/Abouts.webp";
 
 function Bar({ label, value }) {
   return (
@@ -33,7 +34,7 @@ export default function WhyChooseUs() {
           </svg>
           <Reveal direction="left" className="relative max-w-lg">
             <h2 className="font-heading font-bold text-3xl sm:text-4xl leading-tight mb-12">
-              We ensure prompt services for visa &amp; immigration
+              A strategy-first approach to immigration &amp; mobility
             </h2>
             <div className="space-y-9">
               {whyChooseUsPerks.map((p) => (
@@ -43,7 +44,7 @@ export default function WhyChooseUs() {
                   </div>
                   <div>
                     <h3 className="font-heading font-semibold text-lg mb-1">{p.title}</h3>
-                    <p className="text-white/80 text-sm leading-relaxed">{p.text}</p>
+                    <p className="text-white/80 text-base leading-relaxed">{p.text}</p>
                   </div>
                 </div>
               ))}
@@ -51,18 +52,26 @@ export default function WhyChooseUs() {
           </Reveal>
         </div>
 
-        <div className="bg-offwhite px-8 sm:px-16 py-24">
+        <div className="relative bg-offwhite px-8 sm:px-16 py-24">
+          <div className="hidden xl:block absolute right-10 -top-16 -bottom-16 w-56 shadow-2xl">
+            <img
+              src={travelerImage}
+              alt="Traveler with passport and boarding pass"
+              className="w-full h-full object-cover"
+            />
+          </div>
+
           <Reveal direction="right" className="max-w-lg">
             <div className="eyebrow mb-6">
               <span className="chev">»</span> Why Choose Us
             </div>
             <h2 className="font-heading font-bold text-3xl sm:text-4xl text-ink mb-6">
-              We are professional Expert in Immigration
+              Why Choose CGR ONE
             </h2>
             <p className="text-gray-500 leading-relaxed mb-10">
-              A transparent, data-driven process backed by consultants who have
-              handled thousands of applications across dozens of destination
-              countries.
+              A transparent, strategy-first approach backed by more than two
+              decades of experience across India, the United Kingdom and
+              Canada.
             </p>
 
             {whyChooseUsBars.map((bar) => (
@@ -75,7 +84,7 @@ export default function WhyChooseUs() {
               </div>
               <div>
                 <p className="text-gray-500 text-sm">Call for free</p>
-                <p className="font-heading font-bold text-xl text-ink">+92 (9800) 6869</p>
+                <p className="font-heading font-bold text-xl text-ink">+91 458 654 528</p>
               </div>
             </div>
           </Reveal>

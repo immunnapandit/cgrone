@@ -61,7 +61,7 @@ export default function Navbar() {
         </nav>
 
         <a href="#contact" className="hidden lg:inline-flex btn-primary !py-3 !px-6 text-xs">
-          Get A Quote
+          Contact Us
         </a>
 
         <button className="lg:hidden text-3xl text-ink" onClick={() => setOpen(!open)}>

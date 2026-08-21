@@ -27,8 +27,9 @@ export default function Footer() {
             <img src={logo} alt="CGR ONE" className="h-12 w-auto" />
           </a>
           <p className="text-white/60 leading-relaxed mb-6 max-w-xs">
-            We work with a passion for taking on challenges and turning them into
-            reliable visa outcomes for every client we serve.
+            A global platform connecting clients with immigration
+            professionals, lawyers and specialist advisors — built on two
+            decades of experience across India, the UK and Canada.
           </p>
           <a href="#about" className="btn-primary !py-3 !px-6 text-xs">
             Read More
@@ -39,9 +40,9 @@ export default function Footer() {
           <h4 className="font-heading font-semibold text-lg mb-6">Services</h4>
           <ul className="space-y-3">
             {footerServices.map((s) => (
-              <li key={s}>
-                <a href="#" className="text-white/60 hover:text-primary transition-colors flex items-center gap-2">
-                  <span className="text-primary">»</span> {s}
+              <li key={s.label}>
+                <a href={s.href} className="text-white/60 hover:text-primary transition-colors flex items-center gap-2">
+                  <span className="text-primary">»</span> {s.label}
                 </a>
               </li>
             ))}
@@ -52,9 +53,9 @@ export default function Footer() {
           <h4 className="font-heading font-semibold text-lg mb-6">Useful Links</h4>
           <ul className="space-y-3">
             {footerLinks.map((l) => (
-              <li key={l}>
-                <a href="#" className="text-white/60 hover:text-primary transition-colors flex items-center gap-2">
-                  <span className="text-primary">»</span> {l}
+              <li key={l.label}>
+                <a href={l.href} className="text-white/60 hover:text-primary transition-colors flex items-center gap-2">
+                  <span className="text-primary">»</span> {l.label}
                 </a>
               </li>
             ))}

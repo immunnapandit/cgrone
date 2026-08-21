@@ -25,69 +25,71 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0;
 }
 
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: "Poppins", sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  padding: 8px 18px;
-  border: 1px solid #dcdcdc;
-  color: #0b1b3e;
-}
+@layer components {
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: "Poppins", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 8px 18px;
+    border: 1px solid #dcdcdc;
+    color: #0b1b3e;
+  }
 
-.eyebrow .chev {
-  color: #f5750e;
-  font-weight: 800;
-}
+  .eyebrow .chev {
+    color: #f5750e;
+    font-weight: 800;
+  }
 
-.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: #f5750e;
-  color: #fff;
-  font-family: "Poppins", sans-serif;
-  font-weight: 600;
-  font-size: 14px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  padding: 16px 32px;
-  clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%);
-  transition: all 0.35s ease;
-  position: relative;
-  overflow: hidden;
-}
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #f5750e;
+    color: #fff;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 16px 32px;
+    clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%);
+    transition: all 0.35s ease;
+    position: relative;
+    overflow: hidden;
+  }
 
-.btn-primary:hover {
-  background: #0b1b3e;
-  transform: translateY(-2px);
-}
+  .btn-primary:hover {
+    background: #0b1b3e;
+    transform: translateY(-2px);
+  }
 
-.btn-dark {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: #111417;
-  color: #fff;
-  font-family: "Poppins", sans-serif;
-  font-weight: 600;
-  font-size: 14px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  padding: 16px 32px;
-  transition: all 0.35s ease;
-}
+  .btn-dark {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #111417;
+    color: #fff;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 16px 32px;
+    transition: all 0.35s ease;
+  }
 
-.btn-dark:hover {
-  background: #f5750e;
-}
+  .btn-dark:hover {
+    background: #f5750e;
+  }
 
-.diagonal-slice {
-  clip-path: polygon(0 0, 100% 0, 78% 100%, 0% 100%);
+  .diagonal-slice {
+    clip-path: polygon(0 0, 100% 0, 78% 100%, 0% 100%);
+  }
 }
 
 .scroll-fade {

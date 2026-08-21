@@ -1,28 +1,36 @@
-import { FaGlobeAmericas, FaPassport, FaUsers, FaSuitcase } from "react-icons/fa";
+import { FaMapMarkedAlt, FaExchangeAlt, FaCoins, FaBriefcase } from "react-icons/fa";
 
 export const services = [
   {
+    id: "canada-immigration",
     n: "01",
-    title: "Student Visa",
-    img: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=700&q=80",
-    icon: FaGlobeAmericas,
+    title: "Canada Immigration",
+    desc: "End-to-end guidance through Express Entry, PNP, and family sponsorship pathways to permanent residency.",
+    img: "https://images.unsplash.com/photo-1503614472-8c93d56e92ce?auto=format&fit=crop&w=700&q=80",
+    icon: FaMapMarkedAlt,
   },
   {
+    id: "usa-canada-pathways",
     n: "02",
-    title: "Work Visa",
-    img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=700&q=80",
-    icon: FaPassport,
+    title: "USA → Canada Pathways",
+    desc: "Seamless relocation planning for US-based professionals and families moving to Canada.",
+    img: "https://images.unsplash.com/photo-1449034446853-66c86144b0ad?auto=format&fit=crop&w=700&q=80",
+    icon: FaExchangeAlt,
   },
   {
+    id: "global-residency",
     n: "03",
-    title: "Tourist Visa",
-    img: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=700&q=80",
-    icon: FaUsers,
+    title: "Global Residency & Investment Migration",
+    desc: "Residency and citizenship-by-investment programs across leading destinations worldwide.",
+    img: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=700&q=80",
+    icon: FaCoins,
   },
   {
+    id: "business-investor",
     n: "04",
-    title: "Business Visa",
-    img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=700&q=80",
-    icon: FaSuitcase,
+    title: "Business / Investor Immigration",
+    desc: "Structured support for entrepreneurs and investors seeking business-class visas abroad.",
+    img: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=700&q=80",
+    icon: FaBriefcase,
   },
 ];

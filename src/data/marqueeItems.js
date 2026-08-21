@@ -1,7 +1,7 @@
 export const marqueeItems = [
   "Visa Consultancy",
   "Immigrations",
-  "Tours & Travel Agency",
+  "Global Mobility",
   "Help In Documentation",
   "Visa Processing",
 ];

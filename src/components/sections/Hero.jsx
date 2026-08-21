@@ -45,7 +45,7 @@ export default function Hero() {
               className="inline-flex items-center bg-primary text-white font-heading font-semibold text-sm tracking-wide px-6 py-3 mb-6"
               style={{ clipPath: "polygon(0 0, 92% 0, 100% 50%, 92% 100%, 0 100%)" }}
             >
-              Solutions for all type of visas
+              20+ Years of Global Immigration Experience
             </motion.div>
 
             <motion.h1
@@ -54,18 +54,20 @@ export default function Hero() {
               transition={{ duration: 0.8, delay: 0.15 }}
               className="font-heading font-bold text-white text-[42px] sm:text-[54px] lg:text-[64px] leading-[1.08] mb-6"
             >
-              Professional Solutions for{" "}
-              <span className="text-primary">Visa &amp; Immigrations</span>
+              Building a Global Platform for{" "}
+              <span className="text-primary">Immigration, Mobility &amp; Opportunity</span>
             </motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.25 }}
-              className="text-white/70 text-lg leading-relaxed max-w-lg mb-10"
+              className="text-white/80 text-xl leading-relaxed max-w-xl mb-10"
             >
-              Trusted advisors for every step of your visa and immigration
-              journey, from first consultation to visa in hand.
+              With more than two decades of international experience, we
+              connect you with the right immigration professionals, lawyers
+              and specialist advisors — because international mobility should
+              begin with strategy, not paperwork.
             </motion.p>
 
             <motion.a
@@ -114,7 +116,7 @@ export default function Hero() {
                 </div>
                 <div>
                   <h3 className="font-heading font-semibold text-lg text-ink mb-1">{card.title}</h3>
-                  <p className="text-sm text-gray-500 leading-relaxed">{card.text}</p>
+                  <p className="text-base text-gray-500 leading-relaxed">{card.text}</p>
                 </div>
               </div>
             </motion.div>

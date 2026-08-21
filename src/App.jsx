@@ -4,6 +4,7 @@ import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
 import MarqueeStrip from "@/components/sections/MarqueeStrip";
 import Services from "@/components/sections/Services";
+import GlobalMobility from "@/components/sections/GlobalMobility";
 import ImmigrationPrograms from "@/components/sections/ImmigrationPrograms";
 import WhyChooseUs from "@/components/sections/WhyChooseUs";
 import Countries from "@/components/sections/Countries";
@@ -20,16 +21,19 @@ export default function App() {
       <Navbar />
       <Hero />
       <About />
-      {/* <MarqueeStrip /> */}
-      {/* <Services /> */}
+      <MarqueeStrip />
+      <Services />
+      <GlobalMobility />
       {/* <ImmigrationPrograms /> */}
-      {/* <WhyChooseUs /> */}
+      {/* <div className="relative z-10 -mt-24 sm:-mt-32 lg:-mt-[220px] shadow-2xl">
+        <WhyChooseUs />
+      </div> */}
       {/* <Countries /> */}
-      {/* <Process /> */}
+      <Process />
       {/* <Partners /> */}
       {/* <Stats /> */}
       {/* <Blog /> */}
-      {/* <Contact /> */}
+      <Contact />
       <Footer />
       <ScrollTop />
     </div>
