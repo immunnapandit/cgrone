@@ -17,7 +17,7 @@ export default function Process() {
           <div className="eyebrow mx-auto justify-center mb-6">
             <span className="chev">»</span> Our Approach
           </div>
-          <h2 className="font-heading font-bold text-4xl lg:text-5xl text-ink">
+          <h2 className="t-h2 text-ink">
             Understand. Strategize.
             <br /> Connect. Move Forward.
           </h2>
@@ -34,7 +34,7 @@ export default function Process() {
             <path
               d="M20 55 C 250 -10, 350 -10, 590 30 S 950 65, 1160 5"
               fill="none"
-              stroke="#111417"
+              stroke="rgb(var(--c-ink))"
               strokeWidth="2"
               strokeDasharray="6 8"
               strokeLinecap="round"
@@ -53,16 +53,16 @@ export default function Process() {
               >
                 <motion.div
                   whileHover={{ scale: 1.08, rotate: 4 }}
-                  className="relative w-36 h-36 mx-auto rounded-full border-2 border-dashed border-primary/60 flex items-center justify-center text-5xl text-primary bg-white shadow-[0_0_40px_rgba(245,117,14,0.25)] mb-8"
+                  className="relative w-36 h-36 mx-auto rounded-full border-2 border-dashed border-primary/60 flex items-center justify-center text-5xl text-primary bg-white shadow-[0_0_40px_rgb(var(--c-primary)/0.28)] mb-8"
                 >
                   <span className="absolute inset-3 rounded-full bg-primary/10 blur-md" />
                   <s.icon className="relative" />
                 </motion.div>
 
                 <div className="max-w-[280px] mx-auto rounded-2xl px-6 py-5 transition-all duration-300 group-hover:bg-white group-hover:shadow-2xl">
-                  <span className="text-primary font-heading font-bold tracking-widest text-sm">STEP {s.n}</span>
-                  <h3 className="font-heading font-semibold text-xl text-ink mt-2 mb-3 whitespace-pre-line">{s.title}</h3>
-                  <p className="text-gray-500 text-base leading-relaxed text-balance">{s.text}</p>
+                  <span className="text-primary font-heading font-semibold tracking-[0.22em] text-[12px]">STEP {s.n}</span>
+                  <h3 className="t-h4 text-ink mt-2.5 mb-3 whitespace-pre-line">{s.title}</h3>
+                  <p className="t-body text-balance">{s.text}</p>
                 </div>
               </motion.div>
             ))}

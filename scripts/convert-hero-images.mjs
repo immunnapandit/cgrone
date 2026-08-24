@@ -11,7 +11,7 @@ for (const file of files) {
   const input = path.join(dir, file);
   const output = path.join(dir, file.replace(/\.png$/i, ".webp"));
 
-  await sharp(input).webp({ quality: 88 }).toFile(output);
+  await sharp(input).webp({ quality: 95, effort: 6 }).toFile(output);
 
   const before = (await stat(input)).size;
   const after = (await stat(output)).size;

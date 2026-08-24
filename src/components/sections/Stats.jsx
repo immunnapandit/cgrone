@@ -10,14 +10,14 @@ export default function Stats() {
       <div className="max-w-[1400px] mx-auto px-6">
         <div className="border-t-4 border-primary bg-offwhite grid lg:grid-cols-2 items-center overflow-hidden">
           <Reveal direction="left" className="px-8 sm:px-16 py-16">
-            <h2 className="font-heading font-bold text-4xl text-ink leading-tight mb-6">
+            <h2 className="t-h2 text-ink mb-7">
               Ready to fly with
               <br /> us your dream
               <br /> country
             </h2>
-            <a href="#contact" className="inline-flex items-center gap-2 font-heading font-bold text-ink uppercase text-sm tracking-wide group">
+            <a href="#contact" className="inline-flex items-center gap-2 font-heading font-semibold text-ink uppercase text-[12px] tracking-[0.18em] group">
               Our Services
-              <span className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center group-hover:translate-x-1 transition-transform">
+              <span className="w-8 h-8 rounded-full bg-ink text-primary flex items-center justify-center group-hover:translate-x-1 transition-transform">
                 <FaArrowRight className="text-xs" />
               </span>
             </a>
@@ -33,7 +33,7 @@ export default function Stats() {
             />
           </div>
 
-          <div className="lg:col-span-2 grid grid-cols-3 divide-x divide-gray-200 border-t border-gray-200">
+          <div className="lg:col-span-2 grid grid-cols-3 divide-x divide-hairline border-t border-hairline">
             {stats.map((s) => (
               <div key={s.label} className="flex items-center justify-center gap-4 py-8 px-4">
                 <span className="text-2xl text-primary">
@@ -41,7 +41,7 @@ export default function Stats() {
                 </span>
                 <div>
                   <Counter to={s.value} suffix={s.suffix} />
-                  <p className="text-gray-500 text-sm">{s.label}</p>
+                  <p className="text-muted text-[12px] uppercase tracking-[0.16em] leading-snug">{s.label}</p>
                 </div>
               </div>
             ))}

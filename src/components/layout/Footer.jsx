@@ -6,15 +6,17 @@ export default function Footer() {
   return (
     <footer className="bg-ink text-white pt-0">
       <div className="max-w-[1400px] mx-auto px-6 -translate-y-10">
-        <Reveal className="bg-primary grid sm:grid-cols-3 gap-6 px-10 py-10 shadow-xl">
+        {/* an ivory card floating on the navy footer — a second navy panel
+            here would only be 1.5:1 against it and read as a smudge */}
+        <Reveal className="bg-white grid sm:grid-cols-3 gap-6 px-10 py-10 shadow-2xl">
           {footerContactInfo.map((it) => (
             <div key={it.label} className="flex items-center gap-4">
-              <div className="w-14 h-14 bg-white text-primary flex items-center justify-center text-xl shrink-0">
+              <div className="w-14 h-14 bg-ink text-primary flex items-center justify-center text-xl shrink-0">
                 <it.icon />
               </div>
               <div>
-                <p className="font-heading font-semibold">{it.label}</p>
-                <p className="text-white/90">{it.value}</p>
+                <p className="font-heading font-medium text-[12px] uppercase tracking-[0.18em] text-soft mb-0.5">{it.label}</p>
+                <p className="t-h5 text-ink leading-snug">{it.value}</p>
               </div>
             </div>
           ))}
@@ -26,7 +28,7 @@ export default function Footer() {
           <a href="#home" className="inline-block bg-white rounded px-4 py-3 mb-5">
             <img src={logo} alt="CGR ONE" className="h-12 w-auto" />
           </a>
-          <p className="text-white/60 leading-relaxed mb-6 max-w-xs">
+          <p className="t-body text-white/60 mb-7 max-w-xs">
             A global platform connecting clients with immigration
             professionals, lawyers and specialist advisors — built on two
             decades of experience across India, the UK and Canada.
@@ -37,11 +39,11 @@ export default function Footer() {
         </div>
 
         <div>
-          <h4 className="font-heading font-semibold text-lg mb-6">Services</h4>
+          <h4 className="t-h4 text-white mb-6">Services</h4>
           <ul className="space-y-3">
             {footerServices.map((s) => (
               <li key={s.label}>
-                <a href={s.href} className="text-white/60 hover:text-primary transition-colors flex items-center gap-2">
+                <a href={s.href} className="text-[16px] text-white/60 hover:text-primary transition-colors flex items-center gap-2">
                   <span className="text-primary">»</span> {s.label}
                 </a>
               </li>
@@ -50,11 +52,11 @@ export default function Footer() {
         </div>
 
         <div>
-          <h4 className="font-heading font-semibold text-lg mb-6">Useful Links</h4>
+          <h4 className="t-h4 text-white mb-6">Useful Links</h4>
           <ul className="space-y-3">
             {footerLinks.map((l) => (
               <li key={l.label}>
-                <a href={l.href} className="text-white/60 hover:text-primary transition-colors flex items-center gap-2">
+                <a href={l.href} className="text-[16px] text-white/60 hover:text-primary transition-colors flex items-center gap-2">
                   <span className="text-primary">»</span> {l.label}
                 </a>
               </li>
@@ -63,8 +65,8 @@ export default function Footer() {
         </div>
 
         <div>
-          <h4 className="font-heading font-semibold text-lg mb-6">Newsletter</h4>
-          <p className="text-white/60 mb-5">
+          <h4 className="t-h4 text-white mb-6">Newsletter</h4>
+          <p className="t-body text-white/60 mb-5">
             Sign up for alerts, our latest blogs, thoughts, and insights.
           </p>
           <form className="flex flex-col gap-3" onSubmit={(e) => e.preventDefault()}>
@@ -82,7 +84,7 @@ export default function Footer() {
               <a
                 key={i}
                 href="#"
-                className="w-9 h-9 border border-white/20 flex items-center justify-center hover:bg-primary hover:border-primary transition-colors"
+                className="w-9 h-9 border border-white/20 flex items-center justify-center hover:bg-primary hover:text-ink hover:border-primary transition-colors"
               >
                 <Icon className="text-sm" />
               </a>
@@ -91,7 +93,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-white/10 py-6 text-center text-white/50 text-sm">
+      <div className="border-t border-white/10 py-7 text-center text-white/45 text-[13px] tracking-[0.06em]">
         © {new Date().getFullYear()} CGR ONE. All rights reserved.
       </div>
     </footer>

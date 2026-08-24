@@ -49,10 +49,10 @@ export default function About() {
           <div className="eyebrow mb-6">
             <span className="chev">»</span> About CGR ONE
           </div>
-          <h2 className="font-heading font-bold text-4xl lg:text-5xl text-ink leading-tight mb-6">
+          <h2 className="t-h2 text-ink mb-6">
             A Global Platform Built on Two Decades of Immigration Expertise.
           </h2>
-          <p className="text-gray-500 leading-relaxed mb-8 max-w-xl">
+          <p className="t-body mb-9 max-w-xl">
             CGR ONE is built on more than two decades of experience across
             immigration, global mobility, international business development
             and advisory services — spanning India, the United Kingdom and
@@ -68,13 +68,13 @@ export default function About() {
                 <div
                   className={
                     i === 0
-                      ? "w-14 h-14 rounded-full bg-primary text-white flex items-center justify-center text-xl"
+                      ? "w-14 h-14 rounded-full bg-ink text-primary flex items-center justify-center text-xl"
                       : "w-14 h-14 rounded-full border-2 border-dashed border-primary/50 text-primary flex items-center justify-center text-xl"
                   }
                 >
                   <Icon />
                 </div>
-                <p className="font-heading font-semibold text-ink leading-snug">
+                <p className="t-h5 text-ink leading-snug">
                   {title[0]}
                   <br />
                   {title[1]}
@@ -85,8 +85,8 @@ export default function About() {
 
           <ul className="space-y-3 mb-9">
             {aboutBulletPoints.map((t) => (
-              <li key={t} className="flex items-center gap-3 text-ink font-medium">
-                <span className="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center text-xs">
+              <li key={t} className="flex items-center gap-3 text-ink font-medium text-[17px]">
+                <span className="w-6 h-6 rounded-full bg-ink text-primary flex items-center justify-center text-xs">
                   <FaArrowRight />
                 </span>
                 {t}

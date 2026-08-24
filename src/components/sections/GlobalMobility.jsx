@@ -21,12 +21,12 @@ export default function GlobalMobility() {
             transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
             className="absolute -bottom-8 -left-4 bg-white shadow-2xl px-6 py-5 flex items-center gap-4"
           >
-            <div className="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center text-xl shrink-0">
+            <div className="w-12 h-12 rounded-full bg-ink text-primary flex items-center justify-center text-xl shrink-0">
               <FaGlobeAmericas />
             </div>
             <div>
-              <p className="font-heading font-bold text-ink text-xl leading-none">20+ Years</p>
-              <p className="text-gray-500 text-sm">Global Mobility Experience</p>
+              <p className="t-num text-xl leading-none mb-1">20+ Years</p>
+              <p className="text-muted text-[13px] uppercase tracking-[0.14em] leading-none">Global Mobility Experience</p>
             </div>
           </motion.div>
         </Reveal>
@@ -35,10 +35,10 @@ export default function GlobalMobility() {
           <div className="eyebrow mb-6">
             <span className="chev">»</span> Global Mobility
           </div>
-          <h2 className="font-heading font-bold text-4xl lg:text-5xl text-ink leading-tight mb-6">
+          <h2 className="t-h2 text-ink mb-6">
             Corporate Relocation &amp; Intra-Company Transfers
           </h2>
-          <p className="text-gray-500 leading-relaxed mb-10 max-w-xl">
+          <p className="t-body mb-10 max-w-xl">
             End-to-end mobility support for employers moving talent across
             borders — from work permits and compliance through onboarding in
             the destination country, coordinated with regulated professionals
@@ -48,22 +48,22 @@ export default function GlobalMobility() {
           <div className="space-y-7 mb-10">
             {globalMobilityFeatures.map(({ icon: Icon, title, text }) => (
               <div key={title} className="flex gap-5">
-                <div className="w-14 h-14 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xl shrink-0">
+                <div className="w-14 h-14 rounded-full bg-primary/12 text-primary flex items-center justify-center text-xl shrink-0">
                   <Icon />
                 </div>
                 <div>
-                  <h3 className="font-heading font-semibold text-ink text-lg mb-1">{title}</h3>
-                  <p className="text-gray-500 text-base leading-relaxed">{text}</p>
+                  <h3 className="t-h4 text-ink mb-1.5">{title}</h3>
+                  <p className="t-body">{text}</p>
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="grid grid-cols-3 gap-6 mb-10 pt-8 border-t border-gray-100">
+          <div className="grid grid-cols-3 gap-6 mb-10 pt-8 border-t border-hairline/60">
             {globalMobilityStats.map((s) => (
               <div key={s.label}>
-                <p className="font-heading font-bold text-2xl sm:text-3xl text-ink leading-none mb-2">{s.value}</p>
-                <p className="text-gray-500 text-xs sm:text-sm leading-snug">{s.label}</p>
+                <p className="t-num text-2xl sm:text-3xl leading-none mb-2">{s.value}</p>
+                <p className="text-muted text-[12px] uppercase tracking-[0.14em] leading-snug">{s.label}</p>
               </div>
             ))}
           </div>

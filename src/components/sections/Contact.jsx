@@ -25,7 +25,7 @@ export default function Contact() {
           />
           <div className="relative h-full flex flex-col justify-center px-10 gap-3">
             {["20+ Years Experience", "Global Mobility Platform", "Strategy-First Approach"].map((t) => (
-              <span key={t} className="bg-white text-ink font-heading font-semibold w-fit px-5 py-2 text-lg">
+              <span key={t} className="bg-white text-ink t-h5 w-fit px-5 py-2.5">
                 {t}
               </span>
             ))}
@@ -36,7 +36,7 @@ export default function Contact() {
           <div className="eyebrow mb-6">
             <span className="chev">»</span> Contact With Us
           </div>
-          <h2 className="font-heading font-bold text-3xl sm:text-4xl text-ink mb-8">
+          <h2 className="t-h2 text-ink mb-8">
             Get in Touch for Immigration &amp; Global Mobility
           </h2>
 
@@ -61,7 +61,7 @@ export default function Contact() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               type="submit"
-              className="btn-dark w-full justify-center !clip-path-none"
+              className="btn-primary w-full justify-center !clip-path-none"
             >
               {sent ? "Request Sent!" : "Submit Request"} <FaArrowRight />
             </motion.button>

@@ -15,10 +15,10 @@ export default function Services() {
 
       <div className="relative max-w-[1400px] mx-auto px-6">
         <Reveal className="text-center mb-16">
-          <div className="eyebrow mx-auto justify-center border-white/25 text-white mb-6">
+          <div className="eyebrow mx-auto justify-center text-white/55 mb-6">
             <span className="chev">»</span> Service We Provide
           </div>
-          <h2 className="font-heading font-bold text-4xl lg:text-5xl text-white">
+          <h2 className="t-h2 text-white">
             Outstanding Immigration
             <br /> Visa Services
           </h2>
@@ -56,24 +56,24 @@ export default function Services() {
                 <div className="absolute inset-0 flex flex-col justify-end p-6">
                   <div
                     className={`w-11 h-11 rounded-full flex items-center justify-center text-lg shrink-0 mb-4 transition-all duration-700 ease-in-out ${
-                      isActive ? "bg-primary text-white" : "bg-white/10 text-white"
+                      isActive ? "bg-primary text-ink" : "bg-white/10 text-white"
                     }`}
                   >
                     <s.icon />
                   </div>
 
-                  <span className="text-xs text-white/50 font-heading mb-1">{s.n}</span>
-                  <h3 className="font-heading font-semibold text-white text-lg leading-snug">{s.title}</h3>
+                  <span className="text-[11px] text-white/45 font-heading font-medium tracking-[0.22em] mb-2">{s.n}</span>
+                  <h3 className="t-h4 text-white">{s.title}</h3>
 
                   <div
                     className={`overflow-hidden transition-all duration-700 ease-in-out ${
                       isActive ? "max-h-32 opacity-100 mt-3" : "max-h-0 opacity-0 mt-0"
                     }`}
                   >
-                    <p className="text-base text-white/70 leading-relaxed">{s.desc}</p>
+                    <p className="t-body text-white/70">{s.desc}</p>
                     <a
                       href="#contact"
-                      className="mt-4 inline-flex items-center gap-1.5 text-primary font-heading font-semibold text-sm hover:gap-2.5 transition-all duration-300"
+                      className="mt-4 inline-flex items-center gap-1.5 text-primary font-heading font-semibold text-[12px] uppercase tracking-[0.16em] hover:gap-2.5 transition-all duration-300"
                     >
                       Read More <FaAngleRight className="text-xs" />
                     </a>

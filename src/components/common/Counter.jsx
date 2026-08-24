@@ -8,7 +8,7 @@ export default function Counter({ to, suffix = "" }) {
   const value = useCountUp(to, inView);
 
   return (
-    <span ref={ref} className="font-heading font-bold text-4xl text-ink">
+    <span ref={ref} className="t-num text-4xl block leading-none mb-1.5">
       {value}
       {suffix}
     </span>

@@ -10,7 +10,7 @@ export default function ImmigrationPrograms() {
           <div className="eyebrow mx-auto justify-center mb-6">
             <span className="chev">»</span> Our Programs
           </div>
-          <h2 className="font-heading font-bold text-4xl lg:text-5xl text-ink leading-tight">
+          <h2 className="t-h2 text-ink">
             Immigration Programs Built Around You
           </h2>
         </Reveal>
@@ -28,18 +28,18 @@ export default function ImmigrationPrograms() {
                 <img src={p.img} alt={p.eyebrow} className="w-full h-[420px] object-cover" />
               </Reveal>
               <Reveal direction={i % 2 === 1 ? "left" : "right"} delay={0.1}>
-                <div className="w-14 h-14 rounded-full bg-primary text-white flex items-center justify-center text-2xl mb-6">
+                <div className="w-14 h-14 rounded-full bg-ink text-primary flex items-center justify-center text-2xl mb-6">
                   <p.icon />
                 </div>
                 <div className="eyebrow mb-4">
                   <span className="chev">»</span> {p.eyebrow}
                 </div>
-                <h3 className="font-heading font-bold text-3xl text-ink leading-tight mb-5">{p.title}</h3>
-                <p className="text-gray-500 leading-relaxed mb-6 max-w-xl">{p.text}</p>
+                <h3 className="t-h3 text-ink mb-5">{p.title}</h3>
+                <p className="t-body mb-7 max-w-xl">{p.text}</p>
                 <ul className="space-y-3 mb-8">
                   {p.points.map((pt) => (
-                    <li key={pt} className="flex items-center gap-3 text-ink font-medium">
-                      <span className="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center text-xs shrink-0">
+                    <li key={pt} className="flex items-center gap-3 text-ink font-medium text-[17px]">
+                      <span className="w-6 h-6 rounded-full bg-ink text-primary flex items-center justify-center text-xs shrink-0">
                         <FaArrowRight />
                       </span>
                       {pt}

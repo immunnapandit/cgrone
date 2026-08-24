@@ -24,7 +24,7 @@ export default function Navbar() {
           <img src={logo} alt="CGR ONE" className="h-14 sm:h-16 w-auto" />
         </a>
 
-        <nav className="hidden lg:flex items-center gap-8 font-heading text-sm font-semibold tracking-wide uppercase">
+        <nav className="hidden lg:flex items-center gap-9 font-heading text-[13px] font-medium tracking-[0.14em] uppercase">
           {navLinks.map((l) =>
             l.children ? (
               <div key={l.label} className="relative group py-2">
@@ -78,7 +78,7 @@ export default function Navbar() {
             transition={{ duration: 0.35 }}
             className="lg:hidden overflow-hidden bg-white border-t"
           >
-            <div className="flex flex-col px-6 py-4 gap-1 font-heading font-semibold uppercase text-sm">
+            <div className="flex flex-col px-6 py-4 gap-1 font-heading font-medium uppercase text-[13px] tracking-[0.14em]">
               {navLinks.map((l) =>
                 l.children ? (
                   <div key={l.label}>
