@@ -17,22 +17,47 @@
    ------------------------------------------------------------------ */
 :root {
   /* ONE gold, used everywhere — buttons, icons, rules alike. It is tuned
-     so a single value covers every job: navy type on it 5.5:1, against
-     white 3.3:1 (icon glyphs + button edges), on navy 5.5:1. Earlier this
+     so a single value covers every job: navy type on it 4.9:1, against
+     white 3.3:1 (icon glyphs + button edges), on navy 4.9:1. Earlier this
      was three gold shades and they read as three different colours.
      NEVER put white on gold — 2.4:1. Gold fills always take navy type. */
   --c-primary: 171 138 33;       /* #AB8A21 antique gold                */
   --c-primary-dark: 143 114 27;  /* #8F721B — hover only, same hue      */
-  --c-ink: 8 21 46;              /* #08152E midnight navy — the workhorse */
-  --c-ink-deep: 4 12 28;         /* #040C1C near-black navy             */
-  --c-brand: 26 45 82;           /* #1A2D52 lifted navy — secondary fills
+
+  /* The navies were lifted one step in Aug 2026 — the client read the site
+     as too dark. Every navy here is a blue now rather than a near-black,
+     which is what actually reads as "lighter" on the big flat panels.
+     --c-ink is both the dark surface AND the heading/button-label colour,
+     so it cannot go lighter than this: navy-on-gold is 4.9:1 at #11223D
+     and AA needs 4.5:1 for the 13px button label. */
+  --c-ink: 17 34 61;             /* #11223D midnight navy — the workhorse */
+  --c-ink-deep: 11 24 44;        /* #0B182C deepest navy                */
+  --c-brand: 38 62 105;          /* #263E69 lifted navy — secondary fills
                                     that must separate from --c-ink      */
-  --c-brand-dark: 18 33 62;      /* #12213E */
-  --c-brand-light: 42 68 116;    /* #2A4474 */
+  --c-brand-dark: 28 48 84;      /* #1C3054 */
+  --c-brand-light: 58 89 143;    /* #3A598F */
   --c-muted: 89 96 110;          /* #59606E — body copy                 */
   --c-soft: 107 115 133;         /* #6B7385 — captions, labels          */
   --c-offwhite: 251 249 245;     /* #FBF9F5 warm ivory, not a cool grey */
   --c-hairline: 231 226 216;     /* #E7E2D8 warm hairline               */
+
+  /* The header is fixed and fully opaque, so anything a section paints
+     underneath it is simply lost. Hero art is positioned off this instead
+     of a guessed padding: navbar height (logo 56 + py-4) plus breathing
+     room, so the family's heads clear the bar instead of being sliced by
+     it. Keep in step with Navbar.jsx if the logo height ever changes. */
+  --nav-clear: 104px;
+
+  /* How far the hero's feature cards reach up into the photo band above
+     them. The band's bottom inset matches it exactly, so the family ends up
+     standing on the top edge of the cards instead of behind them. */
+  --card-overlap: 70px;
+}
+
+@media (min-width: 640px) {
+  :root {
+    --nav-clear: 128px;          /* logo grows to 64px at sm */
+  }
 }
 
 * {
@@ -361,11 +386,12 @@ p {
   top: 0;
   width: 100%;
   height: 100%;
-  /* reference gradient, swapped onto the navy palette. 0.68 is the lightest
-     this can go: the banner photo contains pure white, and against the
-     lighter gradient stop that still leaves white type at 4.99:1. */
+  /* reference gradient, swapped onto the navy palette. The banner photo
+     contains pure white, so the veil has to carry the contrast on its own:
+     0.74 against the lifted navies leaves white type at 4.96:1, the same
+     readability the old 0.68-over-darker-navy gave. */
   background: linear-gradient(230deg, rgb(var(--c-brand)), rgb(var(--c-ink-deep)) 55%);
-  opacity: 0.68;
+  opacity: 0.74;
 }
 
 .page-title .title-outer {
@@ -649,7 +675,9 @@ p {
   position: absolute;
   inset: 0;
   background-color: rgb(var(--c-ink-deep));
-  opacity: 0.88;
+  /* was 0.88 — the photo underneath was almost fully blacked out. 0.76 lets
+     it read while white type on it stays above 7:1. */
+  opacity: 0.76;
 }
 
 .video-cta .outer-box {

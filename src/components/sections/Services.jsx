@@ -15,18 +15,23 @@ export default function Services() {
       {/* the navy backdrop runs 334px past the section so the section below
           can sit on top of its tail — the reference's services/why-choose-us
           overlap. No overflow-hidden here or the bleed gets clipped. */}
-      <div className="absolute top-0 left-0 w-full h-[calc(100%+334px)] bg-ink overflow-hidden -z-10 pointer-events-none">
-        <div className="absolute inset-0 flex items-center justify-center opacity-[0.15]">
+      {/* This was a full-bleed navy slab — the single largest dark area on the
+          home page. It is ivory now; the service photos carry their own dark
+          gradients, so the section still has weight without the backdrop. The
+          bleed still runs 334px past the section so WhyChooseUs can sit on its
+          tail, it just no longer changes colour underneath it. */}
+      <div className="absolute top-0 left-0 w-full h-[calc(100%+334px)] bg-offwhite overflow-hidden -z-10 pointer-events-none">
+        <div className="absolute inset-0 flex items-center justify-center opacity-[0.06]">
           <img src={mapBg} alt="" className="w-full h-auto" />
         </div>
       </div>
 
       <div className="relative max-w-[1400px] mx-auto px-6">
         <Reveal className="text-center mb-16">
-          <div className="eyebrow mx-auto justify-center text-white/55 mb-6">
+          <div className="eyebrow mx-auto justify-center mb-6">
             <span className="chev">»</span> Service We Provide
           </div>
-          <h2 className="t-h2 text-white">
+          <h2 className="t-h2 text-ink">
             Cross-Border Expansion
             <br /> &amp; Immigration Mobility
           </h2>
@@ -57,7 +62,7 @@ export default function Services() {
                 />
                 <div
                   className={`absolute inset-0 bg-gradient-to-t transition-all duration-700 ease-in-out ${
-                    isActive ? "from-ink/95 via-ink/30 to-transparent" : "from-ink/90 via-ink/50 to-ink/10"
+                    isActive ? "from-ink/90 via-ink/25 to-transparent" : "from-ink/85 via-ink/40 to-transparent"
                   }`}
                 />
 
