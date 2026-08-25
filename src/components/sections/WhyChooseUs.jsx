@@ -1,24 +1,38 @@
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import { FaPhoneAlt } from "react-icons/fa";
 import Reveal from "@/components/common/Reveal";
+import WordsSlideUp from "@/components/common/WordsSlideUp";
 import { whyChooseUsPerks, whyChooseUsBars } from "@/data/whyChooseUs";
-import travelerImage from "@/assets/images/about/Abouts.webp";
+import mapBg from "@/assets/images/testimonial-map.png";
 
-function Bar({ label, value }) {
+/** Bar fills from 0 to `value`% once scrolled into view. The percentage label
+ *  sits at the right edge of the fill, so it travels along with it. */
+function SkillItem({ label, value }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, amount: 0.6 });
+
   return (
-    <div className="mb-7">
-      <div className="flex justify-between font-heading font-medium text-ink text-[14px] uppercase tracking-[0.14em] mb-2.5">
-        <span className="capitalize">{label}</span>
-        <span>{value}%</span>
+    <div ref={ref} className="skill-item">
+      <div className="skill-header">
+        <div className="skill-title">{label}</div>
       </div>
-      <div className="h-2 bg-ink/10 rounded-full overflow-hidden">
-        <motion.div
-          initial={{ width: 0 }}
-          whileInView={{ width: `${value}%` }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
-          className="h-full bg-primary rounded-full"
-        />
+      <div className="skill-bar">
+        <div className="bar-inner">
+          <div className="bar" style={{ width: inView ? `${value}%` : 0 }}>
+            {/* the label rides the end of the fill, so it starts stacked on
+                top of the title — hold it until the bar has moved clear */}
+            <div
+              className="skill-percentage"
+              style={{
+                opacity: inView ? 1 : 0,
+                transition: "opacity 0.8s ease 1s",
+              }}
+            >
+              {value}%
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -26,68 +40,75 @@ function Bar({ label, value }) {
 
 export default function WhyChooseUs() {
   return (
-    <section className="relative">
-      <div className="grid lg:grid-cols-2">
-        <div className="relative bg-brand text-white px-8 sm:px-16 py-24 overflow-hidden">
-          <svg className="absolute inset-0 w-full h-full opacity-15" viewBox="0 0 600 700">
-            <circle cx="500" cy="350" r="260" fill="none" stroke="#fff" strokeWidth="1" strokeDasharray="2 10" />
-          </svg>
-          <Reveal direction="left" className="relative max-w-lg">
-            <h2 className="t-h2 text-white mb-12">
-              A strategy-first approach to immigration &amp; mobility
-            </h2>
-            <div className="space-y-9">
-              {whyChooseUsPerks.map((p) => (
-                <div key={p.title} className="flex gap-5">
-                  <div className="w-14 h-14 rounded-full border-2 border-dashed border-white/50 flex items-center justify-center text-xl shrink-0">
-                    <p.icon />
-                  </div>
-                  <div>
-                    <h3 className="t-h4 text-white mb-1.5">{p.title}</h3>
-                    <p className="t-body text-white/80">{p.text}</p>
-                  </div>
+    <section className="why-choose-us">
+      <div className="max-w-[1400px] mx-auto px-6">
+        <div className="outer-box">
+          <div className="grid lg:grid-cols-2">
+            {/* navy panel — left on desktop, but second in the source so the
+                copy is read first on narrow screens */}
+            <Reveal direction="right" className="features-column order-2 lg:order-1">
+              <div className="inner-column">
+                <div className="bg" style={{ backgroundImage: `url(${mapBg})` }} />
+
+                <div className="title-box relative">
+                  <WordsSlideUp
+                    text="We ensure prompt services for visa & immigration"
+                    className="t-h3 title"
+                  />
                 </div>
-              ))}
-            </div>
-          </Reveal>
-        </div>
 
-        <div className="relative bg-offwhite px-8 sm:px-16 py-24">
-          <div className="hidden xl:block absolute right-10 -top-16 -bottom-16 w-56 shadow-2xl">
-            <img
-              src={travelerImage}
-              alt="Traveler with passport and boarding pass"
-              className="w-full h-full object-cover"
-            />
+                {whyChooseUsPerks.map((p) => (
+                  <div key={p.title} className="why-choose-block">
+                    <div className="inner-box">
+                      <div className="icon">
+                        <p.icon />
+                      </div>
+                      <div className="content-box">
+                        <h5 className="t-h5 title">{p.title}</h5>
+                        <div className="text">{p.text}</div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+
+            <Reveal
+              direction="left"
+              delay={0.1}
+              className="content-column order-1 lg:order-2"
+            >
+              <div className="inner-column">
+                <div className="eyebrow mb-3">
+                  <span className="chev">»</span> Why Choose Us
+                </div>
+                <WordsSlideUp
+                  text="We are professional experts in immigration"
+                  className="t-h2 text-ink"
+                />
+                <p className="t-body mt-7 mb-9">
+                  A transparent, strategy-first approach backed by more than two
+                  decades of experience across India, the United Kingdom and
+                  Canada — connecting you with regulated professionals at every
+                  stage.
+                </p>
+
+                <div className="skills">
+                  {whyChooseUsBars.map((bar) => (
+                    <SkillItem key={bar.label} label={bar.label} value={bar.value} />
+                  ))}
+                </div>
+
+                <motion.a href="tel:+91458654528" className="info-btn" whileHover={{ x: 2 }}>
+                  <span className="icon">
+                    <FaPhoneAlt />
+                  </span>
+                  <small>Call for free</small>
+                  <strong>+91 458 654 528</strong>
+                </motion.a>
+              </div>
+            </Reveal>
           </div>
-
-          <Reveal direction="right" className="max-w-lg">
-            <div className="eyebrow mb-6">
-              <span className="chev">»</span> Why Choose Us
-            </div>
-            <h2 className="t-h2 text-ink mb-6">
-              Why Choose CGR ONE
-            </h2>
-            <p className="t-body mb-10">
-              A transparent, strategy-first approach backed by more than two
-              decades of experience across India, the United Kingdom and
-              Canada.
-            </p>
-
-            {whyChooseUsBars.map((bar) => (
-              <Bar key={bar.label} label={bar.label} value={bar.value} />
-            ))}
-
-            <div className="flex items-center gap-4 mt-10">
-              <div className="w-16 h-16 rounded-full bg-ink text-primary flex items-center justify-center text-2xl">
-                <FaPhoneAlt />
-              </div>
-              <div>
-                <p className="text-muted text-[12px] uppercase tracking-[0.18em] mb-0.5">Call for free</p>
-                <p className="t-num text-xl leading-none">+91 458 654 528</p>
-              </div>
-            </div>
-          </Reveal>
         </div>
       </div>
     </section>

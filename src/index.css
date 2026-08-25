@@ -341,6 +341,666 @@ p {
   color: rgb(var(--c-offwhite));
 }
 
+/* ---- inner page banner ---- */
+.page-title {
+  position: relative;
+  min-height: 250px;
+  /* reference is 125px top and bottom, but our header is fixed and 96px
+     tall, so the top gets that back to keep the title optically centred
+     in the part of the banner you can actually see */
+  padding: 221px 0 125px;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.page-title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  /* reference gradient, swapped onto the navy palette. 0.68 is the lightest
+     this can go: the banner photo contains pure white, and against the
+     lighter gradient stop that still leaves white type at 4.99:1. */
+  background: linear-gradient(230deg, rgb(var(--c-brand)), rgb(var(--c-ink-deep)) 55%);
+  opacity: 0.68;
+}
+
+.page-title .title-outer {
+  position: relative;
+  text-align: center;
+}
+
+.page-title .title {
+  color: #fff;
+  margin-bottom: 17px;
+}
+
+.page-breadcrumb {
+  position: relative;
+  margin-top: 5px;
+  padding: 0;
+  list-style: none;
+}
+
+.page-breadcrumb li {
+  position: relative;
+  display: inline-block;
+  margin-right: 12px;
+  padding-right: 13px;
+  font-size: 14px;
+  color: #fff;
+  text-transform: capitalize;
+}
+
+.page-breadcrumb li::after {
+  content: "›";
+  position: absolute;
+  right: -4px;
+  top: -1px;
+  color: rgb(var(--c-primary));
+  font-size: 16px;
+}
+
+.page-breadcrumb li:last-child {
+  margin-right: 0;
+  padding-right: 0;
+}
+
+.page-breadcrumb li:last-child::after {
+  display: none;
+}
+
+.page-breadcrumb li a {
+  color: rgb(var(--c-primary));
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.page-breadcrumb li a:hover {
+  color: #fff;
+}
+
+/* ---- about page intro ---- */
+.about-section-two {
+  position: relative;
+  padding: 120px 0 86px;
+}
+
+.about-section-two .content-column {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 35px;
+}
+
+.about-section-two .content-column .sec-title {
+  margin-bottom: 40px;
+}
+
+.about-section-two .content-column .content-box {
+  position: relative;
+  padding-right: 200px;
+}
+
+.about-section-two .content-column .info-box {
+  position: absolute;
+  right: 0;
+  top: 0;
+  max-width: 170px;
+  padding: 30px;
+  background-color: rgb(var(--c-offwhite));
+  border-top: 7px solid rgb(var(--c-primary));
+  transition: all 0.3s ease;
+}
+
+.about-section-two .content-column .info-box:hover {
+  background-color: #fff;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+.about-section-two .content-column .info-box .title {
+  display: block;
+  margin-bottom: 30px;
+}
+
+.about-section-two .content-column .info-box .read-more {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  line-height: 30px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgb(var(--c-soft));
+  transition: color 0.15s linear;
+}
+
+.about-section-two .content-column .info-box .read-more i,
+.about-section-two .content-column .info-box .read-more svg {
+  margin-left: 10px;
+  color: rgb(var(--c-primary));
+  transition: all 0.15s linear;
+}
+
+.about-section-two .content-column .info-box .read-more:hover {
+  color: rgb(var(--c-ink));
+}
+
+.about-section-two .content-column .info-box .read-more:hover svg {
+  transform: translateX(-15px);
+  opacity: 0;
+}
+
+.about-section-two .content-column .btm-box {
+  margin-top: 10px;
+}
+
+.about-block-two {
+  position: relative;
+  min-height: 120px;
+  padding-left: 85px;
+  padding-bottom: 30px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid rgb(var(--c-hairline));
+}
+
+.about-block-two:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+.about-block-two .icon {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 64px;
+  color: rgb(var(--c-primary));
+  transition: all 0.3s ease;
+}
+
+.about-block-two:hover .icon {
+  transform: rotateY(-190deg);
+}
+
+.about-block-two .title {
+  position: relative;
+  top: -3px;
+  margin-bottom: 10px;
+}
+
+.about-block-two .text {
+  margin-top: 5px;
+}
+
+.about-section-two .image-column {
+  position: relative;
+  margin-bottom: 35px;
+}
+
+.about-section-two .image-column .inner-column {
+  position: relative;
+  padding-right: 70px;
+}
+
+.about-section-two .image-column .image-1 {
+  position: relative;
+  max-width: 478px;
+  margin-bottom: 0;
+}
+
+.about-section-two .image-column .image-1::before {
+  content: "";
+  position: absolute;
+  right: -46px;
+  top: 0;
+  width: 20px;
+  height: 156px;
+  background-color: rgb(var(--c-primary));
+}
+
+/* our photos are portrait where the reference's are landscape, so the
+   collage gets fixed boxes to keep the two images in proportion */
+.about-section-two .image-column .image-1 img {
+  width: 100%;
+  height: 560px;
+  object-fit: cover;
+  object-position: top;
+}
+
+.about-section-two .image-column .image-2 {
+  position: absolute;
+  right: 75px;
+  bottom: -42px;
+  margin-bottom: 0;
+}
+
+.about-section-two .image-column .image-2 img {
+  max-width: 320px;
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-left: 10px solid #fff;
+  border-top: 10px solid #fff;
+}
+
+.about-section-two .experience {
+  position: absolute;
+  left: 20px;
+  bottom: -70px;
+  min-width: 290px;
+  min-height: 120px;
+  padding: 20px 20px 20px 120px;
+  background: #fff;
+  box-shadow: 0 15px 60px rgba(0, 0, 0, 0.08);
+  font-size: 18px;
+  line-height: 26px;
+  color: rgb(var(--c-ink));
+}
+
+.about-section-two .experience .icon {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 34px;
+  /* navy glyph on gold — white on gold is only 2.4:1 */
+  color: rgb(var(--c-ink));
+  background-color: rgb(var(--c-primary));
+}
+
+.about-section-two .experience strong {
+  position: relative;
+  display: block;
+  margin-top: 7px;
+  font-family: "Fraunces", Georgia, serif;
+  font-optical-sizing: auto;
+  font-size: 34px;
+  line-height: 36px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums lining-nums;
+  color: rgb(var(--c-primary));
+}
+
+/* ---- video call-to-action ---- */
+.video-cta {
+  position: relative;
+  overflow: hidden;
+  padding: 153px 0 160px;
+}
+
+.video-cta .bg {
+  position: absolute;
+  inset: 0;
+  background-position: 50%;
+  background-size: cover;
+}
+
+.video-cta .bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgb(var(--c-ink-deep));
+  opacity: 0.88;
+}
+
+.video-cta .outer-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.video-cta .title-box {
+  position: relative;
+  padding-left: 35px;
+  border-left: 12px solid rgb(var(--c-primary));
+}
+
+.video-cta .title-box .title {
+  color: rgb(var(--c-offwhite));
+  margin-bottom: 0;
+}
+
+.video-cta .play-now {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 113px;
+  height: 113px;
+  border-radius: 50%;
+  font-size: 22px;
+  color: rgb(var(--c-primary));
+  background-color: #fff;
+  transition: all 0.3s ease;
+}
+
+.video-cta .play-now::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  border-radius: 50%;
+  border: 1px solid rgb(255 255 255 / 0.55);
+}
+
+.video-cta .play-now:hover {
+  background-color: rgb(var(--c-primary));
+  color: rgb(var(--c-ink));
+}
+
+.video-cta .watch-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-right: 24px;
+  color: rgb(var(--c-offwhite));
+  font-size: 15px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+@media (max-width: 1023px) {
+  .page-title {
+    min-height: 0;
+    padding: 170px 0 80px;
+  }
+
+  .about-section-two {
+    padding: 80px 0 60px;
+  }
+
+  .about-section-two .content-column .content-box {
+    padding-right: 0;
+  }
+
+  .about-section-two .content-column .info-box {
+    position: relative;
+    right: auto;
+    top: auto;
+    max-width: none;
+    margin-bottom: 30px;
+  }
+
+  .about-section-two .image-column .inner-column {
+    padding-right: 0;
+  }
+
+  .about-section-two .image-column .image-2,
+  .about-section-two .experience {
+    position: relative;
+    right: auto;
+    left: auto;
+    bottom: auto;
+    margin-top: 24px;
+  }
+
+  .video-cta {
+    padding: 90px 0;
+  }
+
+  .video-cta .outer-box {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 48px;
+  }
+}
+
+/* ---- why choose us ---- */
+.why-choose-us {
+  position: relative;
+  /* above the navy backdrop that Services bleeds down into this section */
+  z-index: 1;
+  /* no top padding: the panel and the light band start flush with the
+     section top so they sit on that bleed, exactly as in the reference */
+  padding: 0;
+  overflow: hidden; /* the light band below is meant to bleed off the right */
+}
+
+.why-choose-us .outer-box {
+  position: relative;
+}
+
+.why-choose-us .outer-box::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: -375px;
+  height: 100%;
+  background-color: rgb(var(--c-offwhite));
+  z-index: -1;
+}
+
+/* the reference uses equal-height bootstrap columns, so the navy panel runs
+   the full height of the copy beside it rather than leaving a sliver */
+.why-choose-us .features-column,
+.why-choose-us .features-column .inner-column {
+  height: 100%;
+}
+
+/* The reference separates this panel from the backdrop it overlaps by hue
+   (red on near-black). A navy-only palette can't do that — every navy is
+   1.3-1.9:1 against the bleed — so the panel is one step lighter than the
+   bleed and gets a gold hairline to cut a crisp edge instead. */
+.why-choose-us .features-column .inner-column {
+  position: relative;
+  overflow: hidden;
+  background-color: rgb(var(--c-brand));
+  box-shadow: inset 0 0 0 1px rgb(var(--c-primary) / 0.4);
+  padding: 90px 100px 70px 70px;
+  margin-right: 6px;
+}
+
+.why-choose-us .features-column .bg {
+  position: absolute;
+  inset: 0;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.2;
+}
+
+.why-choose-us .features-column .title-box .title {
+  position: relative;
+  color: rgb(var(--c-offwhite));
+  letter-spacing: -0.01em;
+  margin-bottom: 40px;
+}
+
+.why-choose-us .content-column .inner-column {
+  position: relative;
+  padding: 108px 0 99px 54px;
+}
+
+.why-choose-block {
+  margin-bottom: 35px;
+}
+
+.why-choose-block .inner-box {
+  display: flex;
+}
+
+.why-choose-block .inner-box .icon {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  font-size: 50px;
+  line-height: 1em;
+  color: rgb(var(--c-primary));
+  transition: all 0.3s ease;
+}
+
+.why-choose-block .inner-box:hover .icon {
+  transform: scaleX(-1);
+}
+
+.why-choose-block .inner-box .content-box {
+  margin-left: 30px;
+}
+
+.why-choose-block .inner-box .content-box .title {
+  position: relative;
+  color: rgb(var(--c-offwhite));
+  margin-bottom: 15px;
+}
+
+.why-choose-block .inner-box .content-box .text {
+  position: relative;
+  z-index: 1;
+  color: rgb(var(--c-offwhite));
+  line-height: 1.4em;
+}
+
+/* skill bars — the percentage label rides the end of the fill */
+.skills {
+  position: relative;
+  margin-bottom: 43px;
+}
+
+.skills .skill-item {
+  position: relative;
+  margin-bottom: 35px;
+}
+
+.skills .skill-item:last-child {
+  margin-bottom: 0;
+}
+
+.skills .skill-item .skill-header {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.skills .skill-item .skill-header .skill-title {
+  font-family: "Jost", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: rgb(var(--c-ink));
+}
+
+.skills .skill-item .skill-bar {
+  position: relative;
+  width: 100%;
+  height: 6px;
+  border-radius: 6px;
+}
+
+.skills .skill-item .skill-bar .bar-inner {
+  position: relative;
+  width: 100%;
+  height: 6px;
+  background-color: rgb(var(--c-hairline));
+}
+
+.skills .skill-item .skill-bar .bar-inner .bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 6px;
+  width: 0;
+  background-color: rgb(var(--c-primary));
+  transition: all 3s ease;
+}
+
+.skills .skill-item .skill-bar .bar-inner .skill-percentage {
+  position: absolute;
+  right: 0;
+  bottom: 100%;
+  margin-bottom: 15px;
+  height: 26px;
+  padding: 5px 8px;
+  font-size: 16px;
+  line-height: 16px;
+  font-weight: 500;
+  text-align: center;
+  color: rgb(var(--c-ink));
+  transform: translateX(50%);
+}
+
+.info-btn {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 62px;
+  padding-left: 70px;
+  font-family: "Jost", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 20px;
+  text-align: left;
+  transition: color 0.3s ease;
+}
+
+.info-btn .icon {
+  position: absolute;
+  left: 0;
+  top: 5px;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 24px;
+  /* navy glyph, not white — white on gold is only 2.4:1 */
+  color: rgb(var(--c-ink));
+  background-color: rgb(var(--c-primary));
+  transition: all 0.3s ease;
+}
+
+.info-btn:hover .icon {
+  transform: scaleX(-1);
+}
+
+.info-btn small {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 18px;
+  font-weight: 700;
+  color: rgb(var(--c-ink));
+}
+
+.info-btn strong {
+  font-family: "Fraunces", Georgia, serif;
+  font-optical-sizing: auto;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums lining-nums;
+  color: rgb(var(--c-primary));
+}
+
+@media (max-width: 1023px) {
+  .why-choose-us .features-column .inner-column {
+    padding: 60px 40px 40px;
+    margin-right: 0;
+  }
+
+  .why-choose-us .content-column .inner-column {
+    padding: 56px 0 40px;
+  }
+
+  .why-choose-us .outer-box::before {
+    right: -24px;
+  }
+}
+
 .scroll-fade {
   opacity: 0;
   transform: translateY(40px);

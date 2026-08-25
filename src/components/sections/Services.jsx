@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { FaAngleRight } from "react-icons/fa";
 import Reveal from "@/components/common/Reveal";
 import { services } from "@/data/services";
@@ -8,9 +9,16 @@ export default function Services() {
   const [active, setActive] = useState(0);
 
   return (
-    <section id="services" className="relative py-28 bg-ink overflow-hidden scroll-mt-28">
-      <div className="absolute inset-0 flex items-center justify-center opacity-[0.15] pointer-events-none">
-        <img src={mapBg} alt="" className="w-full h-auto" />
+    // z-0 keeps the bleeding backdrop below trapped in this section's own
+    // stacking context, while WhyChooseUs (z-10) still paints over it
+    <section id="services" className="relative z-0 py-28 scroll-mt-28">
+      {/* the navy backdrop runs 334px past the section so the section below
+          can sit on top of its tail — the reference's services/why-choose-us
+          overlap. No overflow-hidden here or the bleed gets clipped. */}
+      <div className="absolute top-0 left-0 w-full h-[calc(100%+334px)] bg-ink overflow-hidden -z-10 pointer-events-none">
+        <div className="absolute inset-0 flex items-center justify-center opacity-[0.15]">
+          <img src={mapBg} alt="" className="w-full h-auto" />
+        </div>
       </div>
 
       <div className="relative max-w-[1400px] mx-auto px-6">
@@ -19,8 +27,8 @@ export default function Services() {
             <span className="chev">»</span> Service We Provide
           </div>
           <h2 className="t-h2 text-white">
-            Outstanding Immigration
-            <br /> Visa Services
+            Cross-Border Expansion
+            <br /> &amp; Immigration Mobility
           </h2>
         </Reveal>
 
@@ -71,12 +79,12 @@ export default function Services() {
                     }`}
                   >
                     <p className="t-body text-white/70">{s.desc}</p>
-                    <a
-                      href="#contact"
+                    <Link
+                      to={`/services/${s.id}`}
                       className="mt-4 inline-flex items-center gap-1.5 text-primary font-heading font-semibold text-[12px] uppercase tracking-[0.16em] hover:gap-2.5 transition-all duration-300"
                     >
                       Read More <FaAngleRight className="text-xs" />
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>

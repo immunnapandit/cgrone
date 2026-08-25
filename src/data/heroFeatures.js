@@ -2,13 +2,13 @@ import { FaPlaneDeparture, FaPassport, FaGlobeAmericas } from "react-icons/fa";
 
 export const heroFeatures = [
   {
-    title: "Immigration & Visa Process",
-    text: "A strategy-first process across Express Entry, PNP and family sponsorship pathways.",
+    title: "Strategy, Not Paperwork",
+    text: "International mobility begins with strategy — the right pathway identified before any application is prepared.",
     icon: FaPlaneDeparture,
   },
   {
-    title: "Quick & Easy Visa Application",
-    text: "Streamlined documentation coordinated with regulated professionals at every stage.",
+    title: "Business & Mobility Together",
+    text: "Company formation, market entry and immigration planned as one cross-border move rather than separate errands.",
     icon: FaPassport,
   },
   {

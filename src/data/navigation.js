@@ -1,13 +1,13 @@
 export const navLinks = [
   { label: "Home", href: "#home" },
-  { label: "About CGR ONE", href: "#about" },
+  { label: "About CGR ONE", to: "/about" },
   {
     label: "Services",
     children: [
-      { label: "Canada Immigration", href: "#canada-immigration" },
-      { label: "USA → Canada pathways", href: "#usa-canada-pathways" },
-      { label: "Global Residency & Investment Migration", href: "#global-residency" },
-      { label: "Business / Investor Immigration", href: "#business-investor" },
+      { label: "Cross-Border Expansion: India → UK", to: "/services/india-uk-expansion" },
+      { label: "India–Canada Business Expansion", to: "/services/india-canada-business-expansion" },
+      { label: "India–Canada Corporate Expansion & Mobility", to: "/services/india-canada-corporate-mobility" },
+      { label: "India–Canada Business Launch & Immigration", to: "/services/india-canada-business-launch" },
       { label: "Global Mobility", href: "#global-mobility" },
     ],
   },

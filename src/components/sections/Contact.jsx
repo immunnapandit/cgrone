@@ -36,9 +36,19 @@ export default function Contact() {
           <div className="eyebrow mb-6">
             <span className="chev">»</span> Contact With Us
           </div>
-          <h2 className="t-h2 text-ink mb-8">
+          <h2 className="t-h2 text-ink mb-5">
             Get in Touch for Immigration &amp; Global Mobility
           </h2>
+
+          <p className="t-body mb-8">
+            Prefer email? Write to us at{" "}
+            <a
+              href="mailto:srikanth@cgrone.com"
+              className="text-ink font-medium border-b border-primary hover:text-primary transition-colors"
+            >
+              srikanth@cgrone.com
+            </a>
+          </p>
 
           <form onSubmit={submit} className="space-y-5">
             <div className="grid sm:grid-cols-2 gap-5">
