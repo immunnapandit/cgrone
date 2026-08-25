@@ -4,7 +4,7 @@ import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaFacebookF, FaTwitter, FaInsta
    none, so it stays plain text. */
 export const footerContactInfo = [
   { icon: FaPhoneAlt, label: "Call Us Anytime", value: "+91 458 654 528", href: "tel:+91458654528" },
-  { icon: FaEnvelope, label: "Send Mail", value: "srikanth@cgrone.com", href: "mailto:srikanth@cgrone.com" },
+  { icon: FaEnvelope, label: "Send Mail", value: "info@cgrone.com", href: "mailto:info@cgrone.com" },
   { icon: FaMapMarkerAlt, label: "Our Address", value: "13005 Greenville, USA" },
 ];
 

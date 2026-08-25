@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Reveal from "@/components/common/Reveal";
+import useFormSubmit from "@/hooks/useFormSubmit";
 import { footerContactInfo, footerServices, footerLinks, footerSocialIcons } from "@/data/footer";
 import logo from "@/assets/images/logo/cgr-one-logo.webp";
 
@@ -20,7 +21,16 @@ function FooterLink({ href, className, children }) {
   );
 }
 
+const SUBSCRIBE_LABEL = {
+  idle: "Subscribe Now",
+  sending: "Subscribing…",
+  sent: "Subscribed!",
+  error: "Try Again",
+};
+
 export default function Footer() {
+  const { status, error, submit: subscribe } = useFormSubmit("/api/newsletter");
+
   return (
     /* Light footer. It used to be a full navy block and was the last big dark
        area left on the page; the gold top rule and the navy contact tiles keep
@@ -99,15 +109,40 @@ export default function Footer() {
           <p className="t-body mb-5">
             Sign up for alerts, our latest blogs, thoughts, and insights.
           </p>
-          <form className="flex flex-col gap-3" onSubmit={(e) => e.preventDefault()}>
+          <form className="flex flex-col gap-3" onSubmit={subscribe}>
             <input
               type="email"
+              name="email"
+              required
+              autoComplete="email"
               placeholder="Your Email address"
               className="bg-white border border-hairline px-5 py-3 outline-none focus:border-primary transition-colors text-ink placeholder:text-soft"
             />
-            <button type="submit" className="btn-primary justify-center">
-              Subscribe Now
+
+            {/* Honeypot — see the matching field on the contact form. */}
+            <input
+              type="text"
+              name="company"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              className="hidden"
+            />
+
+            <button
+              type="submit"
+              disabled={status === "sending"}
+              className="btn-primary justify-center disabled:opacity-70"
+            >
+              {SUBSCRIBE_LABEL[status]}
             </button>
+
+            <p aria-live="polite" className="min-h-[1.25rem] text-sm">
+              {status === "sent" && (
+                <span className="text-ink">Thanks for subscribing.</span>
+              )}
+              {status === "error" && <span className="text-red-700">{error}</span>}
+            </p>
           </form>
           <div className="flex gap-3 mt-6">
             {footerSocialIcons.map((Icon, i) => (

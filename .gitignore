@@ -12,6 +12,12 @@ dist
 dist-ssr
 *.local
 
+# Secrets — the Graph client secret lives here. Never commit these.
+.env
+.env.*
+!.env.example
+.vercel
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
