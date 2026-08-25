@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import ScrollTop from "@/components/common/ScrollTop";
+import Seo from "@/components/common/Seo";
 import Home from "@/pages/Home";
 import About from "@/pages/About";
 import ServiceDetail from "@/pages/ServiceDetail";
@@ -35,6 +36,7 @@ function ScrollToTopOnNavigate() {
 export default function App() {
   return (
     <div className="font-body">
+      <Seo />
       <ScrollToTopOnNavigate />
       <Navbar />
       <Routes>

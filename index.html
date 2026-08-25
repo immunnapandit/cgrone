@@ -2,20 +2,32 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CGR ONE - Visa &amp; Immigration Consultancy</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#11223D" />
+
+    <!-- Fonts were pulled in by an @import at the top of index.css, which
+         chains HTML -> CSS -> Google's CSS -> font files before anything can
+         paint. Loading them here runs the lookup in parallel with the app CSS
+         and removes a round trip from largest-contentful-paint. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Jost:wght@300..700&display=swap"
+    />
+
+    <!--seo-->
+    <!-- Defaults only. server.js replaces everything between these markers
+         with per-route tags, because link-preview crawlers (LinkedIn, Slack,
+         WhatsApp, Facebook) never run the JavaScript that would otherwise set
+         them. Keep the markers if you edit this block. -->
+    <title>CGR ONE | Immigration &amp; Global Mobility — India, UK, Canada</title>
     <meta
       name="description"
-      content="CGR ONE connects clients with immigration professionals, lawyers and specialist advisors across Canada, the United States and the United Kingdom — built on two decades of experience in immigration and global mobility."
+      content="Strategy-first immigration and global mobility advice. CGR ONE connects you with regulated immigration professionals, lawyers and specialist advisors across India, the UK and Canada."
     />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="CGR ONE" />
-    <meta property="og:title" content="CGR ONE - Visa &amp; Immigration Consultancy" />
-    <meta
-      property="og:description"
-      content="Strategy-first immigration and global mobility advice, connecting you with regulated professionals in the destination country."
-    />
+    <!--/seo-->
   </head>
   <body>
     <div id="root"></div>
