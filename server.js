@@ -18,6 +18,7 @@ import express from "express";
 import contact from "./api/contact.js";
 import newsletter from "./api/newsletter.js";
 import { getRouteMeta, allPaths, SITE_NAME } from "./src/data/seo.js";
+import { buildHead, SEO_BLOCK, esc } from "./src/data/seoTags.js";
 
 const dist = fileURLToPath(new URL("./dist", import.meta.url));
 const app = express();
@@ -34,6 +35,30 @@ app.set("trust proxy", 1);
 
 app.use(express.json({ limit: "64kb" }));
 
+/* Only needed when the site and the API are on different origins (a static
+   frontend on one host, this server on another). Same-origin deploys never hit
+   this because the browser sends no Origin header worth checking.
+   ALLOWED_ORIGINS is a comma-separated allowlist — deliberately not "*", since
+   these endpoints send mail and should not be callable from any page. */
+const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || "")
+  .split(",")
+  .map((o) => o.trim().replace(/\/+$/, ""))
+  .filter(Boolean);
+
+app.use("/api", (req, res, next) => {
+  const origin = req.headers.origin;
+  if (origin && ALLOWED_ORIGINS.includes(origin.replace(/\/+$/, ""))) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader("Vary", "Origin");
+    res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+    res.setHeader("Access-Control-Max-Age", "86400");
+  }
+  // Preflight must not reach the handlers' method guard, which would 405 it.
+  if (req.method === "OPTIONS") return res.sendStatus(204);
+  next();
+});
+
 /* `all` rather than `post` so the handlers' own method guard answers a GET
    with 405, instead of it falling through to the SPA fallback and returning
    index.html to something expecting JSON. */
@@ -44,92 +69,20 @@ app.use("/api", (_req, res) => res.status(404).json({ error: "Not found" }));
 
 /* ---------------------------------------------------------------- SEO ---- */
 
-const esc = (s) =>
-  String(s)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
+/* Tag building lives in src/data/seoTags.js because scripts/prerender.mjs
+   needs exactly the same output when it bakes these into the static build. */
+const organizationEmail = process.env.CONTACT_TO_EMAIL || "info@cgrone.com";
 
-/* Identity shared by every page. Kept as one Organization node that the
-   per-page WebPage nodes point at, rather than repeating it, so search engines
-   resolve a single entity for the business. */
-const organizationLd = {
-  "@type": "Organization",
-  "@id": `${SITE_URL}/#organization`,
-  name: SITE_NAME,
-  url: `${SITE_URL}/`,
-  logo: `${SITE_URL}/og-image.jpg`,
-  email: process.env.CONTACT_TO_EMAIL || "info@cgrone.com",
-  description:
-    "Immigration and global mobility advisers connecting clients with regulated immigration professionals, lawyers and specialist advisors across India, the UK and Canada.",
-  areaServed: ["IN", "GB", "CA"],
-};
-
-function buildHead(meta, url) {
-  const image = `${SITE_URL}/og-image.jpg`;
-
-  /* Breadcrumbs only where there is a real hierarchy — emitting a one-item
-     trail for the home page tells search engines nothing. */
-  const crumbs =
-    meta.path === "/"
-      ? null
-      : {
-          "@type": "BreadcrumbList",
-          itemListElement: [
-            { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
-            { "@type": "ListItem", position: 2, name: meta.title.split("|")[0].trim(), item: url },
-          ],
-        };
-
-  const ld = {
-    "@context": "https://schema.org",
-    "@graph": [
-      organizationLd,
-      {
-        "@type": "WebPage",
-        "@id": `${url}#webpage`,
-        url,
-        name: meta.title,
-        description: meta.description,
-        isPartOf: { "@id": `${SITE_URL}/#organization` },
-      },
-      ...(crumbs ? [crumbs] : []),
-    ],
-  };
-
-  return `
-    <title>${esc(meta.title)}</title>
-    <meta name="description" content="${esc(meta.description)}" />
-    <link rel="canonical" href="${esc(url)}" />
-    <meta name="robots" content="index, follow, max-image-preview:large" />
-
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="${esc(SITE_NAME)}" />
-    <meta property="og:locale" content="en_GB" />
-    <meta property="og:title" content="${esc(meta.title)}" />
-    <meta property="og:description" content="${esc(meta.description)}" />
-    <meta property="og:url" content="${esc(url)}" />
-    <meta property="og:image" content="${esc(image)}" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="A family with passports and luggage in an airport terminal" />
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="${esc(meta.title)}" />
-    <meta name="twitter:description" content="${esc(meta.description)}" />
-    <meta name="twitter:image" content="${esc(image)}" />
-
-    <script type="application/ld+json">${JSON.stringify(ld)}</script>`;
-}
-
-/* Read once at boot — the file only changes on redeploy, and re-reading it per
-   request would put disk IO in front of every page view. */
+/* The frontend is deployed separately as static files, so on the API-only
+   service dist/ does not exist. Reading it unconditionally at boot would crash
+   the process before it ever served a request. Serving the app stays supported
+   for a single-service deploy and for local testing of the built output. */
 const templatePath = path.join(dist, "index.html");
-const template = fs.readFileSync(templatePath, "utf8");
-const SEO_BLOCK = /<!--seo-->[\s\S]*?<!--\/seo-->/;
+const template = fs.existsSync(templatePath)
+  ? fs.readFileSync(templatePath, "utf8")
+  : null;
 
-if (!SEO_BLOCK.test(template)) {
+if (template && !SEO_BLOCK.test(template)) {
   // Loud rather than silent: without the markers every page ships the same
   // title and the per-route work below is invisible.
   console.warn("[seo] markers not found in dist/index.html — serving default tags");
@@ -163,32 +116,40 @@ ${urls}
 
 /* ------------------------------------------------------------ static ----- */
 
-/* Asset filenames are content-hashed by Vite, so they can be cached hard.
-   index.html must not be — it is what points at the current hashes, and a
-   cached copy would keep serving the previous build's assets. */
-app.use(
-  express.static(dist, {
-    index: false,
-    maxAge: "1y",
-    setHeaders: (res, filePath) => {
-      if (filePath.endsWith(".html")) res.setHeader("Cache-Control", "no-cache");
-    },
-  })
-);
+if (template) {
+  /* Asset filenames are content-hashed by Vite, so they can be cached hard.
+     index.html must not be — it is what points at the current hashes, and a
+     cached copy would keep serving the previous build's assets. */
+  app.use(
+    express.static(dist, {
+      index: false,
+      maxAge: "1y",
+      setHeaders: (res, filePath) => {
+        if (filePath.endsWith(".html")) res.setHeader("Cache-Control", "no-cache");
+      },
+    })
+  );
 
-app.use((req, res) => {
-  const meta = getRouteMeta(req.path);
-  const url = `${SITE_URL}${meta.path === "/" ? "/" : meta.path}`;
+  app.use((req, res) => {
+    const meta = getRouteMeta(req.path);
 
-  /* An unknown path resolves to the home metadata, and the client router
-     redirects it to "/" — so tell crawlers it is not a distinct page rather
-     than letting them index duplicates of the home page under junk URLs. */
-  const isKnown = allPaths().includes(req.path.replace(/\/+$/, "") || "/");
-  if (!isKnown) res.status(404);
+    /* An unknown path resolves to the home metadata, and the client router
+       redirects it to "/" — so tell crawlers it is not a distinct page rather
+       than letting them index duplicates of the home page under junk URLs. */
+    const isKnown = allPaths().includes(req.path.replace(/\/+$/, "") || "/");
+    if (!isKnown) res.status(404);
 
-  res.setHeader("Cache-Control", "no-cache");
-  res.send(template.replace(SEO_BLOCK, buildHead(meta, url)));
-});
+    res.setHeader("Cache-Control", "no-cache");
+    res.send(template.replace(SEO_BLOCK, buildHead(meta, SITE_URL, organizationEmail)));
+  });
+} else {
+  /* API-only deployment. A bare 200 at the root keeps uptime checks and
+     Render's own health probe happy without pretending to be the website. */
+  app.get("/", (_req, res) =>
+    res.json({ service: `${SITE_NAME} API`, endpoints: ["/api/contact", "/api/newsletter"] })
+  );
+  app.use((_req, res) => res.status(404).json({ error: "Not found" }));
+}
 
 /* Render supplies PORT and expects the process to bind it on all interfaces. */
 const port = process.env.PORT || 3000;

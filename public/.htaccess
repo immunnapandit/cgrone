@@ -1,0 +1,51 @@
+# LiteSpeed/Apache config for the static build. Vite copies public/ into dist/,
+# so this ships with the upload.
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Canonical host: force HTTPS and drop the www. Serving the site on more than
+  # one hostname splits its ranking signals between them and makes the
+  # canonical tags disagree with the URL actually being served.
+  RewriteCond %{HTTPS} !=on
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+  # A real file or directory wins — this is what lets the pre-rendered
+  # /about/index.html be served instead of falling through to the SPA.
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Anything else is a client-side route: hand back the app shell so a refresh
+  # or a shared deep link does not 404.
+  RewriteRule ^ /index.html [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Vite content-hashes asset filenames, so they can be cached indefinitely.
+  <FilesMatch "\.(js|css|woff2?|jpg|jpeg|png|webp|svg|ico)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # HTML must not be cached: it is what points at the current asset hashes, so
+  # a stale copy keeps serving the previous build's JavaScript.
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml application/javascript application/json image/svg+xml
+</IfModule>
+
+# The directory listing currently shown at the domain root. Once index.html is
+# uploaded it takes precedence, but this makes sure an empty subdirectory never
+# exposes a file listing again.
+Options -Indexes
