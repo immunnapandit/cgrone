@@ -8,10 +8,7 @@ import Home from "@/pages/Home";
 import About from "@/pages/About";
 import ServiceDetail from "@/pages/ServiceDetail";
 
-/** Land at the top on a route change. With a #hash we scroll to the section
- *  ourselves — the browser's native fragment jump fires before React has
- *  mounted the target, so links like /about#security-privacy would otherwise
- *  land at the top of the page. */
+
 function ScrollToTopOnNavigate() {
   const { pathname, hash } = useLocation();
 
