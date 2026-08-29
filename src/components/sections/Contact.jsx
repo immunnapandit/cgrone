@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { FaArrowRight } from "react-icons/fa";
 import Reveal from "@/components/common/Reveal";
 import useFormSubmit from "@/hooks/useFormSubmit";
@@ -6,9 +5,9 @@ import { contactFields } from "@/data/contact";
 import bg22 from "@/assets/images/bg22.webp";
 
 const BUTTON_LABEL = {
-  idle: "Submit Request",
+  idle: "Send Enquiry",
   sending: "Sending…",
-  sent: "Request Sent!",
+  sent: "Enquiry Sent",
   error: "Try Again",
 };
 
@@ -16,9 +15,14 @@ export default function Contact() {
   const { status, error, submit } = useFormSubmit("/api/contact");
 
   return (
-    <section id="contact" className="py-28 bg-offwhite scroll-mt-28">
-      <div className="max-w-[1400px] mx-auto px-6 grid lg:grid-cols-2 shadow-2xl">
-        <Reveal direction="left" className="relative min-h-[420px] bg-ink">
+    <section id="contact" className="py-16 md:py-24 lg:py-28 bg-offwhite scroll-mt-28">
+      <div className="max-w-[1400px] mx-auto px-6 grid lg:grid-cols-2 border border-hairline shadow-[0_24px_60px_-40px_rgba(17,34,61,0.45)]">
+        {/* Hidden below lg. It is a 420px stock photograph of a couple at an
+            airport that carries no information the form does not, and on a
+            phone it pushed the actual contact form a full screen down the
+            page. Desktop keeps it because the two-column layout needs a left
+            half. */}
+        <Reveal direction="left" className="hidden lg:block relative min-h-[420px] bg-ink">
           <img
             src={bg22}
             alt="Couple traveling with luggage at the airport"
@@ -35,10 +39,10 @@ export default function Contact() {
 
         <Reveal direction="right" delay={0.1} className="bg-white px-8 sm:px-14 py-16">
           <div className="eyebrow mb-6">
-            <span className="chev">»</span> Contact With Us
+            <span className="chev">»</span> Contact
           </div>
           <h2 className="t-h2 text-ink mb-5">
-            Get in Touch for Immigration &amp; Global Mobility
+            Speak to Our Advisory Team
           </h2>
 
           <p className="t-body mb-8">
@@ -83,15 +87,15 @@ export default function Contact() {
               className="hidden"
             />
 
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+            {/* no scale on hover/tap. A button that grows under the cursor
+                reads consumer, not advisory; .btn-primary already darkens. */}
+            <button
               type="submit"
               disabled={status === "sending"}
               className="btn-primary w-full justify-center !clip-path-none disabled:opacity-70"
             >
               {BUTTON_LABEL[status]} <FaArrowRight />
-            </motion.button>
+            </button>
 
             {/* aria-live so the outcome reaches a screen reader too — the
                 button label alone changes silently. */}

@@ -1,88 +1,85 @@
+import { Link } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa";
 import Reveal from "@/components/common/Reveal";
-import { globalMobilityFeatures, globalMobilityStats } from "@/data/globalMobility";
-import mapBg from "@/assets/images/testimonial-map.png";
+import WordsSlideUp from "@/components/common/WordsSlideUp";
+import { corporateMobility } from "@/data/globalMobility";
 
-/** Corporate mobility block. Deliberately built out of flat slabs — a
- *  capability row sitting on a navy stat strip — so it does not repeat the
- *  image-left/copy-right split that About already uses higher up the page. */
+/* Rebuilt from the client's Corporate Immigration & Global Mobility document.
+   Employers and HR/mobility functions are the audience here, not individuals —
+   which is why this stopped being a home-page section and became a page. */
 export default function GlobalMobility() {
+  const { eyebrow, heading, intro, supportTitle, support, extension, closing, closingSub, cta } =
+    corporateMobility;
+
   return (
-    <section id="global-mobility" className="relative py-28 bg-white overflow-hidden scroll-mt-28">
-      <div className="max-w-[1400px] mx-auto px-6">
-        {/* header: title carries the left, the supporting copy and CTA sit in
-            the outer column so the two read as one line of type */}
-        <div className="grid lg:grid-cols-12 gap-x-16 gap-y-10 items-end pb-14 mb-14 border-b border-hairline">
-          <Reveal className="lg:col-span-7">
-            <div className="eyebrow mb-6">
-              <span className="chev">»</span> Global Mobility
-            </div>
-            <h2 className="t-h2 text-ink">
-              Corporate Relocation &amp;
-              <br className="hidden sm:block" /> Intra-Company Transfers
-            </h2>
-          </Reveal>
+    <>
+      <section id="global-mobility" className="py-16 md:py-24 lg:py-28 bg-white scroll-mt-28">
+        <div className="max-w-[1400px] mx-auto px-6">
+          <div className="grid lg:grid-cols-12 gap-x-16 gap-y-10 items-end pb-14 mb-14 border-b border-hairline">
+            <Reveal className="lg:col-span-7">
+              <div className="eyebrow mb-6">
+                <span className="chev">»</span> {eyebrow}
+              </div>
+              <WordsSlideUp text={heading} className="t-h2 text-ink" />
+            </Reveal>
 
-          <Reveal delay={0.1} className="lg:col-span-5">
-            <p className="t-body mb-8">
-              End-to-end mobility support for employers moving talent across
-              borders — from work permits and compliance through onboarding in
-              the destination country, coordinated with regulated professionals
-              at every step.
-            </p>
-            <a href="#contact" className="btn-primary">
-              Talk To Our Team <FaArrowRight />
-            </a>
-          </Reveal>
-        </div>
-
-        {/* capability row + stat strip animate as one slab — revealing them
-            separately makes the strip detach from the row mid-scroll */}
-        <Reveal amount={0.15}>
-          <div className="grid md:grid-cols-3 border border-hairline divide-y md:divide-y-0 md:divide-x divide-hairline">
-            {globalMobilityFeatures.map(({ icon: Icon, title, text }, i) => (
-              <article
-                key={title}
-                className="group relative bg-offwhite p-9 lg:p-11 transition-colors duration-300 hover:bg-white"
-              >
-                {/* gold rule draws across the top on hover */}
-                <span className="absolute left-0 top-0 h-[3px] w-0 bg-primary transition-all duration-500 ease-out group-hover:w-full" />
-
-                <div className="flex items-center justify-between mb-8">
-                  <span className="w-14 h-14 flex items-center justify-center text-2xl text-primary border border-primary/30 transition-colors duration-300 group-hover:bg-primary group-hover:border-primary group-hover:text-ink">
-                    <Icon />
-                  </span>
-                  <span className="t-num text-3xl text-ink/10 leading-none transition-colors duration-300 group-hover:text-primary/40">
-                    0{i + 1}
-                  </span>
-                </div>
-
-                {/* fixed title box so a two-line title doesn't push its body
-                    copy out of line with the columns beside it */}
-                <h3 className="t-h4 text-ink mb-3 md:min-h-[3.5rem]">{title}</h3>
-                <p className="t-body text-base">{text}</p>
-              </article>
-            ))}
+            <Reveal delay={0.1} className="lg:col-span-5">
+              <div className="space-y-5">
+                {intro.map((p) => (
+                  <p key={p.slice(0, 40)} className="t-body">
+                    {p}
+                  </p>
+                ))}
+              </div>
+            </Reveal>
           </div>
 
-          <div className="relative bg-ink overflow-hidden">
-            <div className="absolute inset-0 flex items-center justify-center opacity-[0.13] pointer-events-none">
-              <img src={mapBg} alt="" className="w-full h-auto" />
-            </div>
+          <Reveal className="max-w-3xl mb-12">
+            <h2 className="t-h3 text-ink">{supportTitle}</h2>
+          </Reveal>
 
-            <div className="relative grid sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-white/10">
-              {globalMobilityStats.map((s) => (
-                <div key={s.label} className="flex items-baseline gap-5 px-9 lg:px-11 py-9">
-                  <p className="t-num text-4xl text-primary leading-none shrink-0">{s.value}</p>
-                  <p className="text-white/60 text-[12px] uppercase tracking-[0.16em] leading-snug">
-                    {s.label}
-                  </p>
-                </div>
+          <Reveal amount={0.15}>
+            <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
+              {support.map(({ icon: Icon, title, text }, i) => (
+                <article key={title} className="group bg-white border border-hairline p-9 lg:p-10">
+                  <div className="flex items-center justify-between mb-8">
+                    <span className="w-14 h-14 flex items-center justify-center text-2xl text-ink border border-hairline transition-colors duration-300 group-hover:bg-primary group-hover:border-primary group-hover:text-ink">
+                      <Icon />
+                    </span>
+                    <span className="t-num text-3xl text-ink/10 leading-none transition-colors duration-300 group-hover:text-primary/40">
+                      0{i + 1}
+                    </span>
+                  </div>
+                  <h3 className="t-h4 text-ink mb-3 md:min-h-[3.5rem]">{title}</h3>
+                  <p className="t-body text-base">{text}</p>
+                </article>
               ))}
             </div>
-          </div>
-        </Reveal>
-      </div>
-    </section>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="py-16 md:py-24 lg:py-28 bg-offwhite border-y border-hairline">
+        <div className="max-w-[1400px] mx-auto px-6 grid lg:grid-cols-12 gap-x-16 gap-y-10">
+          <Reveal className="lg:col-span-5">
+            <h2 className="t-h2 text-ink">{extension.title}</h2>
+          </Reveal>
+          <Reveal delay={0.1} className="lg:col-span-7">
+            <div className="space-y-6 mb-10">
+              {extension.body.map((p) => (
+                <p key={p.slice(0, 40)} className="t-body">
+                  {p}
+                </p>
+              ))}
+            </div>
+            <p className="t-h3 text-ink mb-2">{closing}</p>
+            <p className="t-body mb-9">{closingSub}</p>
+            <Link to="/contact" className="btn-primary">
+              {cta} <FaArrowRight />
+            </Link>
+          </Reveal>
+        </div>
+      </section>
+    </>
   );
 }

@@ -5,7 +5,7 @@ import mapBg from "@/assets/images/testimonial-map.png";
 
 export default function Process() {
   return (
-    <section id="process" className="relative py-28 bg-white overflow-hidden scroll-mt-28">
+    <section id="process" className="relative py-16 md:py-24 lg:py-28 bg-white overflow-hidden scroll-mt-28">
       <img
         src={mapBg}
         alt=""
@@ -24,22 +24,10 @@ export default function Process() {
         </Reveal>
 
         <div className="relative">
-          <svg
-            className="hidden lg:block absolute left-0 right-0 top-16 w-full pointer-events-none"
-            width="100%"
-            height="60"
-            viewBox="0 0 1200 60"
-            preserveAspectRatio="none"
-          >
-            <path
-              d="M20 55 C 250 -10, 350 -10, 590 30 S 950 65, 1160 5"
-              fill="none"
-              stroke="rgb(var(--c-ink))"
-              strokeWidth="2"
-              strokeDasharray="6 8"
-              strokeLinecap="round"
-            />
-          </svg>
+          {/* was a dashed curve swooping across the four steps — a flight-path
+              cue. A straight hairline at the centre of the step markers reads
+              as a process, not a journey. */}
+          <span className="hidden lg:block absolute left-0 right-0 top-14 h-px bg-hairline pointer-events-none" />
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-16 sm:gap-10 lg:gap-6 relative">
             {processSteps.map((s, i) => (
@@ -51,16 +39,15 @@ export default function Process() {
                 transition={{ duration: 0.6, delay: i * 0.2 }}
                 className="group relative text-center"
               >
-                <motion.div
-                  whileHover={{ scale: 1.08, rotate: 4 }}
-                  className="relative w-36 h-36 mx-auto rounded-full border-2 border-dashed border-primary/60 flex items-center justify-center text-5xl text-primary bg-white shadow-[0_0_40px_rgb(var(--c-primary)/0.28)] mb-8"
-                >
-                  <span className="absolute inset-3 rounded-full bg-primary/10 blur-md" />
-                  <s.icon className="relative" />
-                </motion.div>
+                {/* previously a dashed gold ring with a 40px gold glow that
+                    scaled and rotated 4° on hover. Solid hairline ring, no
+                    glow, no rotation — the restraint is the point. */}
+                <div className="relative w-28 h-28 mx-auto rounded-full border border-hairline flex items-center justify-center text-4xl text-ink/70 bg-white mb-8 transition-colors duration-300 group-hover:border-primary">
+                  <s.icon />
+                </div>
 
-                <div className="max-w-[280px] mx-auto rounded-2xl px-6 py-5 transition-all duration-300 group-hover:bg-white group-hover:shadow-2xl">
-                  <span className="text-primary font-heading font-semibold tracking-[0.22em] text-[12px]">STEP {s.n}</span>
+                <div className="max-w-[280px] mx-auto px-6 py-5">
+                  <span className="text-soft font-heading font-semibold tracking-[0.22em] text-[12px]">STEP {s.n}</span>
                   <h3 className="t-h4 text-ink mt-2.5 mb-3 whitespace-pre-line">{s.title}</h3>
                   <p className="t-body text-balance">{s.text}</p>
                 </div>

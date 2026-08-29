@@ -2,10 +2,17 @@ import { Link } from "react-router-dom";
 import WordsSlideUp from "@/components/common/WordsSlideUp";
 
 /** Inner-page banner: full-bleed photo, navy gradient wash, centred title
- *  and a breadcrumb — the reference's `.page-title`. */
+ *  and a breadcrumb — the reference's `.page-title`.
+ *
+ *  `image` is optional. Without it the banner is the navy field alone, which
+ *  `.page-title`'s background-color provides — passing `url(undefined)` would
+ *  leave the veil sitting on white and the title unreadable. */
 export default function PageTitle({ title, crumbs = [], image }) {
   return (
-    <section className="page-title" style={{ backgroundImage: `url(${image})` }}>
+    <section
+      className="page-title"
+      style={image ? { backgroundImage: `url(${image})` } : undefined}
+    >
       <div className="max-w-[1400px] mx-auto px-6">
         <div className="title-outer">
           <WordsSlideUp as="h1" text={title} className="t-display title" />

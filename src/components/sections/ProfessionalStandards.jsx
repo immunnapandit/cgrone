@@ -7,7 +7,7 @@ export default function ProfessionalStandards() {
     professionalStandards;
 
   return (
-    <section id="professional-standards" className="py-24 lg:py-28 bg-white scroll-mt-28">
+    <section id="professional-standards" className="py-16 md:py-24 lg:py-28 bg-white scroll-mt-28">
       <div className="max-w-[1400px] mx-auto px-6">
         <div className="grid lg:grid-cols-[1fr_1.15fr] gap-14 lg:gap-20 items-start">
           <Reveal direction="right">
@@ -24,7 +24,7 @@ export default function ProfessionalStandards() {
             <div className="grid sm:grid-cols-2 gap-x-8 gap-y-6">
               {approach.map((a) => (
                 <div key={a.text} className="flex items-start gap-4">
-                  <span className="w-10 h-10 shrink-0 rounded-full bg-offwhite text-primary flex items-center justify-center text-sm">
+                  <span className="w-10 h-10 shrink-0 rounded-full bg-offwhite text-ink flex items-center justify-center text-sm">
                     <a.icon />
                   </span>
                   <p className="t-small pt-1.5">{a.text}</p>

@@ -7,14 +7,17 @@ export default function ScrollTop() {
 
   return (
     <AnimatePresence>
+      {/* Fades, no longer springs. It used to pop in from scale 0.5 and grow
+          to 1.1 under the cursor — a bouncing circle in the corner of every
+          page. It fades in and darkens on hover instead. */}
       {show && (
         <motion.button
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.5 }}
-          whileHover={{ scale: 1.1 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="fixed bottom-7 right-7 z-50 w-12 h-12 rounded-full bg-ink text-primary flex items-center justify-center shadow-lg"
+          className="fixed bottom-7 right-7 z-50 w-11 h-11 bg-ink text-white flex items-center justify-center shadow-[0_10px_28px_-12px_rgba(17,34,61,0.6)] hover:bg-dark transition-colors"
         >
           <FaChevronUp />
         </motion.button>

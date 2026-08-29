@@ -11,7 +11,7 @@ export default function SecurityPrivacy() {
        About page read as heavy */
     <section
       id="security-privacy"
-      className="relative py-24 lg:py-28 bg-offwhite overflow-hidden scroll-mt-28"
+      className="relative py-16 md:py-24 lg:py-28 bg-offwhite overflow-hidden scroll-mt-28"
     >
       <div className="absolute top-0 left-0 w-full h-3 bg-brand" />
 
@@ -28,7 +28,7 @@ export default function SecurityPrivacy() {
           {measures.map((m, i) => (
             <Reveal key={m.text} delay={i * 0.06}>
               <div className="bg-white p-7 h-full border-t-2 border-primary shadow-sm">
-                <span className="w-11 h-11 mb-5 rounded-full bg-primary text-ink flex items-center justify-center text-base">
+                <span className="w-11 h-11 mb-5 rounded-full bg-ink text-white flex items-center justify-center text-base">
                   <m.icon />
                 </span>
                 <p className="t-body">{m.text}</p>

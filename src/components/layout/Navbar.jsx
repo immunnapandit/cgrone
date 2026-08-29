@@ -9,7 +9,12 @@ import logo from "@/assets/images/logo/cgr-one-logo.webp";
 export default function Navbar() {
   const scrolled = useScrollPosition(40);
   const [open, setOpen] = useState(false);
-  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  /* Which mobile group is expanded, by label. This was a single boolean back
+     when "Services" was the only dropdown; the layout document's nav has four,
+     and one flag meant tapping any of them expanded all four at once. One at a
+     time also keeps the menu short enough to scroll — the four groups hold 19
+     links between them. */
+  const [openGroup, setOpenGroup] = useState(null);
   const onHome = useLocation().pathname === "/";
 
   /* The section links are in-page anchors that only exist on the home page.
@@ -18,20 +23,30 @@ export default function Navbar() {
   const anchor = (href) => (onHome ? href : `/${href}`);
 
   return (
-    <motion.header
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+    /* No mount animation. This used to slide down from y:-100 on load, which
+       meant the site's primary navigation started 100px off-screen and only
+       came back when a JS animation frame ran. In a throttled tab that frame
+       can be deferred and the header simply never appears — observed here,
+       alongside the same problem in the hero copy. A fixed header must be
+       on screen from first paint. */
+    <header
       className={`fixed top-0 left-0 w-full z-50 shadow-md transition-all duration-500 ${
         scrolled ? "bg-white/95 backdrop-blur shadow-lg py-2" : "bg-white py-4"
       }`}
     >
       <div className="max-w-[1400px] mx-auto px-6 flex items-center justify-between">
         <Link to="/" className="flex items-center">
-          <img src={logo} alt="CGR ONE" className="h-14 sm:h-16 w-auto" />
+          <img src={logo} alt="Cynosure Global Residency" className="h-14 sm:h-16 w-auto" />
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-9 font-heading text-[13px] font-medium tracking-[0.14em] uppercase">
+        {/* Breakpoint raised from lg to xl, and the spacing tightened.
+            The pillar labels from the layout document are long — "Investment &
+            Business Migration" alone is most of a column — and measured at
+            1400 the bar came to 1338px (logo 229 + nav 968 + button 141).
+            That fits a 1400 container and nothing smaller, so between 1024 and
+            1400 the old lg: nav overflowed. Below xl the hamburger takes over,
+            which is where a nav this wide belongs anyway. */}
+        <nav className="hidden xl:flex items-center gap-5 2xl:gap-7 font-heading text-[12px] 2xl:text-[13px] font-medium tracking-[0.1em] 2xl:tracking-[0.14em] uppercase">
           {navLinks.map((l) =>
             l.children ? (
               <div key={l.label} className="relative group py-2">
@@ -89,11 +104,11 @@ export default function Navbar() {
           )}
         </nav>
 
-        <a href={anchor("#contact")} className="hidden lg:inline-flex btn-primary !py-3 !px-6 text-xs">
+        <Link to="/contact" className="hidden xl:inline-flex btn-primary !py-3 !px-5 text-[11px] 2xl:!px-6 2xl:text-xs">
           Contact Us
-        </a>
+        </Link>
 
-        <button className="lg:hidden text-3xl text-ink" onClick={() => setOpen(!open)}>
+        <button className="xl:hidden text-3xl text-ink" onClick={() => setOpen(!open)}>
           {open ? <HiX /> : <HiMenu />}
         </button>
       </div>
@@ -105,25 +120,28 @@ export default function Navbar() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.35 }}
-            className="lg:hidden overflow-hidden bg-white border-t"
+            className="xl:hidden overflow-hidden bg-white border-t"
           >
             <div className="flex flex-col px-6 py-4 gap-1 font-heading font-medium uppercase text-[13px] tracking-[0.14em]">
               {navLinks.map((l) =>
                 l.children ? (
                   <div key={l.label}>
                     <button
-                      onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
+                      onClick={() =>
+                        setOpenGroup((g) => (g === l.label ? null : l.label))
+                      }
+                      aria-expanded={openGroup === l.label}
                       className="w-full flex items-center justify-between py-3 uppercase text-ink hover:text-primary transition-colors"
                     >
                       {l.label}
                       <HiChevronDown
                         className={`text-xs transition-transform duration-300 ${
-                          mobileServicesOpen ? "rotate-180" : ""
+                          openGroup === l.label ? "rotate-180" : ""
                         }`}
                       />
                     </button>
                     <AnimatePresence>
-                      {mobileServicesOpen && (
+                      {openGroup === l.label && (
                         <motion.div
                           initial={{ height: 0, opacity: 0 }}
                           animate={{ height: "auto", opacity: 1 }}
@@ -176,10 +194,21 @@ export default function Navbar() {
                   </a>
                 )
               )}
+
+              {/* The desktop Contact Us button is hidden below lg, and Contact
+                  is no longer a navLink — without this the mobile menu would
+                  have no way to reach /contact at all. */}
+              <Link
+                to="/contact"
+                onClick={() => setOpen(false)}
+                className="btn-primary justify-center mt-4 mb-2"
+              >
+                Contact Us
+              </Link>
             </div>
           </motion.nav>
         )}
       </AnimatePresence>
-    </motion.header>
+    </header>
   );
 }

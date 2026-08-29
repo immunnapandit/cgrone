@@ -52,7 +52,7 @@ export default function VideoCta() {
                   Talk To Our Team
                 </span>
                 <a
-                  href="/#contact"
+                  href="/contact"
                   className="play-now"
                   aria-label="Go to the contact form"
                 >
@@ -87,7 +87,7 @@ export default function VideoCta() {
             >
               <iframe
                 src={videoCta.videoUrl}
-                title="CGR ONE intro video"
+                title="Cynosure intro video"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture"
                 allowFullScreen
                 className="w-full h-full"

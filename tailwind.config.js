@@ -44,10 +44,16 @@ export default {
         soft: "rgb(var(--c-soft) / <alpha-value>)",
         hairline: "rgb(var(--c-hairline) / <alpha-value>)",
       },
+      /* EB Garamond + Inter, replacing Fraunces + Jost.
+         Fraunces is a high-contrast "soft serif" with decorative letterforms
+         and a swashy ampersand — it reads editorial/boutique. Jost is a
+         geometric sans in the Futura line, which reads design-studio. Neither
+         says "advisory firm". This pairing is Henley & Partners' own pattern
+         (they serve Garamond headings over Roboto body). */
       fontFamily: {
-        display: ["Fraunces", "Georgia", "Times New Roman", "serif"],
-        heading: ["Jost", "sans-serif"],
-        body: ["Jost", "sans-serif"],
+        display: ["EB Garamond", "Garamond", "Georgia", "serif"],
+        heading: ["Inter", "system-ui", "sans-serif"],
+        body: ["Inter", "system-ui", "sans-serif"],
       },
       letterSpacing: {
         display: "-0.028em",

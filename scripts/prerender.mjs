@@ -33,13 +33,48 @@ if (!SEO_BLOCK.test(template)) {
   process.exit(1);
 }
 
+/* ---- hero preload ------------------------------------------------------
+ * The hero photograph is imported by heroSlides.js, so it lives inside the
+ * JS bundle's dependency graph and the browser cannot discover it from the
+ * HTML. Measured on the production build: the top of the page rendered white
+ * for several seconds while the ~450 kB bundle downloaded, parsed and mounted
+ * React, which only then requested the image. It is the LCP element, so that
+ * is the worst possible thing to leave late.
+ *
+ * A preload link lets the browser fetch it in parallel with the bundle. Only
+ * the home page gets one — preloading it on /about would download an image
+ * that route never shows.
+ *
+ * Matched by filename because Vite hashes it and this script cannot import
+ * heroSlides.js (Node will not resolve its .webp imports). KEEP THE PATTERN
+ * IN STEP WITH heroSlides[0] — if the first slide changes, change this.
+ */
+const HERO_FIRST_SLIDE = /^skyline-london-.*\.webp$/;
+
+const assets = await fs.readdir(path.join(dist, "assets"));
+const heroAsset = assets.find((f) => HERO_FIRST_SLIDE.test(f));
+
+if (!heroAsset) {
+  console.warn(
+    "[prerender] no asset matched HERO_FIRST_SLIDE — the hero image will not be preloaded"
+  );
+}
+
+const heroPreload = heroAsset
+  ? `    <link rel="preload" as="image" href="/assets/${heroAsset}" fetchpriority="high" />\n`
+  : "";
+
 const paths = allPaths();
 
 for (const routePath of paths) {
-  const html = template.replace(
+  let html = template.replace(
     SEO_BLOCK,
     buildHead(getRouteMeta(routePath), SITE_URL, CONTACT_EMAIL)
   );
+
+  if (routePath === "/" && heroPreload) {
+    html = html.replace("</head>", `${heroPreload}  </head>`);
+  }
 
   /* "/" stays dist/index.html; every other route becomes a directory with its
      own index.html, so the host serves /about without needing a rewrite and

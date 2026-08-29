@@ -1,75 +1,58 @@
-import { motion } from "framer-motion";
-import { FaArrowRight, FaPaperPlane } from "react-icons/fa";
+import { FaArrowRight } from "react-icons/fa";
 import Reveal from "@/components/common/Reveal";
 import { aboutHighlights, aboutBulletPoints } from "@/data/aboutContent";
 import aboutImage from "@/assets/images/about/About1.webp";
-import aeroplaneBg from "@/assets/images/about/aeroplane.webp";
 
+/* The dotted flight path with a paper plane looping along it used to sit in
+   the top-right of this section. It was the clearest travel-agency cue on the
+   page, so it is gone — an advisory firm does not animate aeroplanes. */
 export default function About() {
   return (
-    <section id="about" className="relative py-28 bg-white overflow-hidden scroll-mt-28">
-      {/* flight-path decoration with a plane flying along the route */}
-      <div className="absolute right-6 top-10 w-[110px] h-[680px] pointer-events-none hidden lg:block opacity-60">
-        <img src={aeroplaneBg} alt="" className="w-full h-full object-contain" />
-        <motion.div
-          className="absolute top-0 left-0 text-primary"
-          initial={{ x: 78, y: 9, rotate: 159 }}
-          animate={{
-            x: [78, 6, 33, 61, 78, 94, 78],
-            y: [9, 173, 277, 426, 478, 664, 9],
-            rotate: [159, 121, 124, 117, 130, -135, 159],
-          }}
-          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <FaPaperPlane className="text-lg drop-shadow" />
-        </motion.div>
-      </div>
-
+    <section id="about" className="relative py-16 md:py-24 lg:py-28 bg-white overflow-hidden scroll-mt-28">
       <div className="max-w-[1400px] mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
         <Reveal direction="left" className="relative">
-          <div className="relative pl-6 border-l-4 border-primary">
+          <div className="relative pl-6 border-l-2 border-primary">
             <img
               src={aboutImage}
               alt="Traveler with passport"
-              className="block w-full max-w-[500px] h-[560px] object-cover object-top"
+              className="block w-full max-w-[500px] h-[320px] md:h-[440px] lg:h-[560px] object-cover object-top"
             />
           </div>
-          <motion.div
-            animate={{ y: [0, -16, 0] }}
-            transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -bottom-8 -left-4 bg-white shadow-2xl px-6 py-5 flex items-center gap-3"
-          >
+          {/* was a card bobbing up and down on a 3.5s loop — held still now */}
+          <div className="absolute -bottom-8 -left-4 bg-white shadow-xl px-6 py-5 flex items-center gap-3">
             {aboutHighlights.map(({ icon: Icon }, i) => (
-              <Icon key={i} className={i === 0 ? "text-primary text-3xl" : "text-ink text-2xl"} />
+              <Icon key={i} className={i === 0 ? "text-ink text-3xl" : "text-ink text-2xl"} />
             ))}
-          </motion.div>
+          </div>
         </Reveal>
 
         <Reveal direction="right" delay={0.1}>
           <div className="eyebrow mb-6">
-            <span className="chev">»</span> About CGR ONE
+            <span className="chev">»</span> About Cynosure
           </div>
           <h2 className="t-h2 text-ink mb-6">
-            A Global Platform Built on Two Decades of Immigration Expertise.
+            Experience. Perspective. Global Reach.
           </h2>
           <p className="t-body mb-9 max-w-xl">
-            CGR ONE is built on more than two decades of experience across
-            immigration, global mobility, international business development
-            and advisory services — spanning India, the United Kingdom and
-            Canada. We believe international mobility should begin with
-            strategy, not paperwork, connecting clients with the right
-            immigration professionals, lawyers and specialist advisors across
-            jurisdictions.
+            Cynosure Global Residency is an international advisory platform
+            focused on immigration, global mobility, investment migration and
+            cross-border opportunities. With decades of experience and a network
+            of trusted professionals across jurisdictions, we help individuals,
+            families and businesses make informed decisions about their
+            international future.
           </p>
 
           <div className="grid sm:grid-cols-2 gap-6 mb-8">
             {aboutHighlights.map(({ icon: Icon, title }, i) => (
               <div key={title.join(" ")} className="flex items-center gap-4">
+                {/* the second tile used to be a dashed circle — the same
+                    hand-drawn motif the process steps carried, and the last
+                    one left on the page */}
                 <div
                   className={
                     i === 0
-                      ? "w-14 h-14 rounded-full bg-ink text-primary flex items-center justify-center text-xl"
-                      : "w-14 h-14 rounded-full border-2 border-dashed border-primary/50 text-primary flex items-center justify-center text-xl"
+                      ? "w-14 h-14 bg-ink text-white flex items-center justify-center text-xl"
+                      : "w-14 h-14 border border-hairline text-ink flex items-center justify-center text-xl"
                   }
                 >
                   <Icon />
@@ -86,7 +69,7 @@ export default function About() {
           <ul className="space-y-3 mb-9">
             {aboutBulletPoints.map((t) => (
               <li key={t} className="flex items-center gap-3 text-ink font-medium text-[17px]">
-                <span className="w-6 h-6 rounded-full bg-ink text-primary flex items-center justify-center text-xs">
+                <span className="w-6 h-6 rounded-full bg-ink text-white flex items-center justify-center text-xs">
                   <FaArrowRight />
                 </span>
                 {t}

@@ -8,5 +8,5 @@ export const aboutHighlights = [
 export const aboutBulletPoints = [
   "Strategy-first approach, not just paperwork",
   "Coordinated network of lawyers & regulated professionals",
-  "Two decades of experience across India, the UK & Canada",
+  "Five jurisdictions — India, UK, Canada, Australia & New Zealand",
 ];

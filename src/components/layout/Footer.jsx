@@ -35,7 +35,7 @@ export default function Footer() {
     /* Light footer. It used to be a full navy block and was the last big dark
        area left on the page; the gold top rule and the navy contact tiles keep
        it anchored so it still reads as a footer and not as another section. */
-    <footer className="bg-offwhite text-ink pt-0 border-t-4 border-primary">
+    <footer className="bg-offwhite text-ink pt-0 border-t-2 border-primary">
       <div className="max-w-[1400px] mx-auto px-6 -translate-y-10">
         {/* white card on ivory — a soft shadow does the separating now that
             there is no navy behind it */}
@@ -49,7 +49,7 @@ export default function Footer() {
                 {...(it.href ? { href: it.href } : {})}
                 className={`flex items-center gap-4 group ${it.href ? "" : "cursor-default"}`}
               >
-                <div className="w-14 h-14 bg-ink text-primary flex items-center justify-center text-xl shrink-0 transition-colors duration-300 group-hover:bg-primary group-hover:text-ink">
+                <div className="w-14 h-14 bg-ink text-white flex items-center justify-center text-xl shrink-0 transition-colors duration-300 group-hover:bg-primary group-hover:text-ink">
                   <it.icon />
                 </div>
                 <div>
@@ -62,16 +62,16 @@ export default function Footer() {
         </Reveal>
       </div>
 
-      <div className="max-w-[1400px] mx-auto px-6 pb-16 grid md:grid-cols-4 gap-12">
+      <div className="max-w-[1400px] mx-auto px-6 pb-12 md:pb-16 grid md:grid-cols-4 gap-8 md:gap-12">
         <div>
           {/* the white box existed only to lift the logo off the navy */}
           <Link to="/" className="inline-block mb-5">
-            <img src={logo} alt="CGR ONE" className="h-12 w-auto" />
+            <img src={logo} alt="Cynosure Global Residency" className="h-12 w-auto" />
           </Link>
           <p className="t-body mb-7 max-w-xs">
-            A global platform connecting clients with immigration
-            professionals, lawyers and specialist advisors — built on two
-            decades of experience across India, the UK and Canada.
+            An international advisory platform for immigration, global mobility,
+            investment migration and cross-border opportunities — working with
+            trusted professionals across jurisdictions.
           </p>
           <Link to="/about" className="btn-primary !py-3 !px-6 text-xs">
             Read More
@@ -79,12 +79,14 @@ export default function Footer() {
         </div>
 
         <div>
-          <h4 className="t-h4 text-ink mb-6">Services</h4>
-          <ul className="space-y-3">
+          <h4 className="t-h4 text-ink mb-6">What We Do</h4>
+          {/* two columns on a phone. Stacked, these two lists ran to fourteen
+              full-width rows and were most of the footer's height. */}
+          <ul className="grid grid-cols-2 gap-x-5 gap-y-3 sm:grid-cols-1 sm:space-y-3">
             {footerServices.map((s) => (
               <li key={s.label}>
                 <FooterLink href={s.href} className="text-[16px] text-muted hover:text-primary transition-colors flex items-center gap-2">
-                  <span className="text-primary">»</span> {s.label}
+                  <span className="text-ink/35">»</span> {s.label}
                 </FooterLink>
               </li>
             ))}
@@ -93,11 +95,13 @@ export default function Footer() {
 
         <div>
           <h4 className="t-h4 text-ink mb-6">Useful Links</h4>
-          <ul className="space-y-3">
+          {/* two columns on a phone. Stacked, these two lists ran to fourteen
+              full-width rows and were most of the footer's height. */}
+          <ul className="grid grid-cols-2 gap-x-5 gap-y-3 sm:grid-cols-1 sm:space-y-3">
             {footerLinks.map((l) => (
               <li key={l.label}>
                 <FooterLink href={l.href} className="text-[16px] text-muted hover:text-primary transition-colors flex items-center gap-2">
-                  <span className="text-primary">»</span> {l.label}
+                  <span className="text-ink/35">»</span> {l.label}
                 </FooterLink>
               </li>
             ))}
@@ -144,16 +148,22 @@ export default function Footer() {
               {status === "error" && <span className="text-red-700">{error}</span>}
             </p>
           </form>
-          <div className="flex gap-3 mt-6">
-            {footerSocialIcons.map((Icon, i) => (
-              <a
-                key={i}
-                href="#"
-                className="w-9 h-9 border border-hairline text-ink flex items-center justify-center hover:bg-primary hover:text-ink hover:border-primary transition-colors"
-              >
-                <Icon className="text-sm" />
-              </a>
-            ))}
+          {/* only profiles with a real URL are rendered — see footer.js */}
+          <div className="flex gap-3 mt-6 empty:mt-0">
+            {footerSocialIcons
+              .filter((s) => s.href)
+              .map(({ Icon, label, href }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  aria-label={label}
+                  className="w-9 h-9 border border-hairline text-ink flex items-center justify-center hover:bg-primary hover:text-ink hover:border-primary transition-colors"
+                >
+                  <Icon className="text-sm" />
+                </a>
+              ))}
           </div>
         </div>
       </div>
@@ -161,7 +171,7 @@ export default function Footer() {
       {/* text-muted, not text-soft — soft lands at 4.52:1 on ivory and this
           line is 13px, so it has almost no margin */}
       <div className="border-t border-hairline py-7 text-center text-muted text-[13px] tracking-[0.06em]">
-        © {new Date().getFullYear()} CGR ONE. All rights reserved.
+        © {new Date().getFullYear()} Cynosure Global Residency. All rights reserved.
       </div>
     </footer>
   );

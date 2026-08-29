@@ -1,25 +1,23 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaAngleRight } from "react-icons/fa";
 import Reveal from "@/components/common/Reveal";
-import { services } from "@/data/services";
+import { pillars, brandMessage } from "@/data/pillars";
 import mapBg from "@/assets/images/testimonial-map.png";
 
-export default function Services() {
-  const [active, setActive] = useState(0);
+/* The home page's main block. Rebuilt 2026-08-29 around the three pillars in
+   Cynosure_Website_Layout_Pattern.docx, replacing a set of service cards.
 
+   That document is emphatic that these three carry the homepage and that
+   countries and programmes sit underneath them — so the five country cards
+   that used to follow this section are gone, and each pillar lists its
+   contents as plain labels rather than as links competing with the pillar. */
+export default function Services() {
   return (
     // z-0 keeps the bleeding backdrop below trapped in this section's own
     // stacking context, while WhyChooseUs (z-10) still paints over it
-    <section id="services" className="relative z-0 py-28 scroll-mt-28">
-      {/* the navy backdrop runs 334px past the section so the section below
-          can sit on top of its tail — the reference's services/why-choose-us
-          overlap. No overflow-hidden here or the bleed gets clipped. */}
-      {/* This was a full-bleed navy slab — the single largest dark area on the
-          home page. It is ivory now; the service photos carry their own dark
-          gradients, so the section still has weight without the backdrop. The
-          bleed still runs 334px past the section so WhyChooseUs can sit on its
-          tail, it just no longer changes colour underneath it. */}
+    <section id="services" className="relative z-0 py-16 md:py-24 lg:py-28 scroll-mt-28">
+      {/* the backdrop runs 334px past the section so WhyChooseUs can sit on its
+          tail. No overflow-hidden here or the bleed gets clipped. */}
       <div className="absolute top-0 left-0 w-full h-[calc(100%+334px)] bg-offwhite overflow-hidden -z-10 pointer-events-none">
         <div className="absolute inset-0 flex items-center justify-center opacity-[0.06]">
           <img src={mapBg} alt="" className="w-full h-auto" />
@@ -27,74 +25,62 @@ export default function Services() {
       </div>
 
       <div className="relative max-w-[1400px] mx-auto px-6">
-        <Reveal className="text-center mb-16">
+        <Reveal className="text-center max-w-3xl mx-auto mb-10 md:mb-16">
           <div className="eyebrow mx-auto justify-center mb-6">
-            <span className="chev">»</span> Service We Provide
+            <span className="chev">»</span> What We Do
           </div>
-          <h2 className="t-h2 text-ink">
-            Cross-Border Expansion
-            <br /> &amp; Immigration Mobility
-          </h2>
+          <h2 className="t-h2 text-ink mb-6">{brandMessage.line}</h2>
+          <p className="t-body mx-auto">{brandMessage.text}</p>
         </Reveal>
 
-        <div
-          onMouseLeave={() => setActive(0)}
-          className="flex flex-col sm:flex-row h-auto sm:h-[480px] gap-4 rounded-2xl overflow-hidden"
-        >
-          {services.map((s, i) => {
-            const isActive = active === i;
-            return (
-              <div
-                key={s.title}
-                id={s.id}
-                onMouseEnter={() => setActive(i)}
-                onClick={() => setActive(i)}
-                className={`relative overflow-hidden rounded-2xl cursor-pointer h-64 sm:h-full flex-none scroll-mt-28 transition-all duration-700 ease-in-out ${
-                  isActive ? "sm:flex-[3.5_3.5_0%]" : "sm:flex-[1_1_0%]"
-                }`}
-              >
-                <img
-                  src={s.img}
-                  alt={s.title}
-                  className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-in-out ${
-                    isActive ? "scale-110" : "scale-100"
-                  }`}
-                />
-                <div
-                  className={`absolute inset-0 bg-gradient-to-t transition-all duration-700 ease-in-out ${
-                    isActive ? "from-ink/90 via-ink/25 to-transparent" : "from-ink/85 via-ink/40 to-transparent"
-                  }`}
-                />
-
-                <div className="absolute inset-0 flex flex-col justify-end p-6">
-                  <div
-                    className={`w-11 h-11 rounded-full flex items-center justify-center text-lg shrink-0 mb-4 transition-all duration-700 ease-in-out ${
-                      isActive ? "bg-primary text-ink" : "bg-white/10 text-white"
-                    }`}
-                  >
-                    <s.icon />
+        <div className="grid md:grid-cols-3 gap-6 md:gap-8">
+          {pillars.map(({ n, icon: Icon, img, title, audience, sub, to }) => (
+            <Reveal key={title}>
+              <article className="group h-full flex flex-col bg-white border border-hairline">
+                {/* the badge hangs below the photo, so it cannot live inside
+                    the overflow-hidden box that crops the zooming image */}
+                <div className="relative h-36 md:h-52">
+                  <div className="absolute inset-0 overflow-hidden">
+                    <img
+                      src={img}
+                      alt=""
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
                   </div>
-
-                  <span className="text-[11px] text-white/45 font-heading font-medium tracking-[0.22em] mb-2">{s.n}</span>
-                  <h3 className="t-h4 text-white">{s.title}</h3>
-
-                  <div
-                    className={`overflow-hidden transition-all duration-700 ease-in-out ${
-                      isActive ? "max-h-32 opacity-100 mt-3" : "max-h-0 opacity-0 mt-0"
-                    }`}
-                  >
-                    <p className="t-body text-white/70">{s.desc}</p>
-                    <Link
-                      to={`/services/${s.id}`}
-                      className="mt-4 inline-flex items-center gap-1.5 text-primary font-heading font-semibold text-[12px] uppercase tracking-[0.16em] hover:gap-2.5 transition-all duration-300"
-                    >
-                      Read More <FaAngleRight className="text-xs" />
-                    </Link>
-                  </div>
+                  <span className="absolute left-6 -bottom-6 z-10 w-12 h-12 bg-ink text-white flex items-center justify-center text-lg">
+                    <Icon />
+                  </span>
                 </div>
-              </div>
-            );
-          })}
+
+                <div className="flex flex-col flex-1 p-6 pt-10 md:p-8 md:pt-12">
+                  <span className="text-[11px] text-soft font-heading font-medium tracking-[0.22em] mb-3">
+                    {n}
+                  </span>
+                  <h3 className="t-h3 text-ink mb-3">{title}</h3>
+                  <p className="t-body text-base mb-6">{audience}</p>
+
+                  {/* labels, not links — the pillar itself is the link */}
+                  <ul className="flex flex-wrap gap-2 mb-8">
+                    {sub.map((s) => (
+                      <li
+                        key={s}
+                        className="border border-hairline text-soft text-[11px] uppercase tracking-[0.12em] px-2.5 py-1.5"
+                      >
+                        {s}
+                      </li>
+                    ))}
+                  </ul>
+
+                  <Link
+                    to={to}
+                    className="mt-auto self-start inline-flex items-center gap-1.5 text-ink font-heading font-semibold text-[12px] uppercase tracking-[0.16em] border-b-2 border-primary pb-1.5 hover:gap-3 transition-all duration-300"
+                  >
+                    Explore <FaAngleRight className="text-xs" />
+                  </Link>
+                </div>
+              </article>
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>

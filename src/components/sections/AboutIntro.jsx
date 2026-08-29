@@ -46,7 +46,7 @@ export default function AboutIntro() {
             </div>
 
             <div className="btm-box">
-              <a href="/#contact" className="btn-primary">
+              <a href="/contact" className="btn-primary">
                 Discover More <FaArrowRight />
               </a>
             </div>

@@ -18,7 +18,11 @@ export const whyChooseUsPerks = [
   },
 ];
 
-export const whyChooseUsBars = [
-  { label: "Strategy & Planning", value: 95 },
-  { label: "Global Partner Network", value: 90 },
+/* Deliberately factual. The previous version of this block was a pair of
+   progress bars reading 95% and 90% — numbers that measure nothing and are
+   the single clearest "template" tell on an advisory site. */
+export const whyChooseUsFacts = [
+  { value: "2006", label: "Practising since — Cynosure Consultancy Services" },
+  { value: "20+", label: "Years of international advisory experience" },
+  { value: "5", label: "Jurisdictions — India, UK, Canada, Australia, New Zealand" },
 ];

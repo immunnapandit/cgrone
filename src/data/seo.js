@@ -2,59 +2,111 @@
  * and canonicals.
  *
  * Deliberately has NO imports. server.js reads this at request time to inject
- * tags into the served HTML, and Node cannot follow services.js's `.webp`
- * imports. Keeping it dependency-free lets the same table drive both the
+ * tags into the served HTML, and Node cannot follow the `.webp` imports in the
+ * data files. Keeping it dependency-free lets the same table drive both the
  * server-rendered tags and the client-side ones.
  *
  * These are written for search results, not reused from the UI copy: titles
  * stay under ~60 characters and descriptions under ~160 so neither is
  * truncated in a listing.
  *
- * Note the coverage claim. The site sells India, the UK and Canada — an
- * earlier description here advertised the United States, which the business
- * does not serve.
+ * Coverage: India, the UK, Canada, Australia and New Zealand. The United
+ * States is NOT served — an early version of this file advertised it.
  */
 
-export const SITE_NAME = "CGR ONE";
+export const SITE_NAME = "Cynosure Global Residency";
 
 export const DEFAULT_META = {
-  title: "CGR ONE | Immigration & Global Mobility — India, UK, Canada",
+  title: "Cynosure Global Residency | Immigration & Global Mobility",
   description:
-    "Strategy-first immigration and global mobility advice. CGR ONE connects you with regulated immigration professionals, lawyers and specialist advisors across India, the UK and Canada.",
+    "An international advisory platform for immigration, global mobility, investment migration and cross-border expansion across India, the UK, Canada, Australia and New Zealand.",
 };
 
-/* Static routes. Service pages are matched separately below so a new service
+/* Static routes. Country pages are matched separately below so a new country
    does not need an entry here. */
 const ROUTES = {
   "/": DEFAULT_META,
 
   "/about": {
-    title: "About CGR ONE | 20+ Years in Immigration & Mobility",
+    title: "About | Experience, Perspective, Global Reach | Cynosure",
     description:
-      "CGR ONE is a global platform for immigration, mobility and opportunity, built on more than two decades of international experience across India, the UK and Canada.",
+      "Cynosure Global Residency is an international advisory platform built on decades of experience and a network of trusted professionals across jurisdictions.",
+  },
+
+  "/leadership": {
+    title: "Leadership | Srikanth Koochavaram, Founder | Cynosure",
+    description:
+      "Srikanth Koochavaram, founder of Cynosure — 20+ years in immigration consulting, global mobility, investment migration and international business development.",
+  },
+
+  "/investment-migration": {
+    title: "Citizenship & Residency by Investment | Cynosure",
+    description:
+      "Caribbean citizenship by investment and European and UAE residence-by-investment routes, plus business migration — assessed against your objectives and profile.",
+  },
+
+  "/global-immigration": {
+    title: "Global Immigration | Canada, Australia, New Zealand | Cynosure",
+    description:
+      "Permanent residence, work, study and family pathways to Canada, Australia and New Zealand, coordinated with the regulated professional in each country.",
+  },
+
+  "/workforce-mobility": {
+    title: "International Workforce Mobility | Cynosure",
+    description:
+      "Connecting employers with qualified international talent across healthcare, hospitality and skilled technical trades — sourcing, screening and mobility coordination.",
+  },
+
+  "/workforce-mobility/healthcare": {
+    title: "Healthcare Workforce Mobility | Cynosure",
+    description:
+      "International career pathways for nurses, carers and allied healthcare professionals across Germany, Malta, Poland, Portugal and Cyprus.",
+  },
+
+  "/workforce-mobility/hospitality": {
+    title: "Hospitality Workforce Mobility | Cynosure",
+    description:
+      "International opportunities for chefs, cooks, F&B and hotel professionals across Malta, Greece, Croatia, Portugal and Cyprus.",
+  },
+
+  "/global-mobility": {
+    title: "Corporate Immigration & Global Mobility | Cynosure",
+    description:
+      "End-to-end global mobility support for employers relocating employees across international markets — immigration, relocation, family mobility and case management.",
+  },
+
+  "/contact": {
+    title: "Contact Cynosure Global Residency | Book a Consultation",
+    description:
+      "Tell us about your circumstances, objectives and plans. Book a confidential consultation with the Cynosure advisory team, or email info@cgrone.com.",
   },
 };
 
-const SERVICE_META = {
-  "india-uk-expansion": {
-    title: "India to UK Business Expansion | CGR ONE",
+const COUNTRY_META = {
+  india: {
+    title: "India | Where Cynosure Began | Cynosure Global Residency",
     description:
-      "Establish and grow your Indian business in the UK. Market entry strategy, company formation, tax and compliance, backed by an established network of UK professionals.",
+      "Cynosure has practised from India since 2006. Business structured in India alongside the overseas entity, planned and timed as one cross-border move.",
   },
-  "india-canada-business-expansion": {
-    title: "India to Canada Business Expansion | CGR ONE",
+  uk: {
+    title: "United Kingdom | Market Entry & Expansion | Cynosure",
     description:
-      "Take your Indian business into the Canadian market with the right structure, local professional support and a clear, commercially sensible entry plan.",
+      "Establish and grow a business in the UK — market entry strategy, company formation, tax and compliance, and an established network of UK professionals.",
   },
-  "india-canada-corporate-mobility": {
-    title: "India–Canada Corporate Mobility | CGR ONE",
+  canada: {
+    title: "Canada Immigration & Market Entry | Cynosure",
     description:
-      "Move staff between India and Canada with the right work permits and corporate structures, coordinated with regulated immigration professionals in both countries.",
+      "Permanent residence, work, study, family and business immigration, plus Canadian market entry — coordinated with qualified Canadian immigration professionals.",
   },
-  "india-canada-business-launch": {
-    title: "Launch a Business in Canada from India | CGR ONE",
+  australia: {
+    title: "Australia Immigration & Global Mobility | Cynosure",
     description:
-      "Launch and operate a Canadian business from India — company setup, banking, compliance and the local advisors needed to trade from day one.",
+      "Skilled, employer-sponsored, business, family and student pathways to Australia, coordinated with registered migration agents and immigration lawyers.",
+  },
+  "new-zealand": {
+    title: "New Zealand Immigration | Cynosure Global Residency",
+    description:
+      "Skilled migration, work, business, family and study pathways to New Zealand, coordinated with Licensed Immigration Advisers and immigration lawyers.",
   },
 };
 
@@ -68,16 +120,18 @@ export function getRouteMeta(pathname = "/") {
 
   if (ROUTES[path]) return { ...ROUTES[path], path };
 
-  const service = path.startsWith("/services/") && SERVICE_META[path.slice("/services/".length)];
-  if (service) return { ...service, path };
+  const country = path.startsWith("/countries/") && COUNTRY_META[path.slice("/countries/".length)];
+  if (country) return { ...country, path };
 
   return { ...DEFAULT_META, path: "/" };
 }
 
-/** Every indexable path, for the sitemap. */
+/** Every indexable path, for the sitemap.
+ *  The retired /services/* URLs are deliberately absent — App.jsx redirects
+ *  them, and a redirect does not belong in a sitemap. */
 export function allPaths() {
   return [
     ...Object.keys(ROUTES),
-    ...Object.keys(SERVICE_META).map((slug) => `/services/${slug}`),
+    ...Object.keys(COUNTRY_META).map((slug) => `/countries/${slug}`),
   ];
 }
