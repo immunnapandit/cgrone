@@ -6,7 +6,7 @@ import VideoCta from "@/components/sections/VideoCta";
 import ProfessionalStandards from "@/components/sections/ProfessionalStandards";
 import SecurityPrivacy from "@/components/sections/SecurityPrivacy";
 import Process from "@/components/sections/Process";
-import banner from "@/assets/images/about/aeroplaneabout.webp";
+import { skylines } from "@/data/banners";
 
 /* Two changes here in the home-page slim-down:
    - <Services /> is gone. It rendered the same four panels as the home page,
@@ -21,7 +21,7 @@ export default function About() {
     <>
       <PageTitle
         title="About Us"
-        image={banner}
+        image={skylines.london}
         crumbs={[{ label: "Home", to: "/" }, { label: "About Us" }]}
       />
       <AboutIntro />

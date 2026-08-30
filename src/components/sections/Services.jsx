@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { FaAngleRight } from "react-icons/fa";
 import Reveal from "@/components/common/Reveal";
 import { pillars, brandMessage } from "@/data/pillars";
-import mapBg from "@/assets/images/testimonial-map.png";
 
 /* The home page's main block. Rebuilt 2026-08-29 around the three pillars in
    Cynosure_Website_Layout_Pattern.docx, replacing a set of service cards.
@@ -18,11 +17,12 @@ export default function Services() {
     <section id="services" className="relative z-0 py-16 md:py-24 lg:py-28 scroll-mt-28">
       {/* the backdrop runs 334px past the section so WhyChooseUs can sit on its
           tail. No overflow-hidden here or the bleed gets clipped. */}
-      <div className="absolute top-0 left-0 w-full h-[calc(100%+334px)] bg-offwhite overflow-hidden -z-10 pointer-events-none">
-        <div className="absolute inset-0 flex items-center justify-center opacity-[0.06]">
-          <img src={mapBg} alt="" className="w-full h-auto" />
-        </div>
-      </div>
+      {/* The flat offwhite is the whole backdrop now. It used to carry
+          testimonial-map.png — aeroplanes and dashed flight paths — at 0.06.
+          Faint, but it is the same travel-agency graphic removed from About
+          and from the WhyChooseUs panel, and a texture nobody can quite
+          resolve is not worth the association. */}
+      <div className="absolute top-0 left-0 w-full h-[calc(100%+334px)] bg-offwhite overflow-hidden -z-10 pointer-events-none" />
 
       <div className="relative max-w-[1400px] mx-auto px-6">
         <Reveal className="text-center max-w-3xl mx-auto mb-10 md:mb-16">
@@ -59,12 +59,17 @@ export default function Services() {
                   <h3 className="t-h3 text-ink mb-3">{title}</h3>
                   <p className="t-body text-base mb-6">{audience}</p>
 
-                  {/* labels, not links — the pillar itself is the link */}
-                  <ul className="flex flex-wrap gap-2 mb-8">
+                  {/* Labels, not links — the pillar itself is the link.
+                      These were bordered pills, which read as SaaS filter
+                      chips and wrapped into ragged two- and three-line
+                      blocks of different heights across the three cards.
+                      A ruled list sets them as a capability index instead,
+                      and the rows line up card to card. */}
+                  <ul className="mb-8 border-t border-hairline">
                     {sub.map((s) => (
                       <li
                         key={s}
-                        className="border border-hairline text-soft text-[11px] uppercase tracking-[0.12em] px-2.5 py-1.5"
+                        className="border-b border-hairline py-2.5 text-soft text-[11px] uppercase tracking-[0.14em]"
                       >
                         {s}
                       </li>

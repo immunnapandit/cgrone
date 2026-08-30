@@ -3,16 +3,18 @@ import { FaArrowRight, FaQuoteLeft } from "react-icons/fa";
 import PageTitle from "@/components/sections/PageTitle";
 import Reveal from "@/components/common/Reveal";
 import { founder } from "@/data/leadership";
+import { skylines } from "@/data/banners";
 
-/* No banner photo and no headshot: there is no suitable asset in the repo and
-   an advisory firm's leadership page is better plain than illustrated with
-   airport stock. `.page-title` falls back to a navy field when `image` is
-   omitted. */
+/* Still no headshot — there is no photograph of the founder in the repo, and a
+   leadership page is better plain than illustrated with stock. The banner is
+   the Edinburgh skyline (2026-08-30): a city, not a person, so it says nothing
+   the page cannot support. */
 export default function Leadership() {
   return (
     <>
       <PageTitle
         title="Leadership"
+        image={skylines.edinburgh}
         crumbs={[{ label: "Home", to: "/" }, { label: "Leadership" }]}
       />
 
@@ -38,16 +40,21 @@ export default function Leadership() {
                 ))}
               </ul>
 
-              <div className="flex flex-wrap gap-2">
+              {/* Bordered chips here wrapped into a ragged 2/1/1 stack because
+                  the labels are long ("International Business Development").
+                  Ruled rows instead — the same treatment as the pillar cards
+                  and the About list, so a list of specialisms looks the same
+                  wherever it appears. */}
+              <ul className="border-t border-hairline">
                 {founder.focus.map((f) => (
-                  <span
+                  <li
                     key={f}
-                    className="border border-hairline text-muted text-[12px] uppercase tracking-[0.14em] px-3 py-1.5"
+                    className="border-b border-hairline py-2.5 text-muted text-[12px] uppercase tracking-[0.14em]"
                   >
                     {f}
-                  </span>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
           </Reveal>
 

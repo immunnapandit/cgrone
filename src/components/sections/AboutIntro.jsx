@@ -28,7 +28,7 @@ export default function AboutIntro() {
 
             <div className="content-box">
               <div className="info-box">
-                <h5 className="t-h5 text-ink title">{infoBox.title}</h5>
+                <h3 className="t-h5 text-ink title">{infoBox.title}</h3>
                 <a className="read-more font-heading" href={infoBox.href}>
                   More <FaArrowRight />
                 </a>
@@ -39,7 +39,7 @@ export default function AboutIntro() {
                   <span className="icon">
                     <b.icon />
                   </span>
-                  <h5 className="t-h4 text-ink title">{b.title}</h5>
+                  <h3 className="t-h4 text-ink title">{b.title}</h3>
                   <p className="t-body text">{b.text}</p>
                 </div>
               ))}

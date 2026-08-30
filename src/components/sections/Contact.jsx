@@ -56,25 +56,46 @@ export default function Contact() {
           </p>
 
           <form onSubmit={submit} className="space-y-5" noValidate={false}>
+            {/* Every field carries a real <label>, visually hidden with
+                .sr-only so the design is unchanged.
+
+                They previously had a placeholder and nothing else. A
+                placeholder is not a label: it is not reliably exposed as the
+                accessible name, and it vanishes the moment someone starts
+                typing, so anyone who loses their place — or who is filling
+                this in with a screen reader — has no way to tell which field
+                they are in. That is WCAG 3.3.2 and 4.1.2, on the one form the
+                firm collects enquiries through. */}
             <div className="grid sm:grid-cols-2 gap-5">
               {contactFields.map((f) => (
-                <input
-                  key={f.name}
-                  name={f.name}
-                  type={f.type}
-                  placeholder={f.label}
-                  required={f.name !== "phone"}
-                  autoComplete={f.autoComplete}
-                  className="bg-offwhite px-5 py-4 outline-none border border-transparent focus:border-primary transition-colors font-body"
-                />
+                <div key={f.name} className="flex flex-col">
+                  <label htmlFor={`contact-${f.name}`} className="sr-only">
+                    {f.label}
+                  </label>
+                  <input
+                    id={`contact-${f.name}`}
+                    name={f.name}
+                    type={f.type}
+                    placeholder={f.label}
+                    required={f.name !== "phone"}
+                    autoComplete={f.autoComplete}
+                    className="bg-offwhite px-5 py-4 outline-none border border-transparent focus:border-primary transition-colors font-body"
+                  />
+                </div>
               ))}
             </div>
-            <textarea
-              name="message"
-              placeholder="Message"
-              rows={4}
-              className="w-full bg-offwhite px-5 py-4 outline-none border border-transparent focus:border-primary transition-colors font-body resize-none"
-            />
+            <div>
+              <label htmlFor="contact-message" className="sr-only">
+                Message
+              </label>
+              <textarea
+                id="contact-message"
+                name="message"
+                placeholder="Message"
+                rows={4}
+                className="w-full bg-offwhite px-5 py-4 outline-none border border-transparent focus:border-primary transition-colors font-body resize-none"
+              />
+            </div>
 
             {/* Honeypot: hidden from people, irresistible to bots. The API
                 accepts anything that fills it in and quietly drops it. */}
@@ -92,7 +113,7 @@ export default function Contact() {
             <button
               type="submit"
               disabled={status === "sending"}
-              className="btn-primary w-full justify-center !clip-path-none disabled:opacity-70"
+              className="btn-primary w-full justify-center disabled:opacity-70"
             >
               {BUTTON_LABEL[status]} <FaArrowRight />
             </button>

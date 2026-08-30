@@ -5,8 +5,7 @@ import Reveal from "@/components/common/Reveal";
 import WordsSlideUp from "@/components/common/WordsSlideUp";
 import { countryPages } from "@/data/countryPages";
 import StatementBand from "@/components/sections/StatementBand";
-import bannerImg from "@/assets/images/services/Canada Immigiration.webp";
-import londonImg from "@/assets/images/hero/skyline-london.webp";
+import { skylines } from "@/data/banners";
 
 /* Pillar 2 — the hub the layout document puts countries underneath.
  *
@@ -25,7 +24,7 @@ export default function GlobalImmigration() {
     <>
       <PageTitle
         title="Global Immigration"
-        image={bannerImg}
+        image={skylines.toronto}
         crumbs={[{ label: "Home", to: "/" }, { label: "Global Immigration" }]}
       />
 
@@ -101,7 +100,7 @@ export default function GlobalImmigration() {
       </section>
 
       <StatementBand
-        image={londonImg}
+        image={skylines.london}
         position="60% 50%"
         eyebrow="Professional Responsibility"
         line="Regulated advice always comes from the qualified professional in the destination country."

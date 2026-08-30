@@ -5,7 +5,7 @@ import Reveal from "@/components/common/Reveal";
 import WordsSlideUp from "@/components/common/WordsSlideUp";
 import StatementBand from "@/components/sections/StatementBand";
 import { workforceHub as d } from "@/data/workforceMobility";
-import torontoImg from "@/assets/images/hero/skyline-toronto.webp";
+import { skylines } from "@/data/banners";
 
 /* Pillar 3 hub. Healthcare and Hospitality link out to their own pages;
    Skilled Technical Workforce does not, because the client has not written a
@@ -15,7 +15,7 @@ export default function WorkforceMobility() {
     <>
       <PageTitle
         title={d.title}
-        image={d.banner}
+        image={skylines.london}
         crumbs={[{ label: "Home", to: "/" }, { label: d.title }]}
       />
 
@@ -86,7 +86,7 @@ export default function WorkforceMobility() {
       </section>
 
       <StatementBand
-        image={torontoImg}
+        image={skylines.toronto}
         position="55% 70%"
         eyebrow="For Employers and International Talent"
         line="Your people move. We manage the journey."

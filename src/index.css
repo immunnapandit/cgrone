@@ -52,8 +52,16 @@
      white would collapse those seams. At this value the page reads white
      and the panels are only just perceptible, which is the intent.
 
-     Contrast is unaffected: --c-soft on #F7F8FA is 4.9:1, --c-muted 6.9:1. */
-  --c-offwhite: 247 248 250;     /* #F7F8FA near-white, cool            */
+     Lightened again 2026-08-30 (#F7F8FA -> #FAFBFC) — the client asked for
+     "white, light white". At 2% off pure white the alternating panels still
+     separate the sections but the page reads as white rather than as white
+     and grey.
+
+     Measured on the page, not estimated: --c-soft is 4.59:1 on this ground
+     and --c-muted 6.10:1, so both clear AA — but note --c-soft has only
+     0.09 of margin. It is the eyebrow/caption colour and must not be
+     lightened, and this ground must not be darkened, without re-checking. */
+  --c-offwhite: 250 251 252;     /* #FAFBFC near-white, cool            */
   --c-hairline: 226 229 234;     /* #E2E5EA cool hairline               */
 
   /* The header is fixed and fully opaque, so anything a section paints
@@ -234,14 +242,55 @@ p {
     flex-shrink: 0;
   }
 
-  /* The ONLY button in the site. Gold fill, navy type (5.5:1) — it reads
-     the same on white sections and on navy ones, so there is never a
-     second button colour. Hover is the same gold, one step darker. */
+  /* The primary button was a gold slab with a 12px bite taken out of its
+     top-left corner. Two things were wrong with it.
+
+     The bite is a mid-2010s template flourish — an asymmetric clip on an
+     otherwise rectangular system, with nothing else on the page echoing it.
+     Neither reference firm has anything like it.
+
+     The gold fill is the bigger problem. #AB8A21 is a correct, accessible
+     accent at 2px and at 12px; at 200x54px of flat fill it reads mustard,
+     and it was the loudest object in every viewport — hero, contact form,
+     footer subscribe, every page's closing CTA. An accent colour stops
+     being an accent when it is the largest coloured area on the page.
+
+     Navy fill instead: it is the brand's own colour, it carries white type
+     at 13.6:1, and it lets gold go back to being a 2px rule. Henley's
+     primary action is a dark rectangle for the same reason.
+
+     Cost of the change: navy no longer works on the navy hero, which is
+     what the gold was buying. That is one button — see .btn-light. */
   .btn-primary {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    background: rgb(var(--c-primary));
+    background: rgb(var(--c-ink));
+    color: #fff;
+    font-family: "Inter", system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 17px 34px;
+    border: 1px solid rgb(var(--c-ink));
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    background: rgb(var(--c-ink-deep));
+    border-color: rgb(var(--c-ink-deep));
+    color: #fff;
+  }
+
+  /* The dark-surface counterpart, for CTAs sitting on the hero scrim or on
+     a navy panel. White fill, navy label — the same object, inverted, so
+     the two never look like two different buttons. */
+  .btn-light {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #fff;
     color: rgb(var(--c-ink));
     font-family: "Inter", system-ui, sans-serif;
     font-weight: 600;
@@ -249,16 +298,14 @@ p {
     letter-spacing: 0.12em;
     text-transform: uppercase;
     padding: 17px 34px;
-    clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%);
-    transition: all 0.35s ease;
-    position: relative;
-    overflow: hidden;
+    border: 1px solid #fff;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
   }
 
-  .btn-primary:hover {
-    background: rgb(var(--c-primary-dark));
+  .btn-light:hover {
+    background: rgb(var(--c-offwhite));
+    border-color: rgb(var(--c-offwhite));
     color: rgb(var(--c-ink));
-    transform: translateY(-2px);
   }
 
   .btn-outline {
@@ -330,6 +377,12 @@ p {
   width: 100%;
 }
 
+/* Gold glyph inside a gold-tinted box, going to a solid gold tile on hover.
+   Three of these sit in the first viewport directly under a gold CTA and a
+   gold eyebrow rule, and together they were most of what made the top of the
+   page read as decorated rather than composed. Navy glyph on a hairline box
+   now; the gold stays on the rule that draws across the card's top edge, so
+   the accent still appears here, once. */
 .feature-block .inner-box .icon {
   flex-shrink: 0;
   width: 52px;
@@ -338,14 +391,15 @@ p {
   align-items: center;
   justify-content: center;
   font-size: 21px;
-  color: rgb(var(--c-primary));
-  border: 1px solid rgb(var(--c-primary) / 0.35);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  color: rgb(var(--c-ink));
+  border: 1px solid rgb(var(--c-hairline));
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 .feature-block .inner-box:hover .icon {
-  background-color: rgb(var(--c-primary));
-  color: rgb(var(--c-ink));
+  background-color: rgb(var(--c-ink));
+  border-color: rgb(var(--c-ink));
+  color: #fff;
 }
 
 .feature-block .inner-box .title {
@@ -886,22 +940,27 @@ p {
   display: flex;
 }
 
+/* These were 50px solid-gold glyphs — a lightbulb, a globe and a handshake,
+   each roughly the size of the heading beside it, and the largest gold objects
+   anywhere on the site. At 24px they read as marks against the copy rather
+   than as illustrations of it.
+
+   They also flipped horizontally on hover (transform: scaleX(-1)). That is the
+   same mirroring gimmick the hero feature cards had removed; nothing on the
+   page reacts to a cursor that way, and these are not interactive to begin
+   with — the whole block is static text. */
 .why-choose-block .inner-box .icon {
   position: relative;
   display: inline-block;
   flex-shrink: 0;
-  font-size: 50px;
+  font-size: 24px;
   line-height: 1em;
+  margin-top: 2px;
   color: rgb(var(--c-primary));
-  transition: all 0.3s ease;
-}
-
-.why-choose-block .inner-box:hover .icon {
-  transform: scaleX(-1);
 }
 
 .why-choose-block .inner-box .content-box {
-  margin-left: 30px;
+  margin-left: 22px;
 }
 
 .why-choose-block .inner-box .content-box .title {

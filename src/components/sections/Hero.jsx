@@ -150,9 +150,9 @@ export default function Hero() {
             <p className="t-lead text-white/85 mb-9">{homeIntro.lead}</p>
 
             <div className="flex flex-wrap items-center gap-x-8 gap-y-4 mb-11">
-              {/* the gold button already carries navy type — it reads the same
-                  on a dark ground as on a light one, so it is unchanged */}
-              <Link to="/contact" className="btn-primary">
+              {/* the only CTA on the site that sits on a dark ground, so it
+                  takes the inverted fill — navy-on-navy would disappear */}
+              <Link to="/contact" className="btn-light">
                 Book a Confidential Consultation <FaArrowRight />
               </Link>
               <Link
@@ -195,7 +195,10 @@ export default function Hero() {
                     <card.icon />
                   </div>
                   <div className="content">
-                    <h3 className="title">{card.title}</h3>
+                    {/* h2: these three sit directly under the page's h1 with
+                        no h2 between, so h3 skipped a level. .feature-block
+                        .title styles by class, so the tag change is invisible. */}
+                    <h2 className="title">{card.title}</h2>
                     <p className="text">{card.text}</p>
                   </div>
                 </div>

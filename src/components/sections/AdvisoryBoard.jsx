@@ -30,16 +30,18 @@ export default function AdvisoryBoard() {
                 </p>
               ))}
             </div>
-            <div className="flex flex-wrap gap-2">
+            {/* the last of the bordered chips — ruled rows, matching the
+                pillar cards, the About list and the founder's specialisms */}
+            <ul className="border-t border-hairline">
               {advisoryBoard.disciplines.map((d) => (
-                <span
+                <li
                   key={d}
-                  className="border border-hairline text-muted text-[12px] uppercase tracking-[0.14em] px-3 py-1.5"
+                  className="border-b border-hairline py-2.5 text-muted text-[12px] uppercase tracking-[0.14em]"
                 >
                   {d}
-                </span>
+                </li>
               ))}
-            </div>
+            </ul>
           </Reveal>
 
           <Reveal direction="left" delay={0.1} className="lg:col-span-5">

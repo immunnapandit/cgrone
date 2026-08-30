@@ -5,7 +5,7 @@ import Reveal from "@/components/common/Reveal";
 import WordsSlideUp from "@/components/common/WordsSlideUp";
 import StatementBand from "@/components/sections/StatementBand";
 import { getWorkforceSector, workforceSectors } from "@/data/workforceMobility";
-import edinburghImg from "@/assets/images/hero/skyline-edinburgh.webp";
+import { skylines } from "@/data/banners";
 
 /* Healthcare and Hospitality share a document structure — Who We Work With,
    a five-step approach, selected markets, an employers block and a closing
@@ -23,6 +23,7 @@ export default function WorkforceSector() {
     <>
       <PageTitle
         title={d.title}
+        image={skylines.toronto}
         crumbs={[
           { label: "Home", to: "/" },
           { label: "Workforce Mobility", to: "/workforce-mobility" },
@@ -81,8 +82,18 @@ export default function WorkforceSector() {
           </Reveal>
           <Reveal amount={0.15}>
             <ol className="grid sm:grid-cols-2 xl:grid-cols-5 gap-5">
-              {d.steps.map((s) => (
+              {/* The five cards carried a label and a sentence and nothing
+                  else, so a numbered process read as five unordered notes —
+                  and "Assess, Match, Prepare, Connect, Relocate" only means
+                  anything in order. A Garamond numeral, the same figure style
+                  as the pillar cards and the stat rows, puts the sequence
+                  back without adding an icon that would have to invent a
+                  meaning for each step. */}
+              {d.steps.map((s, i) => (
                 <li key={s.n} className="bg-white border border-hairline p-7 lg:p-8">
+                  <span className="t-num block text-2xl text-ink/30 leading-none mb-4">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
                   <span className="font-heading font-semibold text-[11px] uppercase tracking-[0.2em] text-soft">
                     {s.n}
                   </span>
@@ -95,7 +106,7 @@ export default function WorkforceSector() {
       </section>
 
       <StatementBand
-        image={edinburghImg}
+        image={skylines.edinburgh}
         position="55% 35%"
         eyebrow="Workforce Mobility"
         line={d.closing}

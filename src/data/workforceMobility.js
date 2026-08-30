@@ -6,7 +6,6 @@ import PT from "country-flag-icons/react/3x2/PT";
 import CY from "country-flag-icons/react/3x2/CY";
 import GR from "country-flag-icons/react/3x2/GR";
 import HR from "country-flag-icons/react/3x2/HR";
-import bannerImg from "@/assets/images/services/Business  Investor Immigration.webp";
 
 /* Pillar 3. Verbatim from three documents added 2026-08-29:
  *   Cynosure_International_Workforce_Mobility_Webpage.docx  (the hub)
@@ -19,7 +18,7 @@ import bannerImg from "@/assets/images/services/Business  Investor Immigration.w
  * client writes one; do not pad it out in the meantime.
  */
 export const workforceHub = {
-  banner: bannerImg,
+  /* No `banner` key — see src/data/banners.js. */
   title: "International Workforce Mobility",
   lede: "Connecting Global Talent with Opportunities Across Europe",
   intro: [

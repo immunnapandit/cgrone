@@ -214,6 +214,16 @@ export const countryPages = [
         journey: ["Strategy", "Establishment", "Market Access", "Operations", "Growth"],
         journeyNote:
           "Our role doesn't end when your Canadian company is incorporated. We can continue to coordinate the professional, operational and commercial resources required as your business develops — from your initial launch through expansion and long-term growth.",
+        /* From Cynosure_Canada_Market_Entry_Business_Expansion.docx. This was
+           the one block of that document with nothing on the page. */
+        coordinated: {
+          title: "One Coordinated Point of Contact",
+          body: [
+            "International expansion can involve lawyers, accountants, immigration professionals, recruiters, corporate service providers and other specialists.",
+            "We help bring these requirements together into a coordinated pathway, giving you a clearer view of what needs to happen, when it needs to happen and who should handle it.",
+          ],
+          tagline: "One strategy. One coordinated pathway. The right Canadian resources.",
+        },
       },
     ],
     audience: [
@@ -307,6 +317,16 @@ export const countryPages = [
           },
         ],
         note: "Strategic case preparation: a well-prepared immigration case begins with a clear understanding of the applicant's circumstances. We help clients organise their information, identify the key documentation required and prepare for a detailed assessment by the appropriate Australian immigration professional.",
+        /* From Cynosure_Australia_Immigration_Global_Mobility.docx. The
+           document's four-step tagline was already here as `closing`, but the
+           two sentences that set it up were not on the page at all. */
+        coordinated: {
+          title: "A More Connected Immigration Experience",
+          body: [
+            "For clients based outside Australia, navigating a new immigration system can often feel fragmented.",
+            "Our role is to provide a familiar point of coordination throughout the journey while connecting you with the appropriate Australian immigration professional for your case.",
+          ],
+        },
       },
     ],
     audience: [

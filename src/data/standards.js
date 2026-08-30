@@ -43,7 +43,11 @@ export const professionalStandards = {
 /* Verbatim from src/assets/Documents/Security_Privacy_Professional_Standards.docx */
 export const securityPrivacy = {
   eyebrow: "Security, Privacy & Professional Standards",
-  heading: "Client confidentiality is fundamental to the way we operate.",
+  /* The document says "confidentiality and information security"; this had
+     been shortened to just confidentiality, dropping half of what the section
+     then goes on to evidence with six measures. */
+  heading:
+    "Client confidentiality and information security are fundamental to the way we operate.",
   intro:
     "Our systems are built around recognised professional best practices, with a focus on secure information handling, controlled access and clear accountability across every client engagement.",
   measures: [

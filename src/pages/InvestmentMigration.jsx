@@ -5,7 +5,7 @@ import Reveal from "@/components/common/Reveal";
 import WordsSlideUp from "@/components/common/WordsSlideUp";
 import StatementBand from "@/components/sections/StatementBand";
 import { investmentMigration as d } from "@/data/investmentMigration";
-import londonImg from "@/assets/images/hero/skyline-london.webp";
+import { skylines } from "@/data/banners";
 
 /* Pillar 1 — see src/data/investmentMigration.js for the sourcing note.
    No investment thresholds, fees or timelines appear here: the source
@@ -16,7 +16,7 @@ export default function InvestmentMigration() {
     <>
       <PageTitle
         title={d.title}
-        image={d.banner}
+        image={skylines.edinburgh}
         crumbs={[{ label: "Home", to: "/" }, { label: d.title }]}
       />
 
@@ -63,9 +63,9 @@ export default function InvestmentMigration() {
                   uppercase and tracked out is the one thing an old-style serif
                   is worst at */}
               {s.groupTitle && (
-                <h3 className="font-heading font-medium text-[12px] uppercase tracking-[0.18em] text-soft mb-6">
+                <p className="font-heading font-medium text-[12px] uppercase tracking-[0.18em] text-soft mb-6">
                   {s.groupTitle}
-                </h3>
+                </p>
               )}
 
               {s.cards && (
@@ -81,7 +81,11 @@ export default function InvestmentMigration() {
                           className="w-11 h-[29px] object-cover rounded-[2px] ring-1 ring-ink/10 mb-6"
                         />
                       )}
-                      <h4 className="t-h4 text-ink mb-3">{c.title}</h4>
+                      {/* h3, not h4: the section heading above is an h2 and
+                          the group label is a label rather than a heading, so
+                          h4 skipped a level. Styling comes from .t-h4, not the
+                          tag, so nothing moves. */}
+                      <h3 className="t-h4 text-ink mb-3">{c.title}</h3>
                       <p className="t-body text-base">{c.text}</p>
                     </article>
                   ))}
@@ -128,7 +132,7 @@ export default function InvestmentMigration() {
       ))}
 
       <StatementBand
-        image={londonImg}
+        image={skylines.london}
         position="60% 50%"
         eyebrow="Investment & Business Migration"
         line="An investment route is a means, not the objective. We start with where you want to end up."

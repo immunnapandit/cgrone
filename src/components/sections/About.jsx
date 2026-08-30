@@ -18,12 +18,11 @@ export default function About() {
               className="block w-full max-w-[500px] h-[320px] md:h-[440px] lg:h-[560px] object-cover object-top"
             />
           </div>
-          {/* was a card bobbing up and down on a 3.5s loop — held still now */}
-          <div className="absolute -bottom-8 -left-4 bg-white shadow-xl px-6 py-5 flex items-center gap-3">
-            {aboutHighlights.map(({ icon: Icon }, i) => (
-              <Icon key={i} className={i === 0 ? "text-ink text-3xl" : "text-ink text-2xl"} />
-            ))}
-          </div>
+          {/* A floating white card hung off the bottom-left corner here,
+              carrying the globe and handshake icons — the same two icons the
+              highlight tiles show in full, with labels, 400px to the right.
+              Unlabelled duplicates of adjacent content are decoration, and it
+              overhung the section's left edge into the page margin. Removed. */}
         </Reveal>
 
         <Reveal direction="right" delay={0.1}>
@@ -43,18 +42,14 @@ export default function About() {
           </p>
 
           <div className="grid sm:grid-cols-2 gap-6 mb-8">
-            {aboutHighlights.map(({ icon: Icon, title }, i) => (
+            {aboutHighlights.map(({ icon: Icon, title }) => (
               <div key={title.join(" ")} className="flex items-center gap-4">
-                {/* the second tile used to be a dashed circle — the same
-                    hand-drawn motif the process steps carried, and the last
-                    one left on the page */}
-                <div
-                  className={
-                    i === 0
-                      ? "w-14 h-14 bg-ink text-white flex items-center justify-center text-xl"
-                      : "w-14 h-14 border border-hairline text-ink flex items-center justify-center text-xl"
-                  }
-                >
+                {/* Both tiles take the same treatment. The first used to be a
+                    solid navy fill and the second a hairline outline, sitting
+                    side by side — which reads as one of them being in a state
+                    rather than as a deliberate pair. This matches the hero
+                    feature cards, so icon boxes look the same sitewide. */}
+                <div className="w-14 h-14 border border-hairline text-ink flex items-center justify-center text-xl">
                   <Icon />
                 </div>
                 <p className="t-h5 text-ink leading-snug">
@@ -66,12 +61,17 @@ export default function About() {
             ))}
           </div>
 
-          <ul className="space-y-3 mb-9">
+          {/* Each of these three lines used to carry a filled navy disc with a
+              white arrow in it. An arrow means "go here", and none of them go
+              anywhere — they are statements, not links, so the marker was
+              decoration that also read as a broken control. Hairline rules
+              instead, matching the capability lists on the pillar cards. */}
+          <ul className="mb-9 border-t border-hairline">
             {aboutBulletPoints.map((t) => (
-              <li key={t} className="flex items-center gap-3 text-ink font-medium text-[17px]">
-                <span className="w-6 h-6 rounded-full bg-ink text-white flex items-center justify-center text-xs">
-                  <FaArrowRight />
-                </span>
+              <li
+                key={t}
+                className="border-b border-hairline py-3.5 text-ink font-medium text-[17px]"
+              >
                 {t}
               </li>
             ))}

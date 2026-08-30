@@ -1,17 +1,15 @@
 import { motion } from "framer-motion";
 import Reveal from "@/components/common/Reveal";
 import { processSteps } from "@/data/processSteps";
-import mapBg from "@/assets/images/testimonial-map.png";
 
+/* The third and last place testimonial-map.png appeared — aeroplanes and
+   dashed flight paths, here at full opacity across the top of the section.
+   The artwork is pale enough on white that it read as texture rather than as
+   a picture of aircraft, which is precisely why it survived three earlier
+   passes. Removed with the copies in Services and WhyChooseUs. */
 export default function Process() {
   return (
     <section id="process" className="relative py-16 md:py-24 lg:py-28 bg-white overflow-hidden scroll-mt-28">
-      <img
-        src={mapBg}
-        alt=""
-        className="absolute top-0 left-0 w-full h-auto pointer-events-none select-none"
-      />
-
       <div className="relative max-w-[1400px] mx-auto px-6">
         <Reveal className="text-center mb-20">
           <div className="eyebrow mx-auto justify-center mb-6">

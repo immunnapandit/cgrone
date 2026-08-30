@@ -7,7 +7,6 @@ import PT from "country-flag-icons/react/3x2/PT";
 import AE from "country-flag-icons/react/3x2/AE";
 import GR from "country-flag-icons/react/3x2/GR";
 import MT from "country-flag-icons/react/3x2/MT";
-import bannerImg from "@/assets/images/services/Global Residency & Investment Migration.webp";
 
 /* Pillar 1. Verbatim from Cynosure_CBI_RBI_Website_Content.docx (2026-08-29),
  * with the Business Migration block drawn from the earlier India→UK and
@@ -25,7 +24,8 @@ import bannerImg from "@/assets/images/services/Global Residency & Investment Mi
  * prospective investor can check.
  */
 export const investmentMigration = {
-  banner: bannerImg,
+  /* No `banner` key: page banners come from src/data/banners.js now, and the
+     stock composite this used to point at is out of the layout. */
   title: "Investment & Business Migration",
   lede: "Citizenship & Residency by Investment",
   intro: [

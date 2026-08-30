@@ -5,6 +5,7 @@ import RegulatedPartner from "@/components/sections/RegulatedPartner";
 import Reveal from "@/components/common/Reveal";
 import WordsSlideUp from "@/components/common/WordsSlideUp";
 import { countryPages, getCountry } from "@/data/countryPages";
+import { countryBanners } from "@/data/banners";
 
 /* One section renderer per shape the documents actually use:
    `cards` (Canada options, NZ objectives), `groups` (Canada market entry,
@@ -14,7 +15,7 @@ function Cards({ cards }) {
     <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-5">
       {cards.map((c) => (
         <article key={c.title} className="bg-white border border-hairline p-8 lg:p-9">
-          <h4 className="t-h4 text-ink mb-3">{c.title}</h4>
+          <h3 className="t-h4 text-ink mb-3">{c.title}</h3>
           <p className="t-body text-base">{c.text}</p>
         </article>
       ))}
@@ -27,7 +28,7 @@ function Groups({ groups }) {
     <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
       {groups.map((g) => (
         <div key={g.title} className="bg-white border border-hairline p-8 lg:p-9">
-          <h4 className="t-h4 text-ink mb-6 pb-4 border-b border-hairline">{g.title}</h4>
+          <h3 className="t-h4 text-ink mb-6 pb-4 border-b border-hairline">{g.title}</h3>
           <ul className="space-y-3">
             {g.items.map((it) => (
               <li key={it} className="flex items-start gap-3 t-body text-base">
@@ -48,7 +49,7 @@ function Steps({ steps }) {
       {steps.map((s) => (
         <li key={s.n} className="bg-white border border-hairline p-8 lg:p-9">
           <span className="t-num text-3xl text-ink/25 leading-none">{s.n}</span>
-          <h4 className="t-h4 text-ink mt-5 mb-3">{s.title}</h4>
+          <h3 className="t-h4 text-ink mt-5 mb-3">{s.title}</h3>
           <p className="t-body text-base">{s.text}</p>
         </li>
       ))}
@@ -85,7 +86,11 @@ export default function CountryDetail() {
     <>
       <PageTitle
         title={name}
-        image={img ?? undefined}
+        /* countryPages carried a photo for Canada and the UK only, so India,
+           Australia and New Zealand opened on the flat navy field while their
+           two siblings opened on a photograph. Every country has a skyline
+           now — see src/data/banners.js. */
+        image={countryBanners[slug] ?? img ?? undefined}
         crumbs={[
           { label: "Home", to: "/" },
           { label: "Countries", to: `/countries/${countryPages[0].slug}` },
@@ -188,6 +193,31 @@ export default function CountryDetail() {
                   {s.journeyNote && (
                     <p className="t-body text-base px-8 py-7 border-t border-hairline">
                       {s.journeyNote}
+                    </p>
+                  )}
+                </div>
+              )}
+
+              {/* Canada's "One Coordinated Point of Contact" and Australia's
+                  "A More Connected Immigration Experience". Both documents
+                  close their service list with the same move — name the mess
+                  of separate professionals a client would otherwise manage,
+                  then offer coordination as the answer — and neither block
+                  had made it onto the site. It is the argument the rest of
+                  the page is evidence for, so it is worth its own panel. */}
+              {s.coordinated && (
+                <div className="mt-12 bg-offwhite p-9 lg:p-12 max-w-4xl">
+                  <h3 className="t-h3 text-ink mb-6">{s.coordinated.title}</h3>
+                  <div className="space-y-5">
+                    {s.coordinated.body.map((p) => (
+                      <p key={p.slice(0, 40)} className="t-body">
+                        {p}
+                      </p>
+                    ))}
+                  </div>
+                  {s.coordinated.tagline && (
+                    <p className="t-h4 text-ink mt-8 pt-7 border-t border-hairline">
+                      {s.coordinated.tagline}
                     </p>
                   )}
                 </div>

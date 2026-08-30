@@ -2,7 +2,7 @@ import { FaEnvelope, FaGlobeAmericas, FaRegCommentDots } from "react-icons/fa";
 import PageTitle from "@/components/sections/PageTitle";
 import ContactSection from "@/components/sections/Contact";
 import Reveal from "@/components/common/Reveal";
-import banner from "@/assets/images/hero/Hero3.webp";
+import { skylines } from "@/data/banners";
 
 /* Contact was only ever a "#contact" anchor on the home page. Every reference
    firm has a real page, and an anchor cannot be linked to from an email, a
@@ -35,7 +35,7 @@ export default function Contact() {
     <>
       <PageTitle
         title="Contact Us"
-        image={banner}
+        image={skylines.london}
         crumbs={[{ label: "Home", to: "/" }, { label: "Contact Us" }]}
       />
 

@@ -2,7 +2,6 @@ import { FaArrowRight } from "react-icons/fa";
 import Reveal from "@/components/common/Reveal";
 import WordsSlideUp from "@/components/common/WordsSlideUp";
 import { whyChooseUsPerks, whyChooseUsFacts } from "@/data/whyChooseUs";
-import mapBg from "@/assets/images/testimonial-map.png";
 
 export default function WhyChooseUs() {
   return (
@@ -13,9 +12,14 @@ export default function WhyChooseUs() {
             {/* navy panel — left on desktop, but second in the source so the
                 copy is read first on narrow screens */}
             <Reveal direction="right" className="features-column order-2 lg:order-1">
+              {/* The backdrop here was testimonial-map.png at 0.2 opacity — a
+                  world map with three aeroplane silhouettes and dashed flight
+                  paths arcing across it, plainly legible over the navy. That
+                  is the travel-agency motif this site removed from the About
+                  section for exactly the same reason ("an advisory firm does
+                  not animate aeroplanes"); it had simply been missed here and
+                  in Services. The panel carries its own colour. */}
               <div className="inner-column">
-                <div className="bg" style={{ backgroundImage: `url(${mapBg})` }} />
-
                 <div className="title-box relative">
                   <WordsSlideUp
                     text="A structured approach to cross-border expansion"
@@ -30,7 +34,7 @@ export default function WhyChooseUs() {
                         <p.icon />
                       </div>
                       <div className="content-box">
-                        <h5 className="t-h5 title">{p.title}</h5>
+                        <h3 className="t-h5 title">{p.title}</h3>
                         <div className="text">{p.text}</div>
                       </div>
                     </div>
