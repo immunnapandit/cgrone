@@ -14,7 +14,7 @@ export default function Services() {
   return (
     // z-0 keeps the bleeding backdrop below trapped in this section's own
     // stacking context, while WhyChooseUs (z-10) still paints over it
-    <section id="services" className="relative z-0 py-16 md:py-24 lg:py-28 scroll-mt-28">
+    <section id="services" className="relative z-0 py-14 md:py-20 lg:py-24 scroll-mt-28">
       {/* the backdrop runs 334px past the section so WhyChooseUs can sit on its
           tail. No overflow-hidden here or the bleed gets clipped. */}
       {/* The flat offwhite is the whole backdrop now. It used to carry

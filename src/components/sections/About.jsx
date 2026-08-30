@@ -8,7 +8,7 @@ import aboutImage from "@/assets/images/about/About1.webp";
    page, so it is gone — an advisory firm does not animate aeroplanes. */
 export default function About() {
   return (
-    <section id="about" className="relative py-16 md:py-24 lg:py-28 bg-white overflow-hidden scroll-mt-28">
+    <section id="about" className="relative py-14 md:py-20 lg:py-24 bg-white overflow-hidden scroll-mt-28">
       <div className="max-w-[1400px] mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
         <Reveal direction="left" className="relative">
           <div className="relative pl-6 border-l-2 border-primary">

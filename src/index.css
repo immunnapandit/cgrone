@@ -507,13 +507,18 @@ p {
 }
 
 /* ---- about page intro ---- */
-/* Section rhythm. Every content section on the site runs 64 / 96 / 112px
-   top and bottom (py-16 md:py-24 lg:py-28). These CSS-driven sections predate
-   that and each had its own figure — 120/86 here, 153/160 on .video-cta — so
-   /about alone stacked four different vertical rhythms down one page. */
+/* Section rhythm. Every content section on the site runs 56 / 80 / 96px top
+   and bottom (py-14 md:py-20 lg:py-24). These CSS-driven sections predate that
+   and each had its own figure — 120/86 here, 153/160 on .video-cta — so
+   /about alone stacked four different vertical rhythms down one page.
+
+   Reduced from 64/96/112 on 2026-08-30. At 112 each seam between two stacked
+   sections was 224px of empty ground, and pages like /investment-migration
+   stack four of them — the client read that as "too much space". 96 keeps the
+   page generous without the gaps reading as gaps. */
 .about-section-two {
   position: relative;
-  padding: 112px 0;
+  padding: 96px 0;
 }
 
 .about-section-two .content-column {
@@ -721,7 +726,7 @@ p {
   position: relative;
   overflow: hidden;
   /* 153/160 before — on the same rhythm as every other section now */
-  padding: 112px 0;
+  padding: 96px 0;
 }
 
 .video-cta .bg {

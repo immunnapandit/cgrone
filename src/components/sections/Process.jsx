@@ -9,7 +9,7 @@ import { processSteps } from "@/data/processSteps";
    passes. Removed with the copies in Services and WhyChooseUs. */
 export default function Process() {
   return (
-    <section id="process" className="relative py-16 md:py-24 lg:py-28 bg-white overflow-hidden scroll-mt-28">
+    <section id="process" className="relative py-14 md:py-20 lg:py-24 bg-white overflow-hidden scroll-mt-28">
       <div className="relative max-w-[1400px] mx-auto px-6">
         <Reveal className="text-center mb-20">
           <div className="eyebrow mx-auto justify-center mb-6">

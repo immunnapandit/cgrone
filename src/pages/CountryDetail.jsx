@@ -99,7 +99,7 @@ export default function CountryDetail() {
       />
 
       {/* ---- intro ---- */}
-      <section className="py-16 md:py-24 lg:py-28 bg-white">
+      <section className="py-14 md:py-20 lg:py-24 bg-white">
         <div className="max-w-[1400px] mx-auto px-6">
           <div className="grid lg:grid-cols-12 gap-x-16 gap-y-10 items-end pb-14 mb-14 border-b border-hairline">
             <Reveal className="lg:col-span-7">
@@ -153,9 +153,14 @@ export default function CountryDetail() {
         <section
           key={s.id}
           id={s.id}
-          /* alternate the ground so consecutive sections separate without
-             another dark slab — the client asked for a lighter page */
-          className={`py-16 md:py-24 lg:py-28 scroll-mt-28 ${i % 2 === 0 ? "bg-offwhite" : "bg-white"}`}
+          /* Every section is white now and separated by a hairline, rather
+             than alternating white / tinted. The client asked for a "glossy
+             white" ground, and the alternation was also doing the page no
+             favours: a tinted band plus 96px of padding either side made each
+             seam read as a gap between two documents instead of a rule
+             between two sections of one. The first section needs no rule —
+             the intro block above it already ends on one. */
+          className={`py-14 md:py-20 lg:py-24 scroll-mt-28 bg-white${i === 0 ? "" : " border-t border-hairline"}`}
         >
           <div className="max-w-[1400px] mx-auto px-6">
             <Reveal className="max-w-3xl mb-12">
@@ -231,7 +236,7 @@ export default function CountryDetail() {
 
       {/* ---- official sources, where the document asks for it ---- */}
       {official && (
-        <section className="py-16 md:py-24 lg:py-28 bg-white">
+        <section className="py-14 md:py-20 lg:py-24 bg-white">
           <div className="max-w-[1400px] mx-auto px-6">
             <Reveal className="border border-hairline bg-offwhite p-9 lg:p-11 max-w-4xl">
               <h2 className="t-h4 text-ink mb-4">{official.title}</h2>
@@ -250,7 +255,7 @@ export default function CountryDetail() {
       )}
 
       {/* ---- closing + sideways navigation ---- */}
-      <section className="py-16 md:py-24 lg:py-28 bg-offwhite">
+      <section className="py-14 md:py-20 lg:py-24 bg-white border-t border-hairline">
         <div className="max-w-[1400px] mx-auto px-6 grid lg:grid-cols-12 gap-x-16 gap-y-12">
           <Reveal className="lg:col-span-7">
             <h2 className="t-h3 text-ink mb-6">{name} Starts With a Conversation</h2>

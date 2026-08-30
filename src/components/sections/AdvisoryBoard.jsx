@@ -7,7 +7,7 @@ import { whyCynosure, advisoryBoard, philosophy } from "@/data/advisory";
    alternating slabs. */
 export default function AdvisoryBoard() {
   return (
-    <section id="advisory-board" className="py-16 md:py-24 lg:py-28 bg-white scroll-mt-28">
+    <section id="advisory-board" className="py-14 md:py-20 lg:py-24 bg-white scroll-mt-28">
       <div className="max-w-[1400px] mx-auto px-6">
         <Reveal className="max-w-3xl mb-20">
           <div className="eyebrow mb-6">

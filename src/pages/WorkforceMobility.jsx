@@ -19,7 +19,7 @@ export default function WorkforceMobility() {
         crumbs={[{ label: "Home", to: "/" }, { label: d.title }]}
       />
 
-      <section className="py-16 md:py-24 lg:py-28 bg-white">
+      <section className="py-14 md:py-20 lg:py-24 bg-white">
         <div className="max-w-[1400px] mx-auto px-6">
           <div className="grid lg:grid-cols-12 gap-x-16 gap-y-10 items-end pb-12 mb-12 border-b border-hairline">
             <Reveal className="lg:col-span-7">
@@ -45,7 +45,7 @@ export default function WorkforceMobility() {
         </div>
       </section>
 
-      <section className="py-16 md:py-24 lg:py-28 bg-offwhite">
+      <section className="py-14 md:py-20 lg:py-24 bg-white border-t border-hairline">
         <div className="max-w-[1400px] mx-auto px-6">
           <Reveal className="max-w-3xl mb-10">
             <h2 className="t-h2 text-ink">{d.focusTitle}</h2>
@@ -92,7 +92,7 @@ export default function WorkforceMobility() {
         line="Your people move. We manage the journey."
       />
 
-      <section className="py-16 md:py-24 lg:py-28 bg-white">
+      <section className="py-14 md:py-20 lg:py-24 bg-white">
         <div className="max-w-[1400px] mx-auto px-6 grid lg:grid-cols-12 gap-x-16 gap-y-10">
           <Reveal className="lg:col-span-5">
             <h2 className="t-h2 text-ink">{d.approachTitle}</h2>

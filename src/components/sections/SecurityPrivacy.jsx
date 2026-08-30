@@ -11,8 +11,11 @@ export default function SecurityPrivacy() {
        About page read as heavy */
     <section
       id="security-privacy"
-      className="relative py-16 md:py-24 lg:py-28 bg-offwhite overflow-hidden scroll-mt-28"
+      className="relative py-14 md:py-20 lg:py-24 bg-white overflow-hidden scroll-mt-28"
     >
+      {/* This 12px navy bar is the section's separator, so it needs no
+          hairline on top of it — it is the one place on the site where a
+          section announces itself with a rule of its own. */}
       <div className="absolute top-0 left-0 w-full h-3 bg-brand" />
 
       <div className="relative max-w-[1400px] mx-auto px-6">

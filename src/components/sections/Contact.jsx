@@ -15,7 +15,7 @@ export default function Contact() {
   const { status, error, submit } = useFormSubmit("/api/contact");
 
   return (
-    <section id="contact" className="py-16 md:py-24 lg:py-28 bg-offwhite scroll-mt-28">
+    <section id="contact" className="py-14 md:py-20 lg:py-24 bg-white border-t border-hairline scroll-mt-28">
       <div className="max-w-[1400px] mx-auto px-6 grid lg:grid-cols-2 border border-hairline shadow-[0_24px_60px_-40px_rgba(17,34,61,0.45)]">
         {/* Hidden below lg. It is a 420px stock photograph of a couple at an
             airport that carries no information the form does not, and on a

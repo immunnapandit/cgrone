@@ -16,7 +16,7 @@ export default function Insights() {
   if (insights.length === 0) return null;
 
   return (
-    <section id="insights" className="py-16 md:py-24 lg:py-28 bg-white scroll-mt-28">
+    <section id="insights" className="py-14 md:py-20 lg:py-24 bg-white scroll-mt-28">
       <div className="max-w-[1400px] mx-auto px-6">
         <Reveal className="max-w-2xl mb-16">
           <div className="eyebrow mb-6">

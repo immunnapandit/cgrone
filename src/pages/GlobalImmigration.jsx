@@ -28,7 +28,7 @@ export default function GlobalImmigration() {
         crumbs={[{ label: "Home", to: "/" }, { label: "Global Immigration" }]}
       />
 
-      <section className="py-16 md:py-24 lg:py-28 bg-white">
+      <section className="py-14 md:py-20 lg:py-24 bg-white">
         <div className="max-w-[1400px] mx-auto px-6">
           <div className="grid lg:grid-cols-12 gap-x-16 gap-y-10 items-end pb-12 mb-12 border-b border-hairline">
             <Reveal className="lg:col-span-7">

@@ -39,7 +39,7 @@ export default function Contact() {
         crumbs={[{ label: "Home", to: "/" }, { label: "Contact Us" }]}
       />
 
-      <section className="py-16 md:py-24 lg:py-28 bg-white">
+      <section className="py-14 md:py-20 lg:py-24 bg-white">
         <div className="max-w-[1400px] mx-auto px-6">
           <Reveal className="max-w-2xl mb-16">
             <div className="eyebrow mb-6">

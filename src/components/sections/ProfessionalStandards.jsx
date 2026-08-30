@@ -7,7 +7,7 @@ export default function ProfessionalStandards() {
     professionalStandards;
 
   return (
-    <section id="professional-standards" className="py-16 md:py-24 lg:py-28 bg-white scroll-mt-28">
+    <section id="professional-standards" className="py-14 md:py-20 lg:py-24 bg-white scroll-mt-28">
       <div className="max-w-[1400px] mx-auto px-6">
         <div className="grid lg:grid-cols-[1fr_1.15fr] gap-14 lg:gap-20 items-start">
           <Reveal direction="right">

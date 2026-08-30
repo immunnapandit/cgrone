@@ -18,7 +18,7 @@ export default function Leadership() {
         crumbs={[{ label: "Home", to: "/" }, { label: "Leadership" }]}
       />
 
-      <section className="py-16 md:py-24 lg:py-28 bg-white">
+      <section className="py-14 md:py-20 lg:py-24 bg-white">
         <div className="max-w-[1400px] mx-auto px-6 grid lg:grid-cols-12 gap-x-16 gap-y-12">
           {/* name block holds the left rail, the bio runs beside it */}
           <Reveal className="lg:col-span-4">

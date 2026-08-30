@@ -31,7 +31,7 @@ export default function WorkforceSector() {
         ]}
       />
 
-      <section className="py-16 md:py-24 lg:py-28 bg-white">
+      <section className="py-14 md:py-20 lg:py-24 bg-white">
         <div className="max-w-[1400px] mx-auto px-6">
           <div className="grid lg:grid-cols-12 gap-x-16 gap-y-10 items-end pb-12 mb-12 border-b border-hairline">
             <Reveal className="lg:col-span-7">
@@ -75,7 +75,7 @@ export default function WorkforceSector() {
       </section>
 
       {/* ---- five-step approach ---- */}
-      <section className="py-16 md:py-24 lg:py-28 bg-offwhite">
+      <section className="py-14 md:py-20 lg:py-24 bg-white border-t border-hairline">
         <div className="max-w-[1400px] mx-auto px-6">
           <Reveal className="max-w-3xl mb-10">
             <h2 className="t-h2 text-ink">Our Approach</h2>
@@ -114,7 +114,7 @@ export default function WorkforceSector() {
       />
 
       {/* ---- markets ---- */}
-      <section className="py-16 md:py-24 lg:py-28 bg-white">
+      <section className="py-14 md:py-20 lg:py-24 bg-white">
         <div className="max-w-[1400px] mx-auto px-6 grid lg:grid-cols-12 gap-x-16 gap-y-10">
           <Reveal className="lg:col-span-5">
             <h2 className="t-h2 text-ink">{d.marketsTitle}</h2>
@@ -140,7 +140,7 @@ export default function WorkforceSector() {
       </section>
 
       {/* ---- employers ---- */}
-      <section className="py-16 md:py-24 lg:py-28 bg-offwhite border-y border-hairline">
+      <section className="py-14 md:py-20 lg:py-24 bg-white border-y border-hairline">
         <div className="max-w-[1400px] mx-auto px-6">
           <Reveal className="max-w-3xl mb-9">
             <h2 className="t-h2 text-ink mb-5">{d.employers.title}</h2>
@@ -162,7 +162,7 @@ export default function WorkforceSector() {
       </section>
 
       {/* ---- closing ---- */}
-      <section className="py-16 md:py-24 lg:py-28 bg-white">
+      <section className="py-14 md:py-20 lg:py-24 bg-white">
         <div className="max-w-[1400px] mx-auto px-6 grid lg:grid-cols-12 gap-x-16 gap-y-12">
           <Reveal className="lg:col-span-7">
             <h2 className="t-h3 text-ink mb-6">{d.closing}</h2>
