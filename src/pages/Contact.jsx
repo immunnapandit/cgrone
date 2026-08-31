@@ -67,7 +67,7 @@ export default function Contact() {
                     {...(href ? { href } : {})}
                     className="group bg-offwhite p-9 lg:p-11 transition-colors duration-300 hover:bg-white"
                   >
-                    <span className="w-14 h-14 mb-8 flex items-center justify-center text-2xl text-ink border border-hairline transition-colors duration-300 group-hover:bg-primary group-hover:border-primary group-hover:text-ink">
+                    <span className="w-14 h-14 mb-8 flex items-center justify-center text-2xl text-ink border border-hairline transition-colors duration-300 group-hover:bg-primary group-hover:border-primary group-hover:text-white">
                       <Icon />
                     </span>
                     <p className="font-heading font-medium text-[12px] uppercase tracking-[0.18em] text-soft mb-2">

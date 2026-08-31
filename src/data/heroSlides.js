@@ -1,6 +1,4 @@
-import london from "@/assets/images/hero/skyline-london.webp";
 import toronto from "@/assets/images/hero/skyline-toronto.webp";
-import edinburgh from "@/assets/images/hero/skyline-edinburgh.webp";
 
 /* City skylines, supplied by the client 2026-08-27, replacing the two
  * family-at-the-airport stock shots. That swap does more to move the site out
@@ -8,52 +6,72 @@ import edinburgh from "@/assets/images/hero/skyline-edinburgh.webp";
  * hero is a panoramic London cityscape for the same reason.
  *
  * The originals were 5-19 MB JPEGs (42 MB for the three). They are resized to
- * 2400px wide and re-encoded to webp, ~1 MB for the set. Keep any replacement
- * in that shape: a wide panorama, 2000px+, run through the same resize.
+ * 2400px wide and re-encoded to webp, ~1 MB for the set.
+ *
+ * ---- 2400px is no longer enough --------------------------------------
+ * The originals were never committed and are not on the build machine, and
+ * that is now a visible problem rather than a tidiness one. The hero is
+ * full-bleed, so at 1521 CSS px wide and 860 tall object-cover renders this
+ * 2400x1181 file at 1748x860 CSS — which on a 2x display is 3496x1720 device
+ * pixels asked of a 2400px source. It is being magnified, and it looks soft.
+ *
+ * A replacement wants to be about 3800px on the long edge, not 2400. If the
+ * original JPEG turns up, re-encode with
+ *   sharp(src).resize({width:3800}).webp({quality:90, effort:6})
+ * which lands around 700KB-1MB — acceptable for the one image that is the
+ * LCP element on the home page. Do NOT upscale the 2400px webp to get there;
+ * that adds file size and no detail.
+ *
+ * ---- one frame, and which one -----------------------------------------
+ * The hero carries its copy directly on the picture with no panel, scrim or
+ * gradient behind it — every form of dimming has been rejected. That makes
+ * the PHOTOGRAPH the contrast mechanism.
+ *
+ * Measured, not judged by eye: the rendered hero was sampled on a canvas
+ * behind the eyebrow, h1, standfirst, CTA link and stats, across a grid of
+ * object-position values, taking the worst zone each time. For WHITE type:
+ *
+ *              0%     20%    40%    60%    80%    100%
+ *   london    3.48   2.37   2.34   1.50   1.94   2.04
+ *   toronto   4.39   4.50   4.62   4.80   4.96   5.07
+ *   edinburgh 2.60   2.58   2.52   2.49   2.43   2.42
+ *
+ * Toronto is the only night frame in the folder and the only one that clears
+ * AA anywhere. A three-slide version was built and taken back out: London and
+ * Edinburgh are bright, so they were flipped to navy type via a per-slide
+ * `tone`, but both are MIXED-luminance — bright sky and dark buildings inside
+ * the same copy area — so navy failed on their dark patches exactly as white
+ * had failed on their bright ones. Averages passed, worst patches did not.
+ *
+ * `tone` survives because Hero.jsx still reads it and it costs nothing: set
+ * "light" for white type on a dark photograph, "dark" for navy on a bright
+ * one. If you add a frame, measure both colours in it and use whichever
+ * clears 4.5:1 across every zone. If neither does, the photograph is not
+ * usable here — do not reach for an overlay.
  *
  * ---- `position` -------------------------------------------------------
- * The focal point travels with the photograph, because which axis gets
- * cropped changes with the viewport and the three frames are composed
- * differently.
- *
- * Measured on the live hero: at 1440 the backdrop is 1521x816, or 1.86:1 —
- * TALLER than all three photographs (2.0-2.6:1). object-cover therefore
- * scales them by height and crops the SIDES: 606px off London, 138px off
- * Toronto, 111px off Edinburgh, with no vertical crop at all. On a wide
- * monitor the box goes past 2.0:1 and Toronto and Edinburgh start losing
- * height instead. So both axes are set, and both are load-bearing.
- *
- * X matters most, and it is not simply "centre". The white scrim covers the
- * left 45-65% of the hero — the type sits there — so only the right of each
- * frame is actually seen, and X is pushed past 50% to bring the landmark
- * cluster into that zone rather than leaving it behind the headline.
- *
- * If you swap an image: check where its landmarks sit horizontally, and
- * remember the left half of the frame will be under white.
+ * At 1440 the backdrop is about 1521x860, TALLER in ratio than this
+ * photograph (2.03:1), so object-cover scales by height and crops the SIDES
+ * only — Y does nothing until the viewport passes about 2:1, at which point
+ * the frame starts losing height instead and Y takes over.
  * ---------------------------------------------------------------------- */
 export const heroSlides = [
   {
-    src: london,
-    alt: "The London skyline at dusk, seen along the Thames from Tower Bridge",
-    // 2400x921. Loses 606px of width here — the widest frame, so the most
-    // cropped. X favours the City cluster (Walkie-Talkie, Cheesegrater,
-    // Gherkin) on the right; City Hall and the Shard fall under the scrim.
-    position: "60% 50%",
-  },
-  {
     src: toronto,
     alt: "The Toronto waterfront skyline at dusk",
-    // 2400x1181. CN Tower and the Rogers Centre sit right of centre, which
-    // is exactly the zone left clear of the type. Y favours the lower half
-    // for wide viewports, where this frame crops vertically instead.
-    position: "55% 70%",
-  },
-  {
-    src: edinburgh,
-    alt: "Rooftops and historic architecture across the Edinburgh skyline",
-    // 2400x1200. Calton Hill and the monument are right of centre. Y sits
-    // high because the bottom of this frame is Waverley station roofs —
-    // the least interesting thing in the picture.
-    position: "55% 30%",
+    // 2400x1181. X=70% puts the open lake under the copy while holding the
+    // skyline run from the CN Tower out to the Rogers Centre dome at 87%
+    // inside the frame. Y favours the lower half for wide viewports, where
+    // this frame crops vertically instead and would lose the reflections.
+    position: "70% 65%",
+
+    // Phones only (below 768px). The frame goes portrait there and keeps
+    // barely a quarter of this panorama's width — at 70% that quarter is the
+    // lit downtown core, the brightest thing in the picture and the one place
+    // white type cannot sit. 30% moves the window left onto the open water
+    // and the low, dim buildings at that end.
+    positionSm: "30% 55%",
+
+    tone: "light",
   },
 ];

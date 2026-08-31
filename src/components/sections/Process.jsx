@@ -37,7 +37,7 @@ export default function Process() {
                 transition={{ duration: 0.6, delay: i * 0.2 }}
                 className="group relative text-center"
               >
-                {/* previously a dashed gold ring with a 40px gold glow that
+                {/* previously a dashed accent ring with a 40px glow that
                     scaled and rotated 4° on hover. Solid hairline ring, no
                     glow, no rotation — the restraint is the point. */}
                 <div className="relative w-28 h-28 mx-auto rounded-full border border-hairline flex items-center justify-center text-4xl text-ink/70 bg-white mb-8 transition-colors duration-300 group-hover:border-primary">

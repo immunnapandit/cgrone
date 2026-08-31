@@ -85,7 +85,7 @@ export default function WorkforceSector() {
               {/* The five cards carried a label and a sentence and nothing
                   else, so a numbered process read as five unordered notes —
                   and "Assess, Match, Prepare, Connect, Relocate" only means
-                  anything in order. A Garamond numeral, the same figure style
+                  anything in order. A .t-num numeral, the same figure style
                   as the pillar cards and the stat rows, puts the sequence
                   back without adding an icon that would have to invent a
                   meaning for each step. */}

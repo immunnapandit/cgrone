@@ -9,9 +9,13 @@ import { FaCompass, FaBuilding, FaBalanceScale } from "react-icons/fa";
    Every figure here is checkable: 2006 is stated in
    CGR_ONE_About_Us_Global_Platform.docx, and the other two are counts of what
    the site itself covers. */
+/* Keep each label to a single word or a short pair. These sit in three
+   columns inside the hero's 614px panel, which leaves about 148px per column
+   at the tracked-out label size — "Jurisdictions served" wrapped to two lines
+   there while the other two held one, and the row read ragged. */
 export const heroFacts = [
   { value: "2006", label: "Practising since" },
-  { value: "5", label: "Jurisdictions served" },
+  { value: "5", label: "Jurisdictions" },
   { value: "3", label: "Practice areas" },
 ];
 

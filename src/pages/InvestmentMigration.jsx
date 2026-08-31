@@ -62,9 +62,8 @@ export default function InvestmentMigration() {
             </Reveal>
 
             <Reveal amount={0.15}>
-              {/* sans, not the serif t-h4 this used to be: Garamond set small,
-                  uppercase and tracked out is the one thing an old-style serif
-                  is worst at */}
+              {/* a tracked-out utility label, not a heading — .t-h4 is a
+                  heading style and this is a group marker above one */}
               {s.groupTitle && (
                 <p className="font-heading font-medium text-[12px] uppercase tracking-[0.18em] text-soft mb-6">
                   {s.groupTitle}

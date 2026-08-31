@@ -1,4 +1,4 @@
-/* EB Garamond + Inter are loaded from index.html instead of an @import here:
+/* EB Garamond + Roboto are loaded from index.html instead of an @import here:
    an @import cannot start until this stylesheet has downloaded, which
    serialised the font request behind the CSS and delayed first paint. */
 
@@ -7,37 +7,51 @@
 @tailwind utilities;
 
 /* ------------------------------------------------------------------
-   Palette: midnight navy + champagne gold.
+   Palette: midnight navy + Henley slate.
 
-   Navy carries almost all the weight (surfaces, buttons, type) and gold
-   appears only as thin rules and small marks — the same ratio the logo
-   uses. There is deliberately NO mid-saturation blue: a bright #0A56A4
-   over large flat panels is what made this read like a stock template.
+   Navy carries almost all the weight (surfaces, buttons, type) and the
+   accent appears only as thin rules and small marks.
+
+   Two accents have been rejected here, and the reason is the same both
+   times — saturation.
+     2026-08-31 (a) gold #AB8A21: "golden color remove karo, premium look
+                    nahi de rahi."
+     2026-08-31 (b) steel blue #3E6FB5: "existing blue color is not look
+                    like premium."
+   The replacement is not a third guess. #405363 is henleyglobal.com's own
+   colour, the single most-used value in their stylesheet at 170
+   occurrences, and Henley is the reference the client named. It is a
+   desaturated slate: it barely registers as a colour at all, which is
+   exactly why it reads expensive where the other two read decorative.
 
    Stored as "r g b" channels so Tailwind opacity modifiers
    (bg-primary/10, text-ink/60, ...) keep working.
    ------------------------------------------------------------------ */
 :root {
-  /* ONE gold, used everywhere — buttons, icons, rules alike. It is tuned
-     so a single value covers every job: navy type on it 4.9:1, against
-     white 3.3:1 (icon glyphs + button edges), on navy 4.9:1. Earlier this
-     was three gold shades and they read as three different colours.
-     NEVER put white on gold — 2.4:1. Gold fills always take navy type. */
-  --c-primary: 171 138 33;       /* #AB8A21 antique gold                */
-  --c-primary-dark: 143 114 27;  /* #8F721B — hover only, same hue      */
+  /* ONE accent, used everywhere — rules, icons, focus edges alike.
+        on white          7.9:1  — clears AA comfortably for link text
+        white on it       7.9:1  — accent FILLS take white type
+        on --c-ink navy   2.0:1  — DOES NOT READ. On a navy panel use
+                                   white at a low alpha instead, never
+                                   this. See the hero eyebrow rule and
+                                   .why-choose-us for the two cases. */
+  --c-primary: 64 83 99;         /* #405363 slate                       */
+  --c-primary-dark: 51 66 79;    /* #33424F — hover only, same hue      */
 
   /* The navies were lifted one step in Aug 2026 — the client read the site
      as too dark. Every navy here is a blue now rather than a near-black,
      which is what actually reads as "lighter" on the big flat panels.
      --c-ink is both the dark surface AND the heading/button-label colour,
-     so it cannot go lighter than this: navy-on-gold is 4.9:1 at #11223D
-     and AA needs 4.5:1 for the 13px button label. */
+     so it cannot go lighter than this: white-on-navy is 13.6:1 at #11223D
+     and the whole button system is white type on this fill. */
   --c-ink: 17 34 61;             /* #11223D midnight navy — the workhorse */
   --c-ink-deep: 11 24 44;        /* #0B182C deepest navy                */
-  --c-brand: 38 62 105;          /* #263E69 lifted navy — secondary fills
-                                    that must separate from --c-ink      */
-  --c-brand-dark: 28 48 84;      /* #1C3054 */
-  --c-brand-light: 58 89 143;    /* #3A598F */
+  /* The second navy, one step off --c-ink, for the two places that need a
+     navy which separates from the workhorse one: the page-title gradient and
+     the SecurityPrivacy top rule. --c-brand-dark (#1C3054) and
+     --c-brand-light (#3A598F) sat here too and were never referenced by
+     anything — removed 2026-08-31 in the palette audit. */
+  --c-brand: 38 62 105;          /* #263E69 lifted navy                  */
   --c-muted: 89 96 110;          /* #59606E — body copy                 */
   --c-soft: 107 115 133;         /* #6B7385 — captions, labels          */
 
@@ -64,17 +78,23 @@
   --c-offwhite: 250 251 252;     /* #FAFBFC near-white, cool            */
   --c-hairline: 226 229 234;     /* #E2E5EA cool hairline               */
 
-  /* The header is fixed and fully opaque, so anything a section paints
-     underneath it is simply lost. Hero art is positioned off this instead
-     of a guessed padding: navbar height (logo 56 + py-4) plus breathing
-     room, so the family's heads clear the bar instead of being sliced by
-     it. Keep in step with Navbar.jsx if the logo height ever changes. */
-  --nav-clear: 104px;
+  /* The one colour outside the navy/slate system, and it earns its place:
+     form errors have to read as errors, and no navy can do that. It was
+     Tailwind's stock text-red-700 (#B91C1C), which is a bright, slightly
+     orange red that had no relationship to anything else here. This is
+     deeper and desaturated so it sits next to the navies rather than
+     shouting over them — 7.4:1 on white, 7.1:1 on --c-offwhite.
 
-  /* How far the hero's feature cards reach up into the photo band above
-     them. The band's bottom inset matches it exactly, so the family ends up
-     standing on the top edge of the cards instead of behind them. */
-  --card-overlap: 70px;
+     It is for error text only. Nothing decorative gets to be red. */
+  --c-error: 158 43 43;          /* #9E2B2B deep brick                  */
+
+  /* The header is fixed and fully opaque, so anything a section paints
+     underneath it is simply lost. The hero's copy column is padded off this
+     rather than off a guessed figure: navbar height (logo 56 + py-4) plus
+     breathing room. Keep in step with Navbar.jsx if the logo height changes.
+     --card-overlap lived here too, for the hero cards that rode up into the
+     photograph; the cards sit below the picture now and it is gone. */
+  --nav-clear: 104px;
 }
 
 @media (min-width: 640px) {
@@ -94,7 +114,8 @@ html {
 
 body {
   margin: 0;
-  font-family: "Inter", system-ui, sans-serif;
+  /* Henley's body stack resolves to Roboto at 1rem / 1.5. */
+  font-family: "Roboto", system-ui, sans-serif;
   font-size: 16px;
   font-weight: 400;
   line-height: 1.6;
@@ -109,7 +130,7 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: "EB Garamond", Garamond, Georgia, serif;
-  font-weight: 500;
+  font-weight: 400;
   color: rgb(var(--c-ink));
   margin: 0;
   text-wrap: balance;
@@ -120,37 +141,41 @@ p {
 }
 
 /* ---- type scale ------------------------------------------------------
-   Families changed 2026-08-28: Fraunces -> EB Garamond, Jost -> Inter.
+   henleyglobal.com's typography, which the client asked for by name. Read
+   off their stylesheet, not their screenshots:
 
-   The previous pair was the template's. Fraunces is a high-contrast "soft
-   serif" with wonky letterforms and a swashy ampersand — editorial, almost
-   boutique. Jost is a geometric sans in the Futura line, which reads design
-   studio. Tuning their weight and tracking (the earlier pass) could not fix
-   what the letterforms themselves were saying.
+     h1, h2, h3   font-family: Garamond Regular, serif; font-weight: 400
+     hero h1      font-size: 60px; line-height: 1.1333em; colour #fff
+     hero p       font-size: 21px
+     body         Roboto, 1rem / 1.5, colour #212529 on #fff
 
-   EB Garamond over Inter is Henley & Partners' own pattern, read off their
-   live pages: h1 in Garamond at weight 400, body in Roboto at 16px/24px,
-   letter-spacing normal throughout. Latitude runs Montserrat at 16px/300.
-   Both sit on pure white. This scale follows them.
+   Three things to hold on to, because they are what makes it read as
+   Henley rather than as a serif site:
 
-   Sizes are ~10% larger than the Fraunces scale they replace. Garamond has a
-   markedly smaller x-height, so the same pixel size reads visibly smaller;
-   without the bump the headings looked undersized rather than restrained.
-   Small headings take 600 because Garamond gets spindly below ~20px.
+   1. WEIGHT 400. Not 500, not 600. Garamond at 400 is what gives the
+      headings their thinness; at 500 the whole page firms up and starts
+      looking like a law firm's brochure instead.
+   2. LETTER-SPACING NORMAL everywhere. No negative tracking.
+   3. The display size is genuinely large — 60px at their top end.
+
+   Sizes run ~10% above the equivalent sans scale because Garamond's
+   x-height is small, so the same pixel size reads visibly smaller.
+   .t-h4 and .t-h5 are the exception to rule 1 and take 500: below about
+   20px Garamond at 400 goes spindly and starts to disappear.
    ---------------------------------------------------------------------- */
 @layer components {
   .t-display {
     font-family: "EB Garamond", Garamond, Georgia, serif;
-    font-weight: 500;
-    font-size: clamp(2.5rem, 4.4vw, 3.625rem);
-    line-height: 1.12;
+    font-weight: 400;
+    font-size: clamp(2.5rem, 4.4vw, 3.75rem);   /* tops out at Henley's 60px */
+    line-height: 1.133;
     letter-spacing: normal;
     text-wrap: balance;
   }
 
   .t-h2 {
     font-family: "EB Garamond", Garamond, Georgia, serif;
-    font-weight: 500;
+    font-weight: 400;
     font-size: clamp(1.875rem, 2.9vw, 2.625rem);
     line-height: 1.18;
     letter-spacing: normal;
@@ -159,7 +184,7 @@ p {
 
   .t-h3 {
     font-family: "EB Garamond", Garamond, Georgia, serif;
-    font-weight: 500;
+    font-weight: 400;
     font-size: clamp(1.5rem, 2vw, 1.9375rem);
     line-height: 1.25;
     letter-spacing: normal;
@@ -168,7 +193,7 @@ p {
 
   .t-h4 {
     font-family: "EB Garamond", Garamond, Georgia, serif;
-    font-weight: 600;
+    font-weight: 500;
     font-size: clamp(1.1875rem, 1.35vw, 1.3125rem);
     line-height: 1.35;
     letter-spacing: normal;
@@ -177,14 +202,13 @@ p {
 
   .t-h5 {
     font-family: "EB Garamond", Garamond, Georgia, serif;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 1.125rem;
     line-height: 1.45;
     letter-spacing: normal;
   }
 
-  /* Inter has a large x-height, so 16px here sets bigger than 16px of Jost
-     did. Both reference firms run their body at 16px. */
+  /* Henley's hero standfirst is 21px and their body is 16px. */
   .t-lead {
     font-size: 1.125rem;
     line-height: 1.6;
@@ -210,7 +234,7 @@ p {
   /* numerals in stats/counters line up in columns */
   .t-num {
     font-family: "EB Garamond", Garamond, Georgia, serif;
-      font-weight: 500;
+    font-weight: 500;
     letter-spacing: normal;
     font-variant-numeric: tabular-nums lining-nums;
     color: rgb(var(--c-ink));
@@ -220,7 +244,7 @@ p {
     display: inline-flex;
     align-items: center;
     gap: 14px;
-    font-family: "Inter", system-ui, sans-serif;
+    font-family: "Roboto", system-ui, sans-serif;
     font-size: 12px;
     font-weight: 500;
     letter-spacing: 0.22em;
@@ -242,44 +266,37 @@ p {
     flex-shrink: 0;
   }
 
-  /* The primary button was a gold slab with a 12px bite taken out of its
-     top-left corner. Two things were wrong with it.
+  /* A slate rectangle, white label.
 
-     The bite is a mid-2010s template flourish — an asymmetric clip on an
-     otherwise rectangular system, with nothing else on the page echoing it.
-     Neither reference firm has anything like it.
+     The fill was --c-ink (#11223D) and the client read it as too dark — it is
+     a near-black navy, and at 380x54px it was the heaviest object on every
+     page. It is #405363 now, which is henleyglobal.com's own action colour
+     and the site's --c-primary. Two steps lighter, still corporate, and white
+     on it is 7.9:1.
 
-     The gold fill is the bigger problem. #AB8A21 is a correct, accessible
-     accent at 2px and at 12px; at 200x54px of flat fill it reads mustard,
-     and it was the loudest object in every viewport — hero, contact form,
-     footer subscribe, every page's closing CTA. An accent colour stops
-     being an accent when it is the largest coloured area on the page.
-
-     Navy fill instead: it is the brand's own colour, it carries white type
-     at 13.6:1, and it lets gold go back to being a 2px rule. Henley's
-     primary action is a dark rectangle for the same reason.
-
-     Cost of the change: navy no longer works on the navy hero, which is
-     what the gold was buying. That is one button — see .btn-light. */
+     Note this is the one place the accent appears as a large fill, and that
+     is deliberate rather than a lapse: for Henley #405363 is a SURFACE
+     colour, not an accent. It does not license the slate anywhere else at
+     this size. See .btn-light for the dark-ground counterpart. */
   .btn-primary {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    background: rgb(var(--c-ink));
+    background: rgb(var(--c-primary));
     color: #fff;
-    font-family: "Inter", system-ui, sans-serif;
+    font-family: "Roboto", system-ui, sans-serif;
     font-weight: 600;
     font-size: 13px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     padding: 17px 34px;
-    border: 1px solid rgb(var(--c-ink));
+    border: 1px solid rgb(var(--c-primary));
     transition: background-color 0.3s ease, border-color 0.3s ease;
   }
 
   .btn-primary:hover {
-    background: rgb(var(--c-ink-deep));
-    border-color: rgb(var(--c-ink-deep));
+    background: rgb(var(--c-primary-dark));
+    border-color: rgb(var(--c-primary-dark));
     color: #fff;
   }
 
@@ -292,7 +309,7 @@ p {
     gap: 10px;
     background: #fff;
     color: rgb(var(--c-ink));
-    font-family: "Inter", system-ui, sans-serif;
+    font-family: "Roboto", system-ui, sans-serif;
     font-weight: 600;
     font-size: 13px;
     letter-spacing: 0.12em;
@@ -315,7 +332,7 @@ p {
     background: transparent;
     color: rgb(var(--c-ink));
     border: 1px solid rgb(var(--c-ink) / 0.25);
-    font-family: "Inter", system-ui, sans-serif;
+    font-family: "Roboto", system-ui, sans-serif;
     font-weight: 600;
     font-size: 13px;
     letter-spacing: 0.12em;
@@ -330,6 +347,117 @@ p {
     color: #fff;
   }
 
+  /* Type set directly on a photograph, with nothing behind it.
+
+     The client has rejected a dimmed hero three times — first the ink/85
+     ramp, then a split column, then the solid navy panel. So the hero copy
+     has no background at all, and this is the only thing standing between
+     white type and a photograph.
+
+     A text-shadow is not a scrim: it paints a dark halo within a few pixels
+     of each glyph and leaves every other pixel of the picture untouched. Two
+     shadows do the work — a tight one for edge definition against small
+     detail (lit windows, water sparkle) and a wide soft one that lifts the
+     type off a busy background as a mass.
+
+     It is a supplement, not a licence. It buys roughly one contrast step; it
+     cannot rescue white type on a daylight sky. The photographs still have to
+     be dark where the copy sits — see heroSlides.js. */
+  .on-photo {
+    text-shadow: 0 1px 2px rgb(0 0 0 / 0.55), 0 2px 26px rgb(0 0 0 / 0.5);
+  }
+
+  /* Small type over the same photograph needs a denser halo than display
+     type does. The hero's credentials row sits on open water, whose average
+     is a comfortable 7.4:1 but which carries specular streaks off the city
+     lights — bright enough, in patches, to drop an 11px label below AA. A
+     tight, opaque shadow covers those streaks within a few pixels of each
+     glyph, where a wide soft one just spreads out over them. */
+  .on-photo-sm {
+    text-shadow: 0 1px 2px rgb(0 0 0 / 0.8), 0 0 10px rgb(0 0 0 / 0.7);
+  }
+
+  /* The inverse, for navy type on a bright frame (London, Edinburgh). A dark
+     halo under dark type does nothing; this one is white, so it separates the
+     letterforms from pale stone and blue-hour sky the same way the dark halo
+     separates white type from water and lit windows. */
+  .on-photo-light {
+    text-shadow: 0 1px 2px rgb(255 255 255 / 0.75), 0 0 18px rgb(255 255 255 / 0.65);
+  }
+
+  /* The tone swap rides the 1400ms image crossfade rather than snapping at
+     the moment the slide index changes. Descendants are included because the
+     colour is set per element (heading, body, label) rather than inherited
+     from one place. */
+  .hero-copy,
+  .hero-copy * {
+    transition: color 1400ms ease-in-out, border-color 1400ms ease-in-out,
+      background-color 1400ms ease-in-out, text-shadow 1400ms ease-in-out;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-copy,
+    .hero-copy * {
+      transition: none;
+    }
+  }
+
+  /* The hero photograph's crop, which has to change at the breakpoint.
+
+     On a desktop the frame is roughly 1520x960, so this 2.03:1 panorama
+     keeps about three quarters of its width and X can sit at 70% — the open
+     lake behind the copy, the skyline out to the right.
+
+     On a 390px phone the frame is portrait and object-cover keeps barely a
+     quarter of the width. At 70% that quarter IS the lit skyline, which is
+     the brightest part of the picture and the one place white type cannot
+     go. The phone therefore takes its own X, further left, over the water.
+
+     This is a variable rather than an inline objectPosition because an
+     inline style cannot be overridden by a media query. */
+  .hero-frame {
+    object-position: var(--hero-pos, 50% 50%);
+  }
+
+  @media (max-width: 767px) {
+    .hero-frame {
+      object-position: var(--hero-pos-sm, var(--hero-pos, 50% 50%));
+    }
+  }
+
+  /* Phones. The longest label on the site is "Book a Confidential
+     Consultation". At the desktop size the button wants 384px, and a 360px
+     phone offers 312px inside the page gutters — it was wrapping to two lines
+     with the second line sitting ragged against the left padding, and it
+     cleared a 390px screen by only 4px, which any font fallback would eat.
+
+     Two changes. The type drops to 11px with tracking almost closed, which
+     brings the button to 284px — comfortably inside a 360px phone. And the
+     button goes full width and centres itself, which is the normal phone
+     treatment for a primary action, gives a full-width tap target, and means
+     that on a 320px screen — where 284px of label still does not fit — the
+     label wraps to two CENTRED lines and reads as deliberate rather than as
+     a layout fault.
+
+     Measured widths at 11px / 0.06em / 16px padding:
+       320px phone  272px available  wraps to 2 centred lines
+       360px phone  312px available  fits, 28px spare
+       390px phone  342px available  fits, 58px spare */
+  @media (max-width: 639px) {
+    .btn-primary,
+    .btn-light,
+    .btn-outline {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      text-align: center;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+  }
+
   .diagonal-slice {
     clip-path: polygon(0 0, 100% 0, 55% 100%, 0% 100%);
   }
@@ -341,8 +469,9 @@ p {
    shape behind the copy, and a 96px dashed-circle icon that mirrored itself
    on hover. Five effects on one card.
 
-   Now: a hairline card on white, a gold rule that draws along the top edge,
-   and the icon in a plain square. Same information, none of the theatre. */
+   Now: a hairline card on white, an accent rule that draws along the top
+   edge, and the icon in a plain square. Same information, none of the
+   theatre. */
 .feature-block .inner-box {
   position: relative;
   display: flex;
@@ -377,12 +506,10 @@ p {
   width: 100%;
 }
 
-/* Gold glyph inside a gold-tinted box, going to a solid gold tile on hover.
-   Three of these sit in the first viewport directly under a gold CTA and a
-   gold eyebrow rule, and together they were most of what made the top of the
-   page read as decorated rather than composed. Navy glyph on a hairline box
-   now; the gold stays on the rule that draws across the card's top edge, so
-   the accent still appears here, once. */
+/* Navy glyph in a hairline box, filling to solid navy on hover. The accent
+   appears on this card exactly once, on the rule that draws across its top
+   edge — three tinted icon tiles in the first viewport was most of what made
+   the top of the page read as decorated rather than composed. */
 .feature-block .inner-box .icon {
   flex-shrink: 0;
   width: 52px;
@@ -483,7 +610,7 @@ p {
   position: absolute;
   right: -4px;
   top: -1px;
-  color: rgb(var(--c-primary));
+  color: rgb(255 255 255 / 0.5);
   font-size: 16px;
 }
 
@@ -496,14 +623,20 @@ p {
   display: none;
 }
 
+/* White, not the accent. The banner veil leaves white type at 4.96:1 and the
+   accent at 2.6:1 — the gold this replaces failed here too. The underline is
+   what marks the link now that colour no longer can. */
 .page-breadcrumb li a {
-  color: rgb(var(--c-primary));
+  color: #fff;
   font-weight: 500;
-  transition: color 0.3s ease;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: rgb(255 255 255 / 0.45);
+  transition: text-decoration-color 0.3s ease;
 }
 
 .page-breadcrumb li a:hover {
-  color: #fff;
+  text-decoration-color: #fff;
 }
 
 /* ---- about page intro ---- */
@@ -703,8 +836,9 @@ p {
   justify-content: center;
   border-radius: 50%;
   font-size: 34px;
-  /* navy glyph on gold — white on gold is only 2.4:1 */
-  color: rgb(var(--c-ink));
+  /* white glyph on the accent — 5.0:1. The gold this replaces had to take
+     navy type instead; the accent is dark enough to invert. */
+  color: #fff;
   background-color: rgb(var(--c-primary));
 }
 
@@ -715,8 +849,8 @@ p {
   font-family: "EB Garamond", Garamond, Georgia, serif;
   font-size: 34px;
   line-height: 36px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
+  font-weight: 500;
+  letter-spacing: normal;
   font-variant-numeric: tabular-nums lining-nums;
   color: rgb(var(--c-primary));
 }
@@ -793,7 +927,7 @@ p {
 
 .video-cta .play-now:hover {
   background-color: rgb(var(--c-primary));
-  color: rgb(var(--c-ink));
+  color: #fff;
 }
 
 .video-cta .watch-label {
@@ -841,7 +975,7 @@ p {
     padding-right: 0;
   }
 
-  /* The gold accent bar hangs 46px past the photo's right edge, which works
+  /* The accent bar hangs 46px past the photo's right edge, which works
      on a desktop gutter and nowhere else: on a 390px phone the figure ends at
      351 and this put its own right edge at 397, against a 375px content box.
      That was the entire 23px of horizontal overflow on /about. It is pure
@@ -906,12 +1040,17 @@ p {
 /* The reference separates this panel from the backdrop it overlaps by hue
    (red on near-black). A navy-only palette can't do that — every navy is
    1.3-1.9:1 against the bleed — so the panel is one step lighter than the
-   bleed and gets a gold hairline to cut a crisp edge instead. */
+   bleed and gets a hairline to cut a crisp edge instead.
+
+   The hairline is WHITE at low alpha, not the accent. #405363 is 2.0:1 on
+   this navy and simply disappears; the two accents before it were lighter
+   and could just about hold the edge. This is the general rule for the
+   slate — it belongs on the light ground only. */
 .why-choose-us .features-column .inner-column {
   position: relative;
   overflow: hidden;
   background-color: rgb(var(--c-brand));
-  box-shadow: inset 0 0 0 1px rgb(var(--c-primary) / 0.4);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.16);
   padding: 90px 100px 70px 70px;
   margin-right: 6px;
 }
@@ -945,10 +1084,10 @@ p {
   display: flex;
 }
 
-/* These were 50px solid-gold glyphs — a lightbulb, a globe and a handshake,
-   each roughly the size of the heading beside it, and the largest gold objects
-   anywhere on the site. At 24px they read as marks against the copy rather
-   than as illustrations of it.
+/* These were 50px solid glyphs — a lightbulb, a globe and a handshake, each
+   roughly the size of the heading beside it, and the largest accent-coloured
+   objects anywhere on the site. At 24px they read as marks against the copy
+   rather than as illustrations of it.
 
    They also flipped horizontally on hover (transform: scaleX(-1)). That is the
    same mirroring gimmick the hero feature cards had removed; nothing on the

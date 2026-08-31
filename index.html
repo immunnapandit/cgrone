@@ -9,12 +9,18 @@
     <!-- Fonts were pulled in by an @import at the top of index.css, which
          chains HTML -> CSS -> Google's CSS -> font files before anything can
          paint. Loading them here runs the lookup in parallel with the app CSS
-         and removes a round trip from largest-contentful-paint. -->
+         and removes a round trip from largest-contentful-paint.
+
+         EB Garamond + Roboto, which is henleyglobal.com's pairing — the client
+         picked that one out of the four by name. Their stylesheet serves
+         Classical Garamond BT from their own CDN, which is a licensed
+         Bitstream face we can neither hotlink nor redistribute; EB Garamond is
+         the open equivalent. Their body stack resolves to Roboto. -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400..600&family=Inter:wght@300..600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400..600&family=Roboto:wght@300;400;500;700&display=swap"
     />
 
     <!--seo-->

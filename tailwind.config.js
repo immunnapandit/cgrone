@@ -3,61 +3,54 @@ export default {
   content: ["./index.html", "./src/**/*.{js,jsx}"],
   theme: {
     extend: {
-      /* All values resolve to the brand tokens in src/index.css (:root),
-         which were sampled from the Cynosure Global Residency logo. */
+      /* Every colour the site has. All of them resolve to the tokens in
+         src/index.css (:root), so the palette is defined once.
+
+         There are no numeric ramps here on purpose. `primary` and `brand`
+         used to carry 50-900 scales — twenty values, none of them referenced
+         anywhere, and both left over from palettes the client has since
+         rejected (the brand ramp was still the old #0A56A4 blue). A dead ramp
+         is not harmless: it makes `bg-primary-300` autocomplete and compile
+         into a colour that is not in the system. If a tint is genuinely
+         needed, use an opacity modifier — bg-primary/10 — which stays on
+         palette by construction. */
       colors: {
-        // star + tagline rules — #F97709
+        /* The accent. Gold (#AB8A21) first, then a steel blue (#3E6FB5) — the
+           client rejected both, the second as "not premium". It is
+           henleyglobal.com's own #405363 now: a desaturated slate that is the
+           single most-used colour in their stylesheet (170 occurrences). A
+           saturated accent is what read cheap; this one barely registers as a
+           colour, which is the point. */
         primary: {
           DEFAULT: "rgb(var(--c-primary) / <alpha-value>)",
-          dark: "rgb(var(--c-primary-dark) / <alpha-value>)",
-          50: "#FFF3E6",
-          100: "#FFE1C2",
-          200: "#FDC489",
-          300: "#FBA24F",
-          400: "#FA8B25",
-          500: "#F97709",
-          600: "#D96407",
-          700: "#AE4F06",
-          800: "#7D3904",
-          900: "#4A2202",
+          dark: "rgb(var(--c-primary-dark) / <alpha-value>)",   // .btn-primary hover
         },
-        // globe gradient blue — #0A56A4
-        brand: {
-          DEFAULT: "rgb(var(--c-brand) / <alpha-value>)",
-          dark: "rgb(var(--c-brand-dark) / <alpha-value>)",
-          light: "rgb(var(--c-brand-light) / <alpha-value>)",
-          50: "#EDF4FC",
-          100: "#D2E3F7",
-          200: "#A5C7EF",
-          300: "#6FA5E2",
-          400: "#2E7BCB",
-          500: "#0A56A4",
-          600: "#084A8E",
-          700: "#063B72",
-          800: "#042A52",
-          900: "#021932",
-        },
+        // #263E69, one step off --c-ink. The page-title gradient and the
+        // SecurityPrivacy top rule are the only things that need a navy that
+        // separates from the workhorse one.
+        brand: "rgb(var(--c-brand) / <alpha-value>)",
         ink: "rgb(var(--c-ink) / <alpha-value>)",
         dark: "rgb(var(--c-ink-deep) / <alpha-value>)",
         offwhite: "rgb(var(--c-offwhite) / <alpha-value>)",
         muted: "rgb(var(--c-muted) / <alpha-value>)",
         soft: "rgb(var(--c-soft) / <alpha-value>)",
         hairline: "rgb(var(--c-hairline) / <alpha-value>)",
+        // form errors only — see the note on --c-error in index.css
+        error: "rgb(var(--c-error) / <alpha-value>)",
       },
-      /* EB Garamond + Inter, replacing Fraunces + Jost.
-         Fraunces is a high-contrast "soft serif" with decorative letterforms
-         and a swashy ampersand — it reads editorial/boutique. Jost is a
-         geometric sans in the Futura line, which reads design-studio. Neither
-         says "advisory firm". This pairing is Henley & Partners' own pattern
-         (they serve Garamond headings over Roboto body). */
+      /* EB Garamond + Roboto — henleyglobal.com's pairing, which the client
+         asked for by name. Read off their stylesheet:
+           h1,h2,h3 { font-family: Garamond Regular, serif; font-weight: 400 }
+           body     { font-family: ...Roboto...; font-size: 1rem; line-height: 1.5 }
+         Note the weight: 400, not 500 or 600. */
       fontFamily: {
         display: ["EB Garamond", "Garamond", "Georgia", "serif"],
-        heading: ["Inter", "system-ui", "sans-serif"],
-        body: ["Inter", "system-ui", "sans-serif"],
+        heading: ["Roboto", "system-ui", "sans-serif"],
+        body: ["Roboto", "system-ui", "sans-serif"],
       },
       letterSpacing: {
-        display: "-0.028em",
-        tightish: "-0.022em",
+        display: "normal",
+        tightish: "normal",
         kicker: "0.22em",
       },
       keyframes: {

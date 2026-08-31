@@ -33,8 +33,8 @@ export default function Footer() {
 
   return (
     /* Light footer. It used to be a full navy block and was the last big dark
-       area left on the page; the gold top rule and the navy contact tiles keep
-       it anchored so it still reads as a footer and not as another section. */
+       area left on the page; the accent top rule and the navy contact tiles
+       keep it anchored so it still reads as a footer, not another section. */
     <footer className="bg-offwhite text-ink pt-0 border-t-2 border-primary">
       <div className="max-w-[1400px] mx-auto px-6 -translate-y-10">
         {/* white card on ivory — a soft shadow does the separating now that
@@ -49,7 +49,7 @@ export default function Footer() {
                 {...(it.href ? { href: it.href } : {})}
                 className={`flex items-center gap-4 group ${it.href ? "" : "cursor-default"}`}
               >
-                <div className="w-14 h-14 bg-ink text-white flex items-center justify-center text-xl shrink-0 transition-colors duration-300 group-hover:bg-primary group-hover:text-ink">
+                <div className="w-14 h-14 bg-ink text-white flex items-center justify-center text-xl shrink-0 transition-colors duration-300 group-hover:bg-primary group-hover:text-white">
                   <it.icon />
                 </div>
                 <div>
@@ -93,8 +93,8 @@ export default function Footer() {
                 {/* The "»" that prefixed all seventeen footer links is gone.
                     A double-angle bullet on every item is a stock-theme tell,
                     and it makes a list of destinations read as a list of
-                    instructions. Hover darkens to navy rather than turning
-                    gold — gold text on the offwhite footer is only 3.3:1. */}
+                    instructions. Hover darkens to navy rather than switching
+                    to the accent — one colour change per interaction. */}
                 <FooterLink href={s.href} className="text-[16px] text-muted hover:text-ink transition-colors">
                   {s.label}
                 </FooterLink>
@@ -160,7 +160,7 @@ export default function Footer() {
               {status === "sent" && (
                 <span className="text-ink">Thanks for subscribing.</span>
               )}
-              {status === "error" && <span className="text-red-700">{error}</span>}
+              {status === "error" && <span className="text-error">{error}</span>}
             </p>
           </form>
           {/* only profiles with a real URL are rendered — see footer.js */}
@@ -174,7 +174,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noreferrer noopener"
                   aria-label={label}
-                  className="w-9 h-9 border border-hairline text-ink flex items-center justify-center hover:bg-primary hover:text-ink hover:border-primary transition-colors"
+                  className="w-9 h-9 border border-hairline text-ink flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary transition-colors"
                 >
                   <Icon className="text-sm" />
                 </a>

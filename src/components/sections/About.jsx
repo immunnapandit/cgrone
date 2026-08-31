@@ -1,7 +1,13 @@
 import { FaArrowRight } from "react-icons/fa";
 import Reveal from "@/components/common/Reveal";
 import { aboutHighlights, aboutBulletPoints } from "@/data/aboutContent";
-import aboutImage from "@/assets/images/about/About1.webp";
+/* Was About1.webp — a smiling traveller at an airport departures board, the
+   last piece of consumer stock left in the home page body. Passport.png is
+   the client's own file: Canadian, Australian and New Zealand passports,
+   three of the five jurisdictions this firm actually works in. Resized to
+   1400px and re-encoded (2.91 MB PNG -> 324 KB webp); keep any replacement in
+   that shape. */
+import aboutImage from "@/assets/images/about/Passport.webp";
 
 /* The dotted flight path with a paper plane looping along it used to sit in
    the top-right of this section. It was the clearest travel-agency cue on the
@@ -12,10 +18,22 @@ export default function About() {
       <div className="max-w-[1400px] mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
         <Reveal direction="left" className="relative">
           <div className="relative pl-6 border-l-2 border-primary">
+            {/* The box matches the photograph's own ratio, so nothing is
+                cropped. That is the point: the three passports sit side by
+                side across a 3:2 frame, so any box taller than 3:2 eats them
+                from the outside in. The fixed heights this replaces were
+                560x300 / 560x380 / 560x460, and the desktop one was cutting
+                9.4% off EACH side — the left edge of the Canadian cover and
+                the fern on the New Zealand one.
+
+                620px is the full width of this column (1352 content, less the
+                64px grid gap, halved, less the 24px pl-6 above), so dropping
+                the crop costs only about 47px of height against the old
+                460. */}
             <img
               src={aboutImage}
-              alt="Traveler with passport"
-              className="block w-full max-w-[500px] h-[320px] md:h-[440px] lg:h-[560px] object-cover object-top"
+              alt="Canadian, Australian and New Zealand passports"
+              className="block w-full max-w-[620px] aspect-[3/2] object-cover"
             />
           </div>
           {/* A floating white card hung off the bottom-left corner here,

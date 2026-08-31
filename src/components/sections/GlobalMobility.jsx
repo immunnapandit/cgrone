@@ -43,7 +43,7 @@ export default function GlobalMobility() {
               {support.map(({ icon: Icon, title, text }, i) => (
                 <article key={title} className="group bg-white border border-hairline p-9 lg:p-10">
                   <div className="flex items-center justify-between mb-8">
-                    <span className="w-14 h-14 flex items-center justify-center text-2xl text-ink border border-hairline transition-colors duration-300 group-hover:bg-primary group-hover:border-primary group-hover:text-ink">
+                    <span className="w-14 h-14 flex items-center justify-center text-2xl text-ink border border-hairline transition-colors duration-300 group-hover:bg-primary group-hover:border-primary group-hover:text-white">
                       <Icon />
                     </span>
                     <span className="t-num text-3xl text-ink/10 leading-none transition-colors duration-300 group-hover:text-primary/40">

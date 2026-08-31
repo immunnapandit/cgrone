@@ -31,14 +31,15 @@ export default function StatementBand({ image, position = "50% 50%", eyebrow, li
         <div className="max-w-2xl">
           {eyebrow && (
             <div className="eyebrow text-white/70 mb-6">
-              <span className="chev">»</span> {eyebrow}
+              {/* white rule, not the accent — #405363 is 2.0:1 on this navy */}
+              <span className="chev bg-white/60">»</span> {eyebrow}
             </div>
           )}
           <p className="t-h2 text-white">{line}</p>
           {cta && (
             <Link
               to={cta.to}
-              className="mt-9 inline-flex items-center gap-2 font-heading font-medium text-[13px] uppercase tracking-[0.16em] text-white border-b border-primary pb-1.5 hover:gap-3.5 transition-all duration-300"
+              className="mt-9 inline-flex items-center gap-2 font-heading font-medium text-[13px] uppercase tracking-[0.16em] text-white border-b border-white/50 pb-1.5 hover:gap-3.5 transition-all duration-300"
             >
               {cta.label} <FaArrowRight className="text-xs" />
             </Link>
