@@ -1,4 +1,5 @@
 import toronto from "@/assets/images/hero/skyline-toronto.webp";
+import torontoBand from "@/assets/images/hero/skyline-toronto-band.webp";
 
 /* City skylines, supplied by the client 2026-08-27, replacing the two
  * family-at-the-airport stock shots. That swap does more to move the site out
@@ -59,10 +60,12 @@ export const heroSlides = [
   {
     src: toronto,
     alt: "The Toronto waterfront skyline at dusk",
-    // 2400x1181. X=70% puts the open lake under the copy while holding the
-    // skyline run from the CN Tower out to the Rogers Centre dome at 87%
-    // inside the frame. Y favours the lower half for wide viewports, where
-    // this frame crops vertically instead and would lose the reflections.
+    // 2400x1181, desktop. X=75% is the measured optimum for the copy zones
+    // at the current hero height, not a composition choice — it puts the
+    // darkest available column behind the eyebrow, headline and standfirst
+    // while still holding the run from the CN Tower to the Rogers Centre
+    // dome inside the frame. Y does nothing until the viewport passes about
+    // 2:1, where the frame starts losing height instead.
     position: "70% 65%",
 
     // Phones only (below 768px). The frame goes portrait there and keeps
@@ -72,6 +75,28 @@ export const heroSlides = [
     // and the low, dim buildings at that end.
     positionSm: "30% 55%",
 
+    /* ---- art direction, not just a smaller file ----
+     * `src` is 2400x1181 and roughly 60% empty sky. That is a FEATURE on
+     * desktop — the copy sits on the photograph there and needs every pixel
+     * of that dark band — but on a phone the copy is on white underneath and
+     * the picture is only a 300px band, so 60% sky left the skyline as a thin
+     * strip along the bottom. The client's note: "buildings nahi dikh rahe".
+     *
+     * `srcBand` is the same photograph with the top 44% of sky cut away
+     * (2400x661), so the buildings are the subject at band height. Below lg
+     * it is what loads — a <picture> swaps them at the same 1024px breakpoint
+     * the layout uses.
+     *
+     * Regenerate with:
+     *   sharp(src).extract({left:0, top: H*0.44, width: W, height: H*0.56})
+     *             .webp({quality:88, effort:6})
+     */
+    srcBand: torontoBand,
+
+
+    /* A note about the frame's luminance rather than a switch — nothing
+       reads it while there is one slide. It says: this frame is dark, so type
+       on it is white. A bright frame would need "dark" and navy type. */
     tone: "light",
   },
 ];

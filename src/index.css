@@ -325,6 +325,52 @@ p {
     color: rgb(var(--c-ink));
   }
 
+  /* The hero's primary action, which changes ground at lg.
+
+     Below lg the hero copy is on white under the picture, so this is the
+     ordinary slate-on-white button. From lg the eyebrow, headline and CTA sit
+     ON the photograph, where a slate fill has almost no edge against a night
+     sky — so it inverts to a white slab with a navy label.
+
+     Its own class rather than `btn-light` plus overrides, because a
+     white-filled button on a white background is invisible and that is
+     exactly what one stray breakpoint would produce. */
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgb(var(--c-primary));
+    color: #fff;
+    font-family: "Roboto", system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 17px 34px;
+    border: 1px solid rgb(var(--c-primary));
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  }
+
+  .hero-cta:hover {
+    background: rgb(var(--c-primary-dark));
+    border-color: rgb(var(--c-primary-dark));
+    color: #fff;
+  }
+
+  @media (min-width: 1024px) {
+    .hero-cta {
+      background: #fff;
+      color: rgb(var(--c-ink));
+      border-color: #fff;
+    }
+
+    .hero-cta:hover {
+      background: rgb(var(--c-offwhite));
+      border-color: rgb(var(--c-offwhite));
+      color: rgb(var(--c-ink));
+    }
+  }
+
   .btn-outline {
     display: inline-flex;
     align-items: center;
@@ -347,12 +393,10 @@ p {
     color: #fff;
   }
 
-  /* Type set directly on a photograph, with nothing behind it.
-
-     The client has rejected a dimmed hero three times — first the ink/85
-     ramp, then a split column, then the solid navy panel. So the hero copy
-     has no background at all, and this is the only thing standing between
-     white type and a photograph.
+  /* Type set directly on a photograph, with nothing behind it. Only the
+     Contact section's credential panel uses this now — the hero had it while
+     its copy was on the picture, and that copy is on white as of the band
+     rewrite.
 
      A text-shadow is not a scrim: it paints a dark halo within a few pixels
      of each glyph and leaves every other pixel of the picture untouched. Two
@@ -361,57 +405,29 @@ p {
      type off a busy background as a mass.
 
      It is a supplement, not a licence. It buys roughly one contrast step; it
-     cannot rescue white type on a daylight sky. The photographs still have to
-     be dark where the copy sits — see heroSlides.js. */
+     cannot rescue white type on a bright frame. The photograph still has to
+     be dark where the copy sits — see the note in Contact.jsx. */
   .on-photo {
     text-shadow: 0 1px 2px rgb(0 0 0 / 0.55), 0 2px 26px rgb(0 0 0 / 0.5);
   }
 
-  /* Small type over the same photograph needs a denser halo than display
-     type does. The hero's credentials row sits on open water, whose average
-     is a comfortable 7.4:1 but which carries specular streaks off the city
-     lights — bright enough, in patches, to drop an 11px label below AA. A
-     tight, opaque shadow covers those streaks within a few pixels of each
-     glyph, where a wide soft one just spreads out over them. */
+  /* Small type over the same photograph needs a denser halo than display type
+     does. The hero's credentials row sits on open water, whose average is a
+     comfortable 7:1 but which carries specular streaks off the city lights —
+     bright enough, in patches, to drop an 11px label below AA. A tight, opaque
+     shadow covers those streaks within a few pixels of each glyph, where a
+     wide soft one just spreads out over them. */
   .on-photo-sm {
     text-shadow: 0 1px 2px rgb(0 0 0 / 0.8), 0 0 10px rgb(0 0 0 / 0.7);
   }
 
-  /* The inverse, for navy type on a bright frame (London, Edinburgh). A dark
-     halo under dark type does nothing; this one is white, so it separates the
-     letterforms from pale stone and blue-hour sky the same way the dark halo
-     separates white type from water and lit windows. */
-  .on-photo-light {
-    text-shadow: 0 1px 2px rgb(255 255 255 / 0.75), 0 0 18px rgb(255 255 255 / 0.65);
-  }
+  /* The hero photograph's crop, which still has to change at the breakpoint.
 
-  /* The tone swap rides the 1400ms image crossfade rather than snapping at
-     the moment the slide index changes. Descendants are included because the
-     colour is set per element (heading, body, label) rather than inherited
-     from one place. */
-  .hero-copy,
-  .hero-copy * {
-    transition: color 1400ms ease-in-out, border-color 1400ms ease-in-out,
-      background-color 1400ms ease-in-out, text-shadow 1400ms ease-in-out;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .hero-copy,
-    .hero-copy * {
-      transition: none;
-    }
-  }
-
-  /* The hero photograph's crop, which has to change at the breakpoint.
-
-     On a desktop the frame is roughly 1520x960, so this 2.03:1 panorama
-     keeps about three quarters of its width and X can sit at 70% — the open
-     lake behind the copy, the skyline out to the right.
-
-     On a 390px phone the frame is portrait and object-cover keeps barely a
-     quarter of the width. At 70% that quarter IS the lit skyline, which is
-     the brightest part of the picture and the one place white type cannot
-     go. The phone therefore takes its own X, further left, over the water.
+     The band is 3.63:1. A desktop box of about 1520x460 is 3.3:1, so it loses
+     only 9% of the width and centred is right. A 375x280 phone box is 1.34:1
+     and loses two thirds of it, which is a completely different picture — so
+     the phone gets its own X, chosen to land on the denser part of the run
+     rather than on whatever happens to fall in the middle.
 
      This is a variable rather than an inline objectPosition because an
      inline style cannot be overridden by a media query. */
@@ -446,7 +462,8 @@ p {
   @media (max-width: 639px) {
     .btn-primary,
     .btn-light,
-    .btn-outline {
+    .btn-outline,
+    .hero-cta {
       display: flex;
       width: 100%;
       justify-content: center;
