@@ -325,50 +325,38 @@ p {
     color: rgb(var(--c-ink));
   }
 
-  /* The hero's primary action, which changes ground at lg.
+  /* The hero's primary action. A white slab with a navy label at every width:
+     it sits on the night photograph everywhere now, and a slate fill has
+     almost no edge against a night sky.
 
-     Below lg the hero copy is on white under the picture, so this is the
-     ordinary slate-on-white button. From lg the eyebrow, headline and CTA sit
-     ON the photograph, where a slate fill has almost no edge against a night
-     sky — so it inverts to a white slab with a navy label.
+     It used to change ground at lg — slate-on-white below, white slab above —
+     because the phone put the copy on white beneath the picture. The phone
+     puts it on the picture too as of 2026-09-02, so the breakpoint went.
 
-     Its own class rather than `btn-light` plus overrides, because a
-     white-filled button on a white background is invisible and that is
-     exactly what one stray breakpoint would produce. */
+     Still its own class rather than `btn-light`, because it also carries the
+     phone treatment below (full width, tighter tracking) and because a
+     white-filled button on a white background is invisible — which is exactly
+     what one stray breakpoint here would produce. */
   .hero-cta {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    background: rgb(var(--c-primary));
-    color: #fff;
+    background: #fff;
+    color: rgb(var(--c-ink));
     font-family: "Roboto", system-ui, sans-serif;
     font-weight: 600;
     font-size: 13px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     padding: 17px 34px;
-    border: 1px solid rgb(var(--c-primary));
+    border: 1px solid #fff;
     transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
   }
 
   .hero-cta:hover {
-    background: rgb(var(--c-primary-dark));
-    border-color: rgb(var(--c-primary-dark));
-    color: #fff;
-  }
-
-  @media (min-width: 1024px) {
-    .hero-cta {
-      background: #fff;
-      color: rgb(var(--c-ink));
-      border-color: #fff;
-    }
-
-    .hero-cta:hover {
-      background: rgb(var(--c-offwhite));
-      border-color: rgb(var(--c-offwhite));
-      color: rgb(var(--c-ink));
-    }
+    background: rgb(var(--c-offwhite));
+    border-color: rgb(var(--c-offwhite));
+    color: rgb(var(--c-ink));
   }
 
   .btn-outline {
@@ -384,13 +372,117 @@ p {
     letter-spacing: 0.12em;
     text-transform: uppercase;
     padding: 16px 33px;
-    transition: all 0.35s ease;
+    /* Named properties, not `all`. With `all` the focus outline added below
+       is a transitionable property too, so the ring faded in over 350ms
+       instead of appearing on the keystroke — the one indicator that has to
+       be immediate. The other three buttons already list their properties. */
+    transition: background-color 0.35s ease, border-color 0.35s ease, color 0.35s ease;
   }
 
   .btn-outline:hover {
     background: rgb(var(--c-ink));
     border-color: rgb(var(--c-ink));
     color: #fff;
+  }
+
+  /* ---- focus and press states ------------------------------------------
+     There were none. Not a weak one — none: a grep for `:focus-visible` and
+     `:active` across src/ returned nothing but the two form fields, which set
+     `outline-none` and swapped a 1px border colour. Every button, every nav
+     link, every dropdown item, the footer, the breadcrumbs and the slide dots
+     relied on the UA ring, which `outline-none` had already removed in the
+     places it mattered. That is WCAG 2.4.7 (Focus Visible, AA) failing
+     site-wide.
+
+     :focus-visible rather than :focus, so a mouse click leaves no ring behind
+     and only keyboard traversal is marked — the form fields below are the
+     deliberate exception.
+
+     Ink navy is 13.6:1 on white and carries the ring without introducing a
+     colour the palette does not already have. Square, offset by 3px: the
+     system is built from hairlines and right angles and a rounded ring would
+     be the only curve on the page. */
+  :where(a, button, summary, [tabindex]:not([tabindex="-1"])):focus-visible {
+    outline: 2px solid rgb(var(--c-ink));
+    outline-offset: 3px;
+    border-radius: 0;
+  }
+
+  /* On the navy panels and over the hero photograph the ink ring vanishes —
+     it is 1.3-2.0:1 against every navy in the palette, the same reason the
+     accent is barred from dark grounds. White inverts cleanly. */
+  .on-dark :where(a, button, [tabindex]:not([tabindex="-1"])):focus-visible,
+  :where(a, button):focus-visible.btn-light,
+  :where(a, button):focus-visible.hero-cta {
+    outline-color: #fff;
+  }
+
+  /* A max-width:1023px rule sent the hero CTA's ring back to ink, because the
+     button was slate-on-white on a phone. It is a white slab on the
+     photograph at every width now, so the white ring above is correct
+     everywhere and the override is gone.
+
+     Press feedback. Colour only — no transform. Per the note in Contact.jsx,
+     "a button that grows under the cursor reads consumer, not advisory", and
+     the same judgement applies to a button that shrinks. */
+  .btn-primary:active {
+    background: rgb(var(--c-primary-dark));
+    border-color: rgb(var(--c-primary-dark));
+  }
+
+  .btn-light:active {
+    background: rgb(var(--c-hairline));
+    border-color: rgb(var(--c-hairline));
+  }
+
+  .btn-outline:active {
+    background: rgb(var(--c-ink-deep));
+    border-color: rgb(var(--c-ink-deep));
+    color: #fff;
+  }
+
+  /* The white slab presses to hairline, like .btn-light — it is the same
+     object. No breakpoint: the button no longer changes ground. */
+  .hero-cta:active {
+    background: rgb(var(--c-hairline));
+    border-color: rgb(var(--c-hairline));
+  }
+
+  /* Form fields. Both forms set Tailwind's `outline-none` and marked focus
+     with a 1px border-colour swap — hairline to navy on the contact form,
+     hairline to slate in the footer. A one-pixel change of hue on a single
+     rule is not a focus indicator; on the footer's dark ground the slate one
+     was very nearly invisible.
+
+     An outline rather than a thicker border, because these are ruled fields
+     (border-b) and growing the rule to 2px moves the text baseline by a pixel
+     on focus. An outline is painted outside the box and shifts nothing.
+
+     :focus-visible is safe here despite these being mouse-clicked: the spec
+     has text inputs match it whenever they hold focus, however that focus
+     arrived, precisely because they take keyboard input. This beats
+     `.outline-none` on specificity (0,1,1 vs 0,1,0), so the utility stays
+     harmless where it sits. */
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: 2px solid rgb(var(--c-ink));
+    outline-offset: 2px;
+  }
+
+  .on-dark input:focus-visible,
+  .on-dark textarea:focus-visible,
+  .on-dark select:focus-visible {
+    outline-color: #fff;
+  }
+
+  /* The hero copy sits on the photograph at every width, so its ring is white
+     at every width — this used to be wrapped in a min-width:1024px media
+     query, from when the phone put the copy on white. Covers the "Where We
+     Work" link, which is the one hero control not already handled by
+     .hero-cta above. */
+  .hero-copy :where(a, button):focus-visible {
+    outline-color: #fff;
   }
 
   /* Type set directly on a photograph, with nothing behind it. Only the
@@ -411,33 +503,106 @@ p {
     text-shadow: 0 1px 2px rgb(0 0 0 / 0.55), 0 2px 26px rgb(0 0 0 / 0.5);
   }
 
-  /* Small type over the same photograph needs a denser halo than display type
-     does. The hero's credentials row sits on open water, whose average is a
-     comfortable 7:1 but which carries specular streaks off the city lights —
-     bright enough, in patches, to drop an 11px label below AA. A tight, opaque
-     shadow covers those streaks within a few pixels of each glyph, where a
-     wide soft one just spreads out over them. */
-  .on-photo-sm {
-    text-shadow: 0 1px 2px rgb(0 0 0 / 0.8), 0 0 10px rgb(0 0 0 / 0.7);
+  /* .on-photo-sm lived here — a denser halo for small type on the photograph,
+     written for the hero's credentials row. That row is on white now (the
+     measurement is in Hero.jsx) and it was the only caller, so the rule went
+     with it. The specular streaks it was fighting are exactly why the row had
+     to move: a text-shadow buys about one contrast step and the gap there was
+     1.69:1 against 4.5. */
+
+  /* ---- hero veil ------------------------------------------------------
+     A left-anchored, feathered gradient behind the hero copy. Read the note
+     in Hero.jsx before touching the numbers — they are measured, not chosen.
+
+     This is a scrim, and scrims were rejected here once ("hero images ko fade
+     mat karo"). What was rejected was a veil over the WHOLE frame, which
+     visibly greys the photograph. This one is different in kind:
+
+       - it is 32% at its strongest, not the 47-98% that the old arrangement
+         would have needed (that really would have read as a fade)
+       - it is flat only across the left quarter and reaches ZERO at 65% of
+         the width, so the right third of the frame — the downtown skyline and
+         the CN Tower, the part of the picture anyone actually looks at — is
+         mathematically untouched
+       - it is a directional grade, which is what a photographer would do to
+         this frame anyway, not a flat wash
+
+     Why it is needed at all: with the credentials row moved off the picture,
+     the standfirst measures 4.13:1 and the CTA link 3.67:1 on the bare
+     photograph, against 4.5. Both gaps are small. Measured on the rendered
+     canvas at the production crop, worst 10px block, not on the mean:
+
+                    bare    0.24    0.28    0.32
+       eyebrow     10.19   11.42   11.64   11.89
+       headline     6.26    7.77    7.90    8.02
+       standfirst   4.13    5.59    5.80    5.99
+       CTA link     3.67    4.58    4.75    4.92
+
+     0.24 is the cheapest that passes, but it leaves the CTA link 0.08 above
+     the line — inside the margin a font fallback would eat. 0.32 buys 0.42
+     and is still light enough that the frame does not read as dimmed.
+
+     Two directions, one object. From lg the copy occupies the left half of a
+     wide frame, so the grade runs left to right and the skyline on the right
+     is untouched. On a phone the copy fills the width — every line ends near
+     the right gutter — so a horizontal grade would lift the first half of
+     each line and drop the second. There the grade runs top to bottom
+     instead: strongest across the sky the copy sits on, releasing to nothing
+     over the buildings in the bottom third, which is the part of the frame
+     the phone is showing off. Same principle either way — the veil follows
+     the copy and lets go of the subject. */
+  .hero-veil {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    pointer-events: none;
+    background: linear-gradient(
+      180deg,
+      rgb(var(--c-ink) / 0.46) 0%,
+      rgb(var(--c-ink) / 0.42) 55%,
+      rgb(var(--c-ink) / 0.1) 100%
+    );
+  }
+
+  @media (min-width: 1024px) {
+    .hero-veil {
+      background: linear-gradient(
+        90deg,
+        rgb(var(--c-ink) / 0.32) 0%,
+        rgb(var(--c-ink) / 0.32) 25%,
+        rgb(var(--c-ink) / 0) 65%
+      );
+    }
   }
 
   /* The hero photograph's crop, which still has to change at the breakpoint.
 
-     The band is 3.63:1. A desktop box of about 1520x460 is 3.3:1, so it loses
-     only 9% of the width and centred is right. A 375x280 phone box is 1.34:1
-     and loses two thirds of it, which is a completely different picture — so
-     the phone gets its own X, chosen to land on the denser part of the run
-     rather than on whatever happens to fall in the middle.
+     The frame is 2.03:1. A desktop hero box of about 1520x820 is 1.85:1, so
+     object-cover loses about a tenth of the width and X picks which tenth. A
+     375x780 phone box is 0.48:1 and keeps barely a quarter of the width,
+     which is a completely different picture — so the phone gets its own X.
+     At 70% that quarter is the lit downtown core, the brightest thing in the
+     photograph and the one place white type cannot sit; 30% is the open water
+     and the low, dim buildings at that end.
 
      This is a variable rather than an inline objectPosition because an
-     inline style cannot be overridden by a media query. */
+     inline style cannot be overridden by a media query.
+
+     The narrow crop is the DEFAULT and the wide one is the override, both
+     keyed to the same min-width:1024px as every other lg rule. It was written
+     the other way round — a max-width:1023px override on a desktop default —
+     and that leaves a hole: a viewport of 1023.33px (a fractional width, which
+     is what a scaled display or a zoomed window actually reports) satisfies
+     neither `max-width: 1023px` nor `min-width: 1024px`, so the phone layout
+     got the desktop crop. Measured in that hole, the "Where We Work" link fell
+     to 3.20:1. One boundary, expressed once, cannot have a gap. */
   .hero-frame {
-    object-position: var(--hero-pos, 50% 50%);
+    object-position: var(--hero-pos-sm, var(--hero-pos, 50% 50%));
   }
 
-  @media (max-width: 767px) {
+  @media (min-width: 1024px) {
     .hero-frame {
-      object-position: var(--hero-pos-sm, var(--hero-pos, 50% 50%));
+      object-position: var(--hero-pos, 50% 50%);
     }
   }
 
@@ -475,9 +640,6 @@ p {
     }
   }
 
-  .diagonal-slice {
-    clip-path: polygon(0 0, 100% 0, 55% 100%, 0% 100%);
-  }
 }
 
 /* ---- hero feature blocks ----------------------------------------------
@@ -666,9 +828,26 @@ p {
    sections was 224px of empty ground, and pages like /investment-migration
    stack four of them — the client read that as "too much space". 96 keeps the
    page generous without the gaps reading as gaps. */
+/* One rhythm, not two. Every utility-driven section on the site is
+   py-14 md:py-20 lg:py-24 — 56 / 80 / 96px. These two CSS-driven sections
+   were a flat 96 at every width, so on a phone they were 96 against their
+   neighbours' 56 and the page visibly changed gait halfway down. All three
+   figures are multiples of 8. */
 .about-section-two {
   position: relative;
-  padding: 96px 0;
+  padding: 56px 0;
+}
+
+@media (min-width: 768px) {
+  .about-section-two {
+    padding: 80px 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .about-section-two {
+    padding: 96px 0;
+  }
 }
 
 .about-section-two .content-column {
@@ -730,9 +909,12 @@ p {
   color: rgb(var(--c-ink));
 }
 
+/* The arrow used to travel 15px BACKWARDS and fade to nothing, so the one
+   affordance telling you the link goes somewhere left the link on hover. It
+   nudges forward now, matching the `hover:gap-3.5` on the hero's secondary
+   link — one idiom for "this moves you onward" across the site. */
 .about-section-two .content-column .info-box .read-more:hover svg {
-  transform: translateX(-15px);
-  opacity: 0;
+  transform: translateX(4px);
 }
 
 .about-section-two .content-column .btm-box {
@@ -741,10 +923,11 @@ p {
 
 .about-block-two {
   position: relative;
-  min-height: 120px;
-  padding-left: 85px;
-  padding-bottom: 30px;
-  margin-bottom: 30px;
+  /* 120px was sized to clear the 64px glyph; at 24px the block is free to be
+     as tall as its own copy. padding-left follows the icon down from 85px. */
+  padding-left: 40px;
+  padding-bottom: 24px;
+  margin-bottom: 24px;
   border-bottom: 1px solid rgb(var(--c-hairline));
 }
 
@@ -754,17 +937,29 @@ p {
   margin-bottom: 0;
 }
 
+/* Was a 64px accent glyph that flipped on its Y axis on hover
+   (rotateY(-190deg)). Both halves of that were wrong, and both had already
+   been fixed elsewhere on the site:
+
+     size  — .why-choose-block .icon came down from 50px to 24px because at
+             that scale the glyphs "read as marks against the copy rather
+             than as illustrations of it". These were larger still: 64px,
+             against a t-h4 heading of about 20px, so the decoration was three
+             times the size of the thing it decorated.
+     hover — the mirroring gimmick was removed from the hero feature cards by
+             name. Nothing else on the site reacts to a cursor that way, and
+             this block is not interactive: it is a static heading and
+             paragraph, so the whole flip fired on hovering plain text.
+
+   24px to match .why-choose-block, and the padding-left the absolute glyph
+   was clearing drops from 85px with it. */
 .about-block-two .icon {
   position: absolute;
   left: 0;
-  top: 0;
-  font-size: 64px;
+  top: 2px;
+  font-size: 24px;
+  line-height: 1em;
   color: rgb(var(--c-primary));
-  transition: all 0.3s ease;
-}
-
-.about-block-two:hover .icon {
-  transform: rotateY(-190deg);
 }
 
 .about-block-two .title {
@@ -828,56 +1023,71 @@ p {
   border-top: 10px solid #fff;
 }
 
+/* The "20+ years" badge.
+
+   It was the one object on the site still built like a bought template: a
+   290x120 white slab hung off the corner of the photo collage, carrying an
+   80px filled CIRCLE with a globe in it and a `0 15px 60px` ambient shadow.
+   Three things at once that the rest of the system does not do — it has no
+   circles, no large accent fills outside .btn-primary, and no soft ambient
+   shadows (the .feature-block shadow is a tight -28px spread that reads as a
+   lifted edge rather than a glow).
+
+   Same content, built the way every other surface here is built: square,
+   white, one hairline, the feature-card shadow. The globe drops to a 24px
+   mark on the same scale as .about-block-two rather than a filled disc. */
 .about-section-two .experience {
   position: absolute;
   left: 20px;
-  bottom: -70px;
-  min-width: 290px;
-  min-height: 120px;
-  padding: 20px 20px 20px 120px;
+  bottom: -56px;
+  min-width: 260px;
+  padding: 24px;
   background: #fff;
-  box-shadow: 0 15px 60px rgba(0, 0, 0, 0.08);
-  font-size: 18px;
-  line-height: 26px;
+  border: 1px solid rgb(var(--c-hairline));
+  box-shadow: 0 18px 40px -28px rgba(17, 34, 61, 0.35);
+  font-size: 16px;
+  line-height: 1.5;
   color: rgb(var(--c-ink));
 }
 
 .about-section-two .experience .icon {
-  position: absolute;
-  left: 20px;
-  top: 20px;
-  width: 80px;
-  height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  font-size: 34px;
-  /* white glyph on the accent — 5.0:1. The gold this replaces had to take
-     navy type instead; the accent is dark enough to invert. */
-  color: #fff;
-  background-color: rgb(var(--c-primary));
+  display: block;
+  font-size: 24px;
+  line-height: 1em;
+  margin-bottom: 12px;
+  color: rgb(var(--c-primary));
 }
 
 .about-section-two .experience strong {
-  position: relative;
   display: block;
-  margin-top: 7px;
+  margin-bottom: 4px;
   font-family: "EB Garamond", Garamond, Georgia, serif;
   font-size: 34px;
-  line-height: 36px;
+  line-height: 1.1;
   font-weight: 500;
   letter-spacing: normal;
   font-variant-numeric: tabular-nums lining-nums;
-  color: rgb(var(--c-primary));
+  color: rgb(var(--c-ink));
 }
 
 /* ---- video call-to-action ---- */
 .video-cta {
   position: relative;
   overflow: hidden;
-  /* 153/160 before — on the same rhythm as every other section now */
-  padding: 96px 0;
+  /* 153/160 before — on the 56/80/96 rhythm every other section uses now */
+  padding: 56px 0;
+}
+
+@media (min-width: 768px) {
+  .video-cta {
+    padding: 80px 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .video-cta {
+    padding: 96px 0;
+  }
 }
 
 .video-cta .bg {
@@ -972,10 +1182,6 @@ p {
     padding: 170px 0 80px;
   }
 
-  .about-section-two {
-    padding: 96px 0;
-  }
-
   .about-section-two .content-column .content-box {
     padding-right: 0;
   }
@@ -1008,10 +1214,6 @@ p {
     left: auto;
     bottom: auto;
     margin-top: 24px;
-  }
-
-  .video-cta {
-    padding: 96px 0;
   }
 
   .video-cta .outer-box {

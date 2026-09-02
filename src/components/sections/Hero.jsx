@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa";
-import { heroFeatures, heroFacts } from "@/data/heroFeatures";
+import { heroFeatures } from "@/data/heroFeatures";
 import { heroSlides } from "@/data/heroSlides";
 import { homeIntro } from "@/data/pillars";
 
 const SLIDE_INTERVAL = 6000;
 
-/* The whole hero block — eyebrow, headline, standfirst, both CTAs and the
- * 2006/5/3 credentials — sits ON the photograph from lg up. On a phone all of
- * it is on white under a 280px band of the pre-cropped frame.
+/* The whole hero block — eyebrow, headline, standfirst and both CTAs — sits ON
+ * the photograph at EVERY width. It used to split at lg: photograph above,
+ * copy on white below, on phones. The client's note 2026-09-02, on seeing the
+ * phone layout: "ye jo text niche aa raha hai, ye hero image ke upar hona
+ * chahiye" — the same instruction that put the copy on the picture on desktop,
+ * now applied to the phone. So there is one arrangement at all widths.
  *
  * ---- read this before changing the height or the padding ----------------
  * Ten or so arrangements were built and rejected here, each because a client
@@ -30,15 +33,67 @@ const SLIDE_INTERVAL = 6000;
  * laptop the copy runs y=144 to 589 and the buildings must start below it,
  * past a 640px fold. That is arithmetic, not a property of this picture.
  *
- * THE CURRENT SETTING IS THE CLIENT'S, NOT AA'S. At 820px the standfirst is
- * 3.84:1, the CTA link 1.86:1 and the credentials 2.04-2.70:1 against a 4.5
- * requirement — the lower half of the block sits on the lit skyline. They were
- * shown these numbers and said to proceed. Do not "fix" it by re-introducing a
- * scrim, a panel, or by moving copy off the picture; all three were built and
- * rejected. The only untried fix that keeps everything is a photograph whose
- * LEFT THIRD is dark for its full height — seven night cityscapes were
- * measured against these zones and all seven failed, so it needs a proper
- * sourcing round rather than another quick search.
+ * ---- contrast, re-measured 2026-09-01 -----------------------------------
+ * The figures previously recorded here (standfirst 3.84:1, CTA link 1.86:1,
+ * credentials 2.04-2.70:1) were wrong in both directions, because they
+ * averaged the luminance under each zone. Averaging is the wrong statistic on
+ * a night cityscape: what breaks a glyph is a bright PATCH behind it — a lit
+ * window, a specular streak off the water — and this file already knew that,
+ * having rejected London and Edinburgh because "averages passed, worst
+ * patches did not". That test was simply never re-run against Toronto.
+ *
+ * Re-measured on the worst 10px block (about one glyph stem) rather than the
+ * mean, white type, at the production crop of X=70%. Measured by drawing the
+ * rendered <img> to a canvas and sampling the real getBoundingClientRect() of
+ * each element — NOT by modelling the layout offline, which got the hero box
+ * height wrong (860 vs the real 820), changed the object-cover scale, and made
+ * every figure optimistic by one to two whole points:
+ *
+ *                  bare frame   with .hero-veil
+ *   eyebrow           10.19          11.89   PASS
+ *   headline           6.26           8.02   PASS
+ *   standfirst         4.13           5.99   PASS
+ *   CTA link           3.67           4.92   PASS
+ *   credentials        1.69              —   removed from the page entirely
+ *
+ * The standfirst and the CTA link do NOT clear AA on the bare photograph, so
+ * the veil is load-bearing rather than decorative — see .hero-veil in
+ * index.css for why a 32% left-anchored grade is a different object from the
+ * full-frame scrim that was rejected. The credentials row could not be made to
+ * pass by any permitted means (a gradient heavy enough needed 0.78-0.98 alpha,
+ * i.e. the rejected panel; no height in the lower half of the frame beats
+ * 2.89:1; all six skylines in the folder measure worse than Toronto) and has
+ * since been removed from the page at the client's request.
+ *
+ * Y is not a lever: at this aspect ratio object-cover crops the SIDES only,
+ * so every Y from 35% to 80% measures identically. Only X moves anything.
+ *
+ * ---- contrast below lg, measured 2026-09-02 -----------------------------
+ * Same method — worst 10px block, white type, the veil built from the
+ * element's own computed gradient rather than a copy of the numbers, so the
+ * measurement cannot drift from the CSS. The phone crop is X=30% and the veil
+ * is the vertical one (see .hero-veil):
+ *
+ *              320    390    540    768    900   1023
+ *   eyebrow   12.97  12.66  12.31  12.25  12.23  12.19
+ *   headline   9.88  10.23  10.21  10.43  10.42  10.20
+ *   standfirst 5.29   5.20   5.73   7.69   7.56   7.12
+ *   link       5.70   5.89   4.75   4.93   5.14   5.72
+ *
+ * The standfirst is the binding zone on a phone, as it is on a desktop, and
+ * 5.20 at 390 is the floor. On the BARE frame at 390 it is 3.29 and the link
+ * is 4.70, so the veil is load-bearing here too. Alphas were measured before
+ * being chosen: a 0.36/0.32/0.08 grade puts the standfirst at 4.65, only 0.15
+ * clear of the line, so it runs 0.46/0.42/0.10 for 5.20.
+ *
+ * The primary CTA is not in the table: it is an opaque white slab with a navy
+ * label, so what is behind it does not reach the type.
+ *
+ * ---- one measurement that is NOT about this change ----------------------
+ * The desktop path is untouched, but sweeping it turned up a dip at exactly
+ * 1280px wide: the "Where We Work" link measures 3.91:1 there against 4.5,
+ * where 1240 gives 5.86 and 1320 gives 4.94. A lit patch drifts under that one
+ * link at that one crop. It predates this change and is left as found.
  *
  * Also measured and ruled out: cutting sky from the frame (an 18% cut drops
  * the link to 3.44, 26% to 1.04, 34% drops the standfirst to 1.00), and
@@ -67,17 +122,17 @@ export default function Hero() {
           the lg top padding and the lg bottom padding are ONE setting — the
           copy is anchored to the top and the credentials to the bottom, so
           moving either end changes what sits behind the other. */}
-      <div className="relative flex flex-col lg:flex-row lg:min-h-[820px]">
+      <div className="relative flex min-h-[560px] sm:min-h-[680px] lg:min-h-[820px]">
         {/* ---- photograph ---- */}
-        {/* A band under the navbar on a phone; a full-bleed backdrop from lg,
-            where the eyebrow, headline and CTA sit ON it.
+        {/* A full-bleed backdrop at every width now — the eyebrow, headline
+            and both CTAs sit ON it on a phone as well as on a desktop.
 
-            lg:h-auto is load-bearing. With position:absolute and top/bottom
-            both 0, an explicit height still WINS — the pair is only honoured
-            when height is auto — so without it the backdrop stays a 460px
-            strip at the top of an 820px hero and the white type lands on
-            white. */}
-        <div className="relative h-[280px] sm:h-[380px] lg:h-auto mt-[var(--nav-clear)] lg:mt-0 lg:absolute lg:inset-0 isolate overflow-hidden">
+            The min-height above is a floor, not the height: on a 375px phone
+            the copy itself runs about 780px, so the copy sets the height and
+            the photograph follows it. The floor only matters on a short
+            landscape phone, where it stops the frame collapsing to the height
+            of two wrapped lines. */}
+        <div className="absolute inset-0 isolate overflow-hidden">
           {/* Plain CSS transitions, not framer-motion.
               The crossfade used to be a motion.img animating opacity, and it
               silently stopped working: the dots advanced (a className swap,
@@ -95,16 +150,19 @@ export default function Hero() {
               one is solid — that is what the 0ms/1400ms delay does. This is a
               crossfade BETWEEN two photographs; neither is ever dimmed. */}
           {heroSlides.map((s, i) => (
-            /* <picture>, because the two breakpoints want different CROPS,
-               not two sizes of one crop. From lg the copy sits on the picture
-               and needs the full frame's dark sky above the skyline. Below lg
-               the copy is on white under a 280px band, where that same sky
-               would leave the skyline a thin strip — so the phone gets the
-               pre-cropped band. See heroSlides.js. */
-            <picture key={s.src}>
-              {s.srcBand && <source media="(min-width: 1024px)" srcSet={s.src} />}
+            /* One source at every width. A <picture> used to swap in the
+               pre-cropped band below lg, because the phone's frame was a
+               280px strip and the full photograph is ~60% sky, which left the
+               skyline a thin line along the bottom. The phone's frame is now
+               the full height of the copy — about 780px, taller than it is
+               wide — so object-cover keeps the WHOLE height of the original
+               (sky above, skyline below) and crops the sides instead. That is
+               the crop the band was invented to avoid, and it is also the one
+               the copy needs: the dark sky is what the white type sits on.
+               See heroSlides.js. */
             <img
-              src={s.srcBand ?? s.src}
+              key={s.src}
+              src={s.src}
               alt={s.alt}
               /* Two positions, handed to CSS as variables rather than set
                  directly, because they differ by breakpoint and an inline
@@ -123,8 +181,17 @@ export default function Hero() {
               draggable={false}
               className="hero-frame absolute inset-0 w-full h-full object-cover"
             />
-            </picture>
           ))}
+
+          {/* The veil, at every width now that the copy is on the picture at
+              every width. It is a left-anchored horizontal grade from lg and a
+              top-anchored vertical one below it, because the copy fills the
+              width of a phone and a horizontal grade would leave the right
+              half of every line unlifted. Sits above the slides (z-10) and
+              below the slide picker (z-20). See the note on .hero-veil in
+              index.css for why this scrim is permissible where the earlier
+              full-frame one was not. */}
+          <div className="hero-veil" aria-hidden="true" />
 
           {/* Hidden while there is one frame — a slide picker with a single
               slide is a control that does nothing. The only thing over the
@@ -153,74 +220,44 @@ export default function Hero() {
             is also the LCP element, and Henley does not animate its headline
             either.
 
-            The whole height/padding/width coupling that used to live here
-            is gone with the backdrop. The copy is on white, so its size and
-            position are a typographic decision again rather than a contrast
-            one, and it no longer has to be re-measured per viewport width. */}
-        <div className="relative w-full max-w-[1400px] mx-auto px-6 flex flex-col pt-12 md:pt-14 pb-10 md:pb-12 lg:pt-[calc(var(--nav-clear)+16px)] lg:pb-10">
-          <div className="max-w-[640px] lg:on-photo">
+            The top padding clears the fixed navbar at every width — it is the
+            copy that starts under the header now, not a photo band with a
+            margin. --nav-clear is 104px on a phone and 128px from sm. */}
+        <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 flex flex-col pt-[calc(var(--nav-clear)+20px)] lg:pt-[calc(var(--nav-clear)+16px)] pb-14 lg:pb-10">
+          <div className="hero-copy max-w-[640px] on-photo">
             {/* headline and standfirst are the homepage block from
                 Cynosure_Website_Layout_Pattern.docx, verbatim */}
-            <div className="eyebrow mb-6 text-soft lg:text-white/85">
+            <div className="eyebrow mb-6 text-white/85">
               {/* plain white or plain navy, never the accent — the slate is
                   2.0:1 on a night sky and 2.4:1 on pale stone */}
-              <span className="chev bg-primary lg:bg-white/70">»</span> Global Mobility Advisory
+              <span className="chev bg-white/70">»</span> Global Mobility Advisory
             </div>
 
-            <h1 className="t-display mb-7 text-ink lg:text-white">{homeIntro.title}</h1>
+            <h1 className="t-display mb-7 text-white">{homeIntro.title}</h1>
 
-            {/* Fully opaque from lg, no /85. Over a photograph the alpha is
-                paid for twice — it dims the type AND the type is already the
+            {/* Fully opaque, no /85. Over a photograph the alpha is paid for
+                twice — it dims the type AND the type is already the
                 lower-contrast element — and this is the zone with the least
                 margin on the picture (4.71:1 against a 4.5 requirement). */}
-            <p className="t-lead mb-9 text-muted lg:text-white">{homeIntro.lead}</p>
+            <p className="t-lead mb-9 text-white">{homeIntro.lead}</p>
 
             <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
-              {/* `hero-cta` rather than `btn-primary`: it is a slate button on
-                  the white mobile ground and inverts to a white slab from lg,
-                  where it sits on the night photograph. */}
+              {/* `hero-cta` rather than `btn-light`: same white slab, but its
+                  own class, because it also carries the phone treatment (full
+                  width, tighter tracking) that the other buttons take only
+                  below 640px. */}
               <Link to="/contact" className="hero-cta">
                 Book a Confidential Consultation <FaArrowRight />
               </Link>
               <Link
                 to="/global-immigration"
-                className="inline-flex items-center gap-2 font-heading font-medium text-[13px] uppercase tracking-[0.16em] border-b pb-1.5 hover:gap-3.5 transition-all duration-300 text-ink border-primary lg:text-white lg:border-white/60"
+                className="inline-flex items-center gap-2 font-heading font-medium text-[13px] uppercase tracking-[0.16em] border-b pb-1.5 hover:gap-3.5 transition-all duration-300 text-white border-white/60"
               >
                 Where We Work
               </Link>
             </div>
           </div>
 
-          {/* ---- credentials ----
-              Removed at the client's request and added back the same day.
-              `lg:mt-auto` drops it to the bottom of the picture. At 820px that
-              lands it on the waterfront rather than the open water below it,
-              which is why it measures 2.04-2.70 rather than the 4.5+ it did at
-              1000px — see the note at the top of this file.
-
-              Three columns from sm up, three ROWS on a phone: stacked in
-              columns each label gets about 90px on a 360px screen and all
-              three need 102-124px, so every one wrapped, and to different
-              depths. On a phone the number and its label share one baseline
-              instead, which always fits.
-
-              All four benchmark firms open on figures like these; Henley
-              leads on 70+ offices and 25+ years. */}
-          <dl className="mt-10 lg:mt-auto lg:pt-12 grid grid-cols-1 gap-y-3 sm:grid-cols-3 sm:gap-y-0 max-w-[560px] border-t border-hairline lg:border-white/40 lg:on-photo-sm">
-            {heroFacts.map((f) => (
-              <div
-                key={f.label}
-                className="flex items-baseline gap-3 sm:block sm:pr-4 pt-4 sm:pt-6"
-              >
-                <dt className="t-num text-2xl sm:text-3xl md:text-4xl leading-none sm:mb-2 text-ink lg:text-white">
-                  {f.value}
-                </dt>
-                <dd className="text-[11px] uppercase tracking-[0.16em] leading-snug text-soft lg:text-white">
-                  {f.label}
-                </dd>
-              </div>
-            ))}
-          </dl>
         </div>
       </div>
 
@@ -233,6 +270,17 @@ export default function Hero() {
           heading — the widest seam on the page. */}
       <div className="relative bg-white pt-12 md:pt-16">
         <div className="max-w-[1400px] mx-auto px-6">
+          {/* The 2006 / 5 / 3 credentials row stood here, between the
+              photograph and these cards. Removed at the client's request
+              2026-09-01 — the second time this row has been taken out (the
+              first was reversed the same day), so if it is wanted again the
+              markup is in git rather than commented out here.
+
+              Nothing about the hero's contrast depends on it. It was the one
+              zone that could not clear AA on the photograph, and deleting it
+              settles that the same way moving it did; the veil is still
+              carrying the standfirst and the CTA link, which fail on the bare
+              frame at 4.13:1 and 3.67:1. See .hero-veil in index.css. */}
           <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
             {/* Static too. These sat at opacity 0 until a mount animation ran,
                 and they are in the first viewport — the same rAF exposure as

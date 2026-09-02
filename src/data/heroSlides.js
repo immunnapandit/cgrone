@@ -1,5 +1,4 @@
 import toronto from "@/assets/images/hero/skyline-toronto.webp";
-import torontoBand from "@/assets/images/hero/skyline-toronto-band.webp";
 
 /* City skylines, supplied by the client 2026-08-27, replacing the two
  * family-at-the-airport stock shots. That swap does more to move the site out
@@ -68,30 +67,34 @@ export const heroSlides = [
     // 2:1, where the frame starts losing height instead.
     position: "70% 65%",
 
-    // Phones only (below 768px). The frame goes portrait there and keeps
-    // barely a quarter of this panorama's width — at 70% that quarter is the
-    // lit downtown core, the brightest thing in the picture and the one place
-    // white type cannot sit. 30% moves the window left onto the open water
-    // and the low, dim buildings at that end.
+    // Phones and tablets (below 1024px). The frame goes portrait there and
+    // keeps barely a quarter of this panorama's width — at 70% that quarter is
+    // the lit downtown core, the brightest thing in the picture and the one
+    // place white type cannot sit. 30% moves the window left onto the open
+    // water and the low, dim buildings at that end.
     positionSm: "30% 55%",
 
-    /* ---- art direction, not just a smaller file ----
-     * `src` is 2400x1181 and roughly 60% empty sky. That is a FEATURE on
-     * desktop — the copy sits on the photograph there and needs every pixel
-     * of that dark band — but on a phone the copy is on white underneath and
-     * the picture is only a 300px band, so 60% sky left the skyline as a thin
-     * strip along the bottom. The client's note: "buildings nahi dikh rahe".
+    /* ---- the band crop, and why it is gone ----
+     * A second file lived here: `srcBand`, the same photograph with the top
+     * 44% of sky cut away (2400x661), loaded below lg through a <picture>.
      *
-     * `srcBand` is the same photograph with the top 44% of sky cut away
-     * (2400x661), so the buildings are the subject at band height. Below lg
-     * it is what loads — a <picture> swaps them at the same 1024px breakpoint
-     * the layout uses.
+     * It existed because the phone used to show the picture as a 280px band
+     * with the copy on white underneath, and this file is roughly 60% empty
+     * sky — so at band height the skyline was a thin strip along the bottom
+     * ("buildings nahi dikh rahe"). Cutting the sky fixed that.
      *
-     * Regenerate with:
+     * The copy went back onto the picture on phones on 2026-09-02, so the
+     * phone's frame is now the full height of the copy — taller than it is
+     * wide. object-cover keeps the whole height of the original there: sky at
+     * the top for the type, buildings in the lower half at full size. The band
+     * would be the wrong file for that box (3.63:1 into a 0.48:1 window is a
+     * 16% slice, magnified), and the sky it removes is the sky the copy needs.
+     *
+     * The image is still in assets. To bring it back, re-add the import, the
+     * `srcBand` field and the <picture> wrapper in Hero.jsx. Regenerate with:
      *   sharp(src).extract({left:0, top: H*0.44, width: W, height: H*0.56})
      *             .webp({quality:88, effort:6})
      */
-    srcBand: torontoBand,
 
 
     /* A note about the frame's luminance rather than a switch — nothing

@@ -58,8 +58,24 @@ export default function Navbar() {
                   <HiChevronDown className="text-xs transition-transform duration-300 group-hover:rotate-180" />
                 </button>
 
-                <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 w-72 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-300">
-                  <div className="bg-white rounded-xl shadow-xl border border-black/5 py-2 normal-case">
+                {/* group-focus-within alongside group-hover, and it is not a
+                    nicety: the panel is `invisible`, which takes its children
+                    out of the tab order, and it opened on hover ALONE. A
+                    keyboard user could tab to this button and nothing would
+                    happen — all 19 links across the four dropdowns were
+                    unreachable without a mouse (WCAG 2.1.1, Level A).
+
+                    Tabbing to the button now puts focus inside the group,
+                    which reveals the panel, which makes its links tabbable;
+                    focus stays within the group as you move through them, so
+                    it holds open until you tab past the last one.
+
+                    Squared off at the same time. The panel was rounded-xl with
+                    shadow-xl — the only rounded corner in the codebase, on a
+                    site built entirely from right angles and hairlines. It
+                    takes the hairline and the .feature-block shadow instead. */}
+                <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 w-72 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 transition-all duration-300">
+                  <div className="bg-white border border-hairline shadow-[0_18px_40px_-20px_rgba(17,34,61,0.45)] py-2 normal-case">
                     {l.children.map((c) =>
                       c.to ? (
                         <Link
