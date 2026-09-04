@@ -3,7 +3,19 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const dir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../src/assets/images/logo");
-const input = path.join(dir, "Logo.jpeg");
+
+/* Source, replaced 2026-09-04. Was Logo.jpeg at 1280x357; the client supplied
+   CynosureLogo.png at 2171x724, which is 2.9x the pixels and lossless. It is
+   still a raster with a white ground and no alpha (3 channels), so everything
+   below — the chroma key, the un-blend and the trim — still has to run. What
+   changed is that the ringing this script was written to fight is a JPEG
+   artefact the new source does not have; the despeckle pass stays because it
+   only ever removes ISOLATED low-alpha pixels, so on a clean source it is a
+   no-op rather than a risk.
+
+   There is still no vector original. If one ever arrives, this script and both
+   raster outputs should go. */
+const input = path.join(dir, "CynosureLogo.png");
 const output = path.join(dir, "cgr-one-logo.png");
 
 // Soft chroma-key: pixels close to white become transparent, with a smooth
@@ -73,12 +85,13 @@ for (let i = 0; i < width * height; i++) {
   }
 }
 
-// Trim the transparent margin. The scan came in at 1280x357 but the mark only
-// occupies 1139x250 of that, sitting 45px from the top and 61px from the bottom.
-// Two things follow from the padding: the logo renders ~30% smaller than its
-// `h-16 w-auto` box implies (the box is mostly empty space, which is most of why
-// it reads as low-res), and the uneven top/bottom margin makes it sit visibly
-// high in the navbar. Cropping to the ink fixes both.
+// Trim the transparent margin. Both supplied sources carry a wide, UNEVEN
+// margin — the old scan was 1280x357 around 1139x250 of ink, 45px clear at the
+// top and 61px at the bottom. Two things follow from that padding: the logo
+// renders far smaller than its `h-14 w-auto` box implies (the box is mostly
+// empty space, which is most of why it read as low-res), and an uneven
+// top/bottom margin makes it sit visibly high in the navbar. Cropping to the
+// ink fixes both, and does it for whatever margin the next source arrives with.
 const box = { left: width, top: height, right: 0, bottom: 0 };
 for (let y = 0; y < height; y++) {
   for (let x = 0; x < width; x++) {
