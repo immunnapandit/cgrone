@@ -4,11 +4,12 @@ import { fileURLToPath } from "node:url";
 
 const dir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../src/assets/images/logo");
 
-/* Source. Started as Logo.jpeg at 1280x357; the client has since supplied
-   CynosureLogo.png and then CynosureLogo2.png, both 2171x724 — 2.9x the pixels
-   and lossless. Each is still a raster with a white ground and no alpha (3
-   channels, corners measured at 253-255), so everything below — the chroma key,
-   the un-blend and the trim — still has to run.
+/* Source. CynosureLogo2.png, 2171x724, is the only one in the tree — the two
+   it replaced (Logo.jpeg at 1280x357, then CynosureLogo.png) were deleted on
+   2026-09-04 once this pointed at v2, and are in git history if ever needed.
+   The current source is a raster with a white ground and no alpha (3 channels,
+   corners measured at 253-255), so everything below — the chroma key, the
+   un-blend and the trim — has to run.
 
    The ringing this script was written to fight is a JPEG artefact the PNG
    sources do not have. The despeckle pass stays anyway: it only ever removes
