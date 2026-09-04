@@ -4,18 +4,22 @@ import { fileURLToPath } from "node:url";
 
 const dir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../src/assets/images/logo");
 
-/* Source, replaced 2026-09-04. Was Logo.jpeg at 1280x357; the client supplied
-   CynosureLogo.png at 2171x724, which is 2.9x the pixels and lossless. It is
-   still a raster with a white ground and no alpha (3 channels), so everything
-   below — the chroma key, the un-blend and the trim — still has to run. What
-   changed is that the ringing this script was written to fight is a JPEG
-   artefact the new source does not have; the despeckle pass stays because it
-   only ever removes ISOLATED low-alpha pixels, so on a clean source it is a
-   no-op rather than a risk.
+/* Source. Started as Logo.jpeg at 1280x357; the client has since supplied
+   CynosureLogo.png and then CynosureLogo2.png, both 2171x724 — 2.9x the pixels
+   and lossless. Each is still a raster with a white ground and no alpha (3
+   channels, corners measured at 253-255), so everything below — the chroma key,
+   the un-blend and the trim — still has to run.
 
-   There is still no vector original. If one ever arrives, this script and both
-   raster outputs should go. */
-const input = path.join(dir, "CynosureLogo.png");
+   The ringing this script was written to fight is a JPEG artefact the PNG
+   sources do not have. The despeckle pass stays anyway: it only ever removes
+   ISOLATED low-alpha pixels, so on a clean source it is a no-op rather than a
+   risk.
+
+   To take a new supply, point `input` at it and re-run. Nothing downstream is
+   hardcoded to a size, a margin or an aspect ratio — the trim finds the ink
+   wherever it sits. There is still no vector original; if one arrives, this
+   script and both raster outputs should go. */
+const input = path.join(dir, "CynosureLogo2.png");
 const output = path.join(dir, "cgr-one-logo.png");
 
 // Soft chroma-key: pixels close to white become transparent, with a smooth
