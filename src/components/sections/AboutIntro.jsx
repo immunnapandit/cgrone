@@ -1,4 +1,5 @@
-import { FaArrowRight, FaGlobeAmericas } from "react-icons/fa";
+import { FaArrowRight } from "react-icons/fa";
+import { LuGlobe } from "react-icons/lu";
 import Reveal from "@/components/common/Reveal";
 import WordsSlideUp from "@/components/common/WordsSlideUp";
 import { aboutIntro } from "@/data/aboutPage";
@@ -63,7 +64,7 @@ export default function AboutIntro() {
 
               <div className="experience">
                 <span className="icon">
-                  <FaGlobeAmericas />
+                  <LuGlobe />
                 </span>
                 <strong>{stat.value}</strong>
                 <span className="whitespace-pre-line">{stat.label}</span>

@@ -24,12 +24,12 @@ export default function OurStory() {
                   <span className="t-num text-3xl text-ink leading-none">
                     {c.marker}
                   </span>
-                  <span className="text-soft text-[11px] uppercase tracking-[0.16em] text-right">
+                  <span className="text-muted text-[11px] uppercase tracking-[0.16em] text-right">
                     {c.place}
                   </span>
                 </div>
                 <h3 className="t-h4 text-ink mb-3">{c.title}</h3>
-                <p className="t-body text-base">{c.text}</p>
+                <p className="t-body">{c.text}</p>
               </li>
             ))}
           </ol>

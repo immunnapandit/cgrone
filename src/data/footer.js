@@ -1,4 +1,5 @@
-import { FaEnvelope, FaGlobeAmericas, FaRegCalendarCheck, FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import { LuCalendarCheck, LuGlobe, LuMail } from "react-icons/lu";
 
 /* `href` turns the card into a real mailto:/route link — the jurisdictions
    card has none, so it stays plain text.
@@ -9,9 +10,9 @@ import { FaEnvelope, FaGlobeAmericas, FaRegCalendarCheck, FaFacebookF, FaTwitter
    Put the real switchboard and registered office back the moment they are
    confirmed. */
 export const footerContactInfo = [
-  { icon: FaEnvelope, label: "Email Us", value: "info@cgrone.com", href: "mailto:info@cgrone.com" },
-  { icon: FaGlobeAmericas, label: "Where We Operate", value: "India · UK · Canada · Australia · New Zealand" },
-  { icon: FaRegCalendarCheck, label: "Enquiries", value: "Book a Consultation", href: "/contact" },
+  { icon: LuMail, label: "Email Us", value: "info@cgrone.com", href: "mailto:info@cgrone.com" },
+  { icon: LuGlobe, label: "Where We Operate", value: "India · UK · Canada · Australia · New Zealand" },
+  { icon: LuCalendarCheck, label: "Enquiries", value: "Book a Consultation", href: "/contact" },
 ];
 
 /* The three pillars and what sits under them, per the 2026-08-29 layout

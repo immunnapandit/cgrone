@@ -110,6 +110,21 @@ const COUNTRY_META = {
   },
 };
 
+/* CBI/RBI programme detail pages. Keyed by the same slug as
+   src/data/programmePages.js — add an entry here when a programme page is
+   written, or it will render without meta and stay out of the sitemap.
+
+   Descriptions say what the page covers without quoting a threshold, for the
+   same reason the pages themselves do not: see the header of
+   programmePages.js. */
+const PROGRAMME_META = {
+  "antigua-barbuda": {
+    title: "Antigua & Barbuda Citizenship by Investment | Cynosure",
+    description:
+      "Citizenship by investment in Antigua and Barbuda — qualifying routes, who may be included, the application process and due diligence, coordinated with licensed agents in-country.",
+  },
+};
+
 /**
  * Resolve metadata for a pathname.
  * Unknown paths fall back to the home metadata, matching the router's
@@ -123,6 +138,11 @@ export function getRouteMeta(pathname = "/") {
   const country = path.startsWith("/countries/") && COUNTRY_META[path.slice("/countries/".length)];
   if (country) return { ...country, path };
 
+  const programme =
+    path.startsWith("/investment-migration/") &&
+    PROGRAMME_META[path.slice("/investment-migration/".length)];
+  if (programme) return { ...programme, path };
+
   return { ...DEFAULT_META, path: "/" };
 }
 
@@ -133,5 +153,6 @@ export function allPaths() {
   return [
     ...Object.keys(ROUTES),
     ...Object.keys(COUNTRY_META).map((slug) => `/countries/${slug}`),
+    ...Object.keys(PROGRAMME_META).map((slug) => `/investment-migration/${slug}`),
   ];
 }

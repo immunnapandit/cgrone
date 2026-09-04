@@ -65,32 +65,50 @@ export default function InvestmentMigration() {
               {/* a tracked-out utility label, not a heading — .t-h4 is a
                   heading style and this is a group marker above one */}
               {s.groupTitle && (
-                <p className="font-heading font-medium text-[12px] uppercase tracking-[0.18em] text-soft mb-6">
+                <p className="font-heading font-medium text-[12px] uppercase tracking-[0.18em] text-muted mb-6">
                   {s.groupTitle}
                 </p>
               )}
 
               {s.cards && (
                 <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-5">
-                  {s.cards.map((c) => (
-                    <article key={c.title} className="bg-white border border-hairline p-7 lg:p-9">
-                      {/* the flag identifies the programme at a glance — this
-                          is how Latitude presents its programme grids, and it
-                          turns a list of names into something scannable */}
-                      {c.Flag && (
-                        <c.Flag
-                          title={c.title}
-                          className="w-11 h-[29px] object-cover rounded-[2px] ring-1 ring-ink/10 mb-6"
-                        />
-                      )}
-                      {/* h3, not h4: the section heading above is an h2 and
-                          the group label is a label rather than a heading, so
-                          h4 skipped a level. Styling comes from .t-h4, not the
-                          tag, so nothing moves. */}
-                      <h3 className="t-h4 text-ink mb-3">{c.title}</h3>
-                      <p className="t-body text-base">{c.text}</p>
-                    </article>
-                  ))}
+                  {s.cards.map((c) => {
+                    /* Programmes with a detail page become links; the rest stay
+                       inert cards. Rendering a <Link> only when `to` exists
+                       keeps the un-written programmes from advertising a page
+                       that would just redirect. */
+                    const Card = c.to ? Link : "article";
+                    return (
+                      <Card
+                        key={c.title}
+                        {...(c.to ? { to: c.to } : {})}
+                        className={`group block bg-white border border-hairline p-7 lg:p-9 ${
+                          c.to ? "transition-colors duration-300 hover:border-primary" : ""
+                        }`}
+                      >
+                        {/* the flag identifies the programme at a glance — this
+                            is how Latitude presents its programme grids, and it
+                            turns a list of names into something scannable */}
+                        {c.Flag && (
+                          <c.Flag
+                            title={c.title}
+                            className="w-11 h-[29px] object-cover ring-1 ring-ink/10 mb-6"
+                          />
+                        )}
+                        {/* h3, not h4: the section heading above is an h2 and
+                            the group label is a label rather than a heading, so
+                            h4 skipped a level. Styling comes from .t-h4, not the
+                            tag, so nothing moves. */}
+                        <h3 className="t-h4 text-ink mb-3">{c.title}</h3>
+                        <p className="t-body">{c.text}</p>
+                        {c.to && (
+                          <span className="mt-6 inline-flex items-center gap-1.5 text-ink font-heading font-semibold text-[12px] uppercase tracking-[0.16em] border-b-2 border-primary pb-1.5 transition-all duration-300 group-hover:gap-3">
+                            Explore <FaAngleRight className="text-xs" />
+                          </span>
+                        )}
+                      </Card>
+                    );
+                  })}
                 </div>
               )}
 
@@ -98,7 +116,7 @@ export default function InvestmentMigration() {
                 <ul className="grid sm:grid-cols-2 gap-x-10 gap-y-4">
                   {s.items.map((it) => (
                     <li key={it} className="flex items-start gap-4 text-ink text-[17px]">
-                      <span className="w-6 h-6 mt-1 rounded-full bg-ink text-white flex items-center justify-center text-[10px] shrink-0">
+                      <span className="w-6 h-6 mt-1 rounded-full bg-primary text-white flex items-center justify-center text-[10px] shrink-0">
                         <FaCheck />
                       </span>
                       {it}
@@ -124,7 +142,7 @@ export default function InvestmentMigration() {
               )}
 
               {s.note && (
-                <p className="t-body text-base mt-9 max-w-4xl border-l-2 border-primary pl-6">
+                <p className="t-body mt-9 max-w-4xl border-l-2 border-primary pl-6">
                   {s.note}
                 </p>
               )}

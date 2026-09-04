@@ -249,10 +249,10 @@ export default function Hero() {
               <Link to="/contact" className="hero-cta">
                 Book a Confidential Consultation <FaArrowRight />
               </Link>
-              <Link
-                to="/global-immigration"
-                className="inline-flex items-center gap-2 font-heading font-medium text-[13px] uppercase tracking-[0.16em] border-b pb-1.5 hover:gap-3.5 transition-all duration-300 text-white border-white/60"
-              >
+              {/* was bare underlined type, invisible against the lit skyline —
+                  see .btn-ghost-light for why this is a component fix rather
+                  than a reopening of the settled hero-contrast decision */}
+              <Link to="/global-immigration" className="btn-ghost-light">
                 Where We Work
               </Link>
             </div>
@@ -281,12 +281,25 @@ export default function Hero() {
               settles that the same way moving it did; the veil is still
               carrying the standfirst and the CTA link, which fail on the bare
               frame at 4.13:1 and 3.67:1. See .hero-veil in index.css. */}
-          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
+          {/* gap raised 16/24 -> 24/32 to match the pillar grid in Services,
+              which was already at gap-6 md:gap-8. Cards this size read as
+              crowded at 16px. */}
+          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8">
             {/* Static too. These sat at opacity 0 until a mount animation ran,
                 and they are in the first viewport — the same rAF exposure as
                 the slides above. Three small cards do not need an entrance. */}
             {heroFeatures.map((card) => (
-              <div key={card.title} className="feature-block">
+              /* accent per card, consumed by .feature-block in index.css —
+                 see heroFeatures.js for the hues and their contrast ratios */
+              <div
+                key={card.title}
+                className="feature-block"
+                style={{
+                  "--card-accent": card.accent,
+                  "--card-accent-wash": card.accentWash,
+                  "--card-accent-edge": card.accentEdge,
+                }}
+              >
                 <div className="inner-box">
                   <div className="icon">
                     <card.icon />

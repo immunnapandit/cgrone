@@ -42,12 +42,12 @@ export default function Insights() {
               <div className="p-8 flex flex-col flex-1">
                 <time
                   dateTime={p.date}
-                  className="text-soft text-[12px] uppercase tracking-[0.16em] mb-4"
+                  className="text-muted text-[12px] uppercase tracking-[0.16em] mb-4"
                 >
                   {DATE.format(new Date(p.date))}
                 </time>
                 <h3 className="t-h4 text-ink mb-4">{p.title}</h3>
-                <p className="t-body text-base mb-7">{p.summary}</p>
+                <p className="t-body mb-7">{p.summary}</p>
                 <Link
                   to={p.href}
                   className="mt-auto inline-flex items-center gap-1.5 text-ink font-heading font-semibold text-[12px] uppercase tracking-[0.16em] border-b-2 border-primary pb-1.5 self-start hover:gap-3 transition-all duration-300"

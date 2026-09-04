@@ -1,4 +1,4 @@
-import { FaEnvelope, FaGlobeAmericas, FaRegCommentDots } from "react-icons/fa";
+import { LuGlobe, LuMail, LuMessageCircle } from "react-icons/lu";
 import PageTitle from "@/components/sections/PageTitle";
 import ContactSection from "@/components/sections/Contact";
 import Reveal from "@/components/common/Reveal";
@@ -10,20 +10,20 @@ import { skylines } from "@/data/banners";
    there is one form to maintain, not two. */
 const WAYS = [
   {
-    icon: FaEnvelope,
+    icon: LuMail,
     label: "Email",
     value: "info@cgrone.com",
     href: "mailto:info@cgrone.com",
     text: "Written enquiries reach the advisory team directly.",
   },
   {
-    icon: FaGlobeAmericas,
+    icon: LuGlobe,
     label: "Where We Operate",
     value: "India · UK · Canada · Australia · New Zealand",
     text: "Every matter is routed to regulated professionals in the destination jurisdiction.",
   },
   {
-    icon: FaRegCommentDots,
+    icon: LuMessageCircle,
     label: "What Happens Next",
     value: "A conversation, not a quote",
     text: "We start by understanding the objective, then set out the routes that actually fit it.",
@@ -70,11 +70,11 @@ export default function Contact() {
                     <span className="w-14 h-14 mb-8 flex items-center justify-center text-2xl text-ink border border-hairline transition-colors duration-300 group-hover:bg-primary group-hover:border-primary group-hover:text-white">
                       <Icon />
                     </span>
-                    <p className="font-heading font-medium text-[12px] uppercase tracking-[0.18em] text-soft mb-2">
+                    <p className="font-heading font-medium text-[12px] uppercase tracking-[0.18em] text-muted mb-2">
                       {label}
                     </p>
                     <p className="t-h4 text-ink mb-3 break-words">{value}</p>
-                    <p className="t-body text-base">{text}</p>
+                    <p className="t-body">{text}</p>
                   </Wrapper>
                 );
               })}

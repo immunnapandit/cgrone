@@ -20,7 +20,7 @@ export default function RegulatedPartner({ data }) {
             <span className="chev">»</span> Professional Responsibility
           </div>
           <h2 className="t-h2 text-ink mb-4">{heading}</h2>
-          <p className="t-h5 text-soft mb-6">{sub}</p>
+          <p className="t-h5 text-muted mb-6">{sub}</p>
           <p className="t-body">{lead}</p>
         </Reveal>
 
@@ -31,7 +31,7 @@ export default function RegulatedPartner({ data }) {
                 key={col.title}
                 /* ours reads as the lighter half, the regulated practitioner as
                    the anchored one — the point is that advice sits over there */
-                className={i === 0 ? "bg-white p-9 lg:p-11" : "bg-ink p-9 lg:p-11"}
+                className={i === 0 ? "bg-white p-9 lg:p-11" : "bg-primary p-9 lg:p-11"}
               >
                 <h3 className={`t-h4 mb-7 ${i === 0 ? "text-ink" : "text-white"}`}>
                   {col.title}
@@ -53,7 +53,7 @@ export default function RegulatedPartner({ data }) {
             ))}
           </div>
 
-          <p className="t-body text-base mt-8 max-w-4xl border-l-2 border-primary pl-6">
+          <p className="t-body mt-8 max-w-4xl border-l-2 border-primary pl-6">
             {note}
           </p>
         </Reveal>

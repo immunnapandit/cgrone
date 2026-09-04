@@ -73,10 +73,10 @@ export default function GlobalImmigration() {
                 >
                   <c.Flag
                     title={c.name}
-                    className="w-12 h-8 object-cover rounded-[2px] ring-1 ring-ink/10 mb-7"
+                    className="w-12 h-8 object-cover ring-1 ring-ink/10 mb-7"
                   />
                   <h2 className="t-h3 text-ink mb-3">{c.name}</h2>
-                  <p className="t-body text-base mb-7">{c.lede}</p>
+                  <p className="t-body mb-7">{c.lede}</p>
                   <span className="mt-auto inline-flex items-center gap-1.5 text-ink font-heading font-semibold text-[12px] uppercase tracking-[0.16em] border-b-2 border-primary pb-1.5 self-start group-hover:gap-3 transition-all">
                     Explore {c.name} <FaAngleRight className="text-xs" />
                   </span>
@@ -88,7 +88,7 @@ export default function GlobalImmigration() {
           <Reveal delay={0.1}>
             <div className="mt-12 border border-hairline bg-offwhite p-8 lg:p-10 max-w-3xl">
               <h2 className="t-h4 text-ink mb-3">Selected Global Destinations</h2>
-              <p className="t-body text-base">
+              <p className="t-body">
                 We also advise on other destinations where a genuine pathway
                 exists for a client's circumstances. If the country you have in
                 mind is not listed here, tell us what you are trying to achieve

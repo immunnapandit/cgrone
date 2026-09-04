@@ -16,7 +16,7 @@ function Cards({ cards }) {
       {cards.map((c) => (
         <article key={c.title} className="bg-white border border-hairline p-8 lg:p-9">
           <h3 className="t-h4 text-ink mb-3">{c.title}</h3>
-          <p className="t-body text-base">{c.text}</p>
+          <p className="t-body">{c.text}</p>
         </article>
       ))}
     </div>
@@ -31,7 +31,7 @@ function Groups({ groups }) {
           <h3 className="t-h4 text-ink mb-6 pb-4 border-b border-hairline">{g.title}</h3>
           <ul className="space-y-3">
             {g.items.map((it) => (
-              <li key={it} className="flex items-start gap-3 t-body text-base">
+              <li key={it} className="flex items-start gap-3 t-body">
                 <span className="w-1.5 h-1.5 mt-2.5 rounded-full bg-ink/25 shrink-0" />
                 {it}
               </li>
@@ -50,7 +50,7 @@ function Steps({ steps }) {
         <li key={s.n} className="bg-white border border-hairline p-8 lg:p-9">
           <span className="t-num text-3xl text-ink/25 leading-none">{s.n}</span>
           <h3 className="t-h4 text-ink mt-5 mb-3">{s.title}</h3>
-          <p className="t-body text-base">{s.text}</p>
+          <p className="t-body">{s.text}</p>
         </li>
       ))}
     </ol>
@@ -62,7 +62,7 @@ function Items({ items }) {
     <ul className="grid sm:grid-cols-2 gap-x-10 gap-y-4">
       {items.map((it) => (
         <li key={it} className="flex items-start gap-4 text-ink text-[17px]">
-          <span className="w-6 h-6 mt-1 rounded-full bg-ink text-white flex items-center justify-center text-[10px] shrink-0">
+          <span className="w-6 h-6 mt-1 rounded-full bg-primary text-white flex items-center justify-center text-[10px] shrink-0">
             <FaCheck />
           </span>
           {it}
@@ -106,7 +106,7 @@ export default function CountryDetail() {
               <div className="flex items-center gap-5 mb-7">
                 <Flag
                   title={name}
-                  className="w-12 h-8 object-cover rounded-[2px] ring-1 ring-ink/10"
+                  className="w-12 h-8 object-cover ring-1 ring-ink/10"
                 />
                 <div className="eyebrow !mb-0">
                   <span className="chev">»</span> International Reach
@@ -136,7 +136,7 @@ export default function CountryDetail() {
                 <h2 className="t-h4 text-ink mb-5">Who We Support</h2>
                 <ul className="space-y-2.5">
                   {audience.map((a) => (
-                    <li key={a} className="flex items-start gap-3 t-body text-base">
+                    <li key={a} className="flex items-start gap-3 t-body">
                       <span className="w-1.5 h-1.5 mt-2.5 rounded-full bg-ink/25 shrink-0" />
                       {a}
                     </li>
@@ -175,7 +175,7 @@ export default function CountryDetail() {
               {s.items && <Items items={s.items} />}
 
               {s.note && (
-                <p className="t-body text-base mt-9 max-w-4xl border-l-2 border-primary pl-6">
+                <p className="t-body mt-9 max-w-4xl border-l-2 border-primary pl-6">
                   {s.note}
                 </p>
               )}
@@ -186,7 +186,7 @@ export default function CountryDetail() {
                   <div className="grid sm:grid-cols-5 divide-y sm:divide-y-0 sm:divide-x divide-hairline">
                     {s.journey.map((step, n) => (
                       <div key={step} className="px-6 py-7 text-center">
-                        <span className="t-num text-sm text-soft block mb-2">
+                        <span className="t-num text-sm text-muted block mb-2">
                           0{n + 1}
                         </span>
                         <span className="font-heading font-medium text-[13px] uppercase tracking-[0.14em] text-ink">
@@ -196,7 +196,7 @@ export default function CountryDetail() {
                     ))}
                   </div>
                   {s.journeyNote && (
-                    <p className="t-body text-base px-8 py-7 border-t border-hairline">
+                    <p className="t-body px-8 py-7 border-t border-hairline">
                       {s.journeyNote}
                     </p>
                   )}
@@ -240,7 +240,7 @@ export default function CountryDetail() {
           <div className="max-w-[1400px] mx-auto px-6">
             <Reveal className="border border-hairline bg-offwhite p-9 lg:p-11 max-w-4xl">
               <h2 className="t-h4 text-ink mb-4">{official.title}</h2>
-              <p className="t-body text-base mb-6">{official.text}</p>
+              <p className="t-body mb-6">{official.text}</p>
               <a
                 href={official.url}
                 target="_blank"
@@ -278,7 +278,7 @@ export default function CountryDetail() {
                     >
                       <c.Flag
                         title={c.name}
-                        className="w-8 h-[21px] object-cover rounded-[2px] ring-1 ring-ink/10 shrink-0"
+                        className="w-8 h-[21px] object-cover ring-1 ring-ink/10 shrink-0"
                       />
                       {c.name}
                       <FaAngleRight className="text-xs text-primary ml-auto transition-transform group-hover:translate-x-1" />

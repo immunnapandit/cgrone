@@ -9,39 +9,110 @@ const output = path.join(dir, "cgr-one-logo.png");
 // Soft chroma-key: pixels close to white become transparent, with a smooth
 // ramp so text/icon edges keep anti-aliasing instead of turning jagged.
 const TRANSPARENT_BELOW = 10; // distance from white -> fully transparent
-const OPAQUE_ABOVE = 45; // distance from white -> fully opaque
+const OPAQUE_ABOVE = 50; // distance from white -> fully opaque
+
+// A partial-alpha pixel only counts as a real anti-aliased edge if actual ink
+// sits next to it. Anything isolated is JPEG ringing around the letterforms.
+const DESPECKLE_RADIUS = 2;
+const INK_ALPHA = 200; // "actual ink" threshold for the neighbour search
+const SPECKLE_ALPHA = 110; // only pixels below this are candidates for removal
 
 const { data, info } = await sharp(input).raw().toBuffer({ resolveWithObject: true });
 const { width, height, channels } = info;
 
-const rgba = Buffer.alloc(width * height * 4);
+const alpha = new Uint8Array(width * height);
 for (let i = 0; i < width * height; i++) {
-  const r = data[i * channels];
-  const g = data[i * channels + 1];
-  const b = data[i * channels + 2];
-
-  const dist = 255 - Math.min(r, g, b);
-  let alpha;
-  if (dist <= TRANSPARENT_BELOW) alpha = 0;
-  else if (dist >= OPAQUE_ABOVE) alpha = 255;
-  else alpha = Math.round(((dist - TRANSPARENT_BELOW) / (OPAQUE_ABOVE - TRANSPARENT_BELOW)) * 255);
-
-  rgba[i * 4] = r;
-  rgba[i * 4 + 1] = g;
-  rgba[i * 4 + 2] = b;
-  rgba[i * 4 + 3] = alpha;
+  const dist = 255 - Math.min(data[i * channels], data[i * channels + 1], data[i * channels + 2]);
+  if (dist <= TRANSPARENT_BELOW) alpha[i] = 0;
+  else if (dist >= OPAQUE_ABOVE) alpha[i] = 255;
+  else alpha[i] = Math.round(((dist - TRANSPARENT_BELOW) / (OPAQUE_ABOVE - TRANSPARENT_BELOW)) * 255);
 }
 
-// Source is already 1280x357 — far higher-res than a navbar/footer logo is ever
-// displayed at, so we keep native resolution instead of upscaling (which only
-// bloats file size without adding real detail).
-await sharp(rgba, { raw: { width, height, channels: 4 } })
-  .png({ compressionLevel: 9 })
-  .toFile(output);
+// Drop isolated low-alpha pixels. The source is a JPEG, so every hard navy/white
+// boundary is surrounded by ringing that lands just above TRANSPARENT_BELOW and
+// survives as grey speckle once the background is keyed out.
+const cleaned = Uint8Array.from(alpha);
+for (let y = 0; y < height; y++) {
+  for (let x = 0; x < width; x++) {
+    const i = y * width + x;
+    if (alpha[i] === 0 || alpha[i] >= SPECKLE_ALPHA) continue;
 
+    let touchesInk = false;
+    for (let dy = -DESPECKLE_RADIUS; dy <= DESPECKLE_RADIUS && !touchesInk; dy++) {
+      const ny = y + dy;
+      if (ny < 0 || ny >= height) continue;
+      for (let dx = -DESPECKLE_RADIUS; dx <= DESPECKLE_RADIUS; dx++) {
+        const nx = x + dx;
+        if (nx < 0 || nx >= width) continue;
+        if (alpha[ny * width + nx] >= INK_ALPHA) {
+          touchesInk = true;
+          break;
+        }
+      }
+    }
+    if (!touchesInk) cleaned[i] = 0;
+  }
+}
+
+// Un-blend the white paper out of the colour channels. Each source pixel is
+// C = a*F + (1-a)*255, so keeping C as-is (what this script used to do) leaves
+// every edge pixel carrying most of its original near-white value. Over a light
+// page that is invisible, but over the navy footer it draws a bright halo around
+// every letterform. Solving back to F gives the true ink colour instead.
+const rgba = Buffer.alloc(width * height * 4);
+for (let i = 0; i < width * height; i++) {
+  const a = cleaned[i];
+  rgba[i * 4 + 3] = a;
+  if (a === 0) continue;
+
+  const af = a / 255;
+  for (let c = 0; c < 3; c++) {
+    const observed = data[i * channels + c];
+    const unblended = (observed - (1 - af) * 255) / af;
+    rgba[i * 4 + c] = Math.max(0, Math.min(255, Math.round(unblended)));
+  }
+}
+
+// Trim the transparent margin. The scan came in at 1280x357 but the mark only
+// occupies 1139x250 of that, sitting 45px from the top and 61px from the bottom.
+// Two things follow from the padding: the logo renders ~30% smaller than its
+// `h-16 w-auto` box implies (the box is mostly empty space, which is most of why
+// it reads as low-res), and the uneven top/bottom margin makes it sit visibly
+// high in the navbar. Cropping to the ink fixes both.
+const box = { left: width, top: height, right: 0, bottom: 0 };
+for (let y = 0; y < height; y++) {
+  for (let x = 0; x < width; x++) {
+    if (rgba[(y * width + x) * 4 + 3] <= 8) continue;
+    if (x < box.left) box.left = x;
+    if (x > box.right) box.right = x;
+    if (y < box.top) box.top = y;
+    if (y > box.bottom) box.bottom = y;
+  }
+}
+const crop = {
+  left: box.left,
+  top: box.top,
+  width: box.right - box.left + 1,
+  height: box.bottom - box.top + 1,
+};
+
+const master = sharp(rgba, { raw: { width, height, channels: 4 } }).extract(crop);
+
+// Native resolution for the PNG master — the scan is already far higher-res than
+// a navbar/footer logo is displayed at, so upscaling would only add bytes.
+await master.clone().png({ compressionLevel: 9 }).toFile(output);
+
+// The webp is what the site actually loads. Largest on-screen size is the navbar
+// at 64px tall (~229px wide), so 900px covers a 3x display with room to spare;
+// the downscale also averages out what is left of the JPEG noise. Aspect ratio is
+// unchanged, so the `h-14 w-auto` sizing in Navbar/Footer is unaffected.
+const DELIVERED_WIDTH = 900;
 const webpOutput = output.replace(/\.png$/, ".webp");
-await sharp(rgba, { raw: { width, height, channels: 4 } })
+await master
+  .clone()
+  .resize({ width: DELIVERED_WIDTH, kernel: "lanczos3" })
   .webp({ quality: 92, alphaQuality: 100 })
   .toFile(webpOutput);
 
-console.log(`Wrote ${output} and ${webpOutput} (${width}x${height}, transparent background)`);
+console.log(`Trimmed ${width}x${height} -> ${crop.width}x${crop.height} (offset ${crop.left},${crop.top})
+Wrote ${output} and ${webpOutput} (${DELIVERED_WIDTH}px wide), transparent background`);

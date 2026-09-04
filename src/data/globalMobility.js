@@ -1,11 +1,4 @@
-import {
-  FaPassport,
-  FaTruckMoving,
-  FaUsers,
-  FaHome,
-  FaTasks,
-  FaGlobeAmericas,
-} from "react-icons/fa";
+import { LuBookUser, LuGlobe, LuHouse, LuListChecks, LuTruck, LuUsers } from "react-icons/lu";
 
 /* Verbatim from src/assets/Documents/Cynosure_Corporate_Immigration_Global_Mobility.docx
    (added by the client 2026-08-27).
@@ -23,32 +16,32 @@ export const corporateMobility = {
   supportTitle: "End-to-End Mobility Support",
   support: [
     {
-      icon: FaPassport,
+      icon: LuBookUser,
       title: "Immigration & Work Authorisation",
       text: "Assessment, application management and coordination of visas, work permits and related immigration requirements.",
     },
     {
-      icon: FaTruckMoving,
+      icon: LuTruck,
       title: "International Relocation",
       text: "Practical coordination to help employees and their families transition smoothly into a new country.",
     },
     {
-      icon: FaUsers,
+      icon: LuUsers,
       title: "Employee & Family Mobility",
       text: "Managing immigration and relocation requirements for accompanying family members.",
     },
     {
-      icon: FaHome,
+      icon: LuHouse,
       title: "Pre-Arrival & Settlement Support",
       text: "Helping employees prepare for their move and navigate the practical requirements of establishing themselves in a new location.",
     },
     {
-      icon: FaTasks,
+      icon: LuListChecks,
       title: "Case Management & Coordination",
       text: "Centralised documentation, timelines, communication and case tracking throughout the mobility lifecycle.",
     },
     {
-      icon: FaGlobeAmericas,
+      icon: LuGlobe,
       title: "Global Partner Network",
       text: "Coordinating with trusted immigration lawyers, regulated professionals and local specialists across jurisdictions.",
     },

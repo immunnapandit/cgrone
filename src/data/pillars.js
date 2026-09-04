@@ -1,4 +1,4 @@
-import { FaChartLine, FaGlobeAmericas, FaUsers } from "react-icons/fa";
+import { LuGlobe, LuTrendingUp, LuUsers } from "react-icons/lu";
 import investmentImg from "@/assets/images/services/Global Residency & Investment Migration.webp";
 import immigrationImg from "@/assets/images/services/Canada Immigiration.webp";
 import workforceImg from "@/assets/images/services/Business  Investor Immigration.webp";
@@ -21,7 +21,7 @@ import workforceImg from "@/assets/images/services/Business  Investor Immigratio
 export const pillars = [
   {
     n: "01",
-    icon: FaChartLine,
+    icon: LuTrendingUp,
     img: investmentImg,
     title: "Investment & Business Migration",
     audience: "For investors, entrepreneurs and business families.",
@@ -30,7 +30,7 @@ export const pillars = [
   },
   {
     n: "02",
-    icon: FaGlobeAmericas,
+    icon: LuGlobe,
     img: immigrationImg,
     title: "Global Immigration",
     audience: "For individuals, families and professionals.",
@@ -39,7 +39,7 @@ export const pillars = [
   },
   {
     n: "03",
-    icon: FaUsers,
+    icon: LuUsers,
     img: workforceImg,
     title: "International Workforce Mobility",
     audience: "For employers and international talent.",

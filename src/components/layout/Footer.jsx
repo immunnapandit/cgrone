@@ -49,11 +49,11 @@ export default function Footer() {
                 {...(it.href ? { href: it.href } : {})}
                 className={`flex items-center gap-4 group ${it.href ? "" : "cursor-default"}`}
               >
-                <div className="w-14 h-14 bg-ink text-white flex items-center justify-center text-xl shrink-0 transition-colors duration-300 group-hover:bg-primary group-hover:text-white">
+                <div className="w-14 h-14 bg-primary text-white flex items-center justify-center text-2xl shrink-0 transition-colors duration-300 group-hover:bg-primary-dark group-hover:text-white">
                   <it.icon />
                 </div>
                 <div>
-                  <p className="font-heading font-medium text-[12px] uppercase tracking-[0.18em] text-soft mb-0.5">{it.label}</p>
+                  <p className="font-heading font-medium text-[12px] uppercase tracking-[0.18em] text-muted mb-0.5">{it.label}</p>
                   <p className="t-h5 text-ink leading-snug break-all">{it.value}</p>
                 </div>
               </Wrapper>
@@ -66,14 +66,20 @@ export default function Footer() {
         <div>
           {/* the white box existed only to lift the logo off the navy */}
           <Link to="/" className="inline-block mb-5">
-            <img src={logo} alt="Cynosure Global Residency" className="h-12 w-auto" />
+            {/* Column is a quarter of a 1400px grid (~300px), so the trimmed
+                logo's wider aspect has room here — no width cap needed. */}
+            <img
+              src={logo}
+              alt="Cynosure Global Residency — Your Global Future. Our Focus."
+              className="h-11 w-auto"
+            />
           </Link>
           <p className="t-body mb-7 max-w-xs">
             An international advisory platform for immigration, global mobility,
             investment migration and cross-border opportunities — working with
             trusted professionals across jurisdictions.
           </p>
-          <Link to="/about" className="btn-primary !py-3 !px-6 text-xs">
+          <Link to="/about" className="btn-primary btn-sm">
             Read More
           </Link>
         </div>
@@ -135,7 +141,7 @@ export default function Footer() {
               required
               autoComplete="email"
               placeholder="Your Email address"
-              className="bg-white border border-hairline px-5 py-3 outline-none focus:border-primary transition-colors text-ink placeholder:text-soft"
+              className="bg-white border border-hairline px-5 py-3 outline-none focus:border-primary transition-colors text-ink placeholder:text-muted"
             />
 
             {/* Honeypot — see the matching field on the contact form. */}
@@ -183,7 +189,7 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* text-muted, not text-soft — soft lands at 4.52:1 on ivory and this
+      {/* text-muted, not text-muted — soft lands at 4.52:1 on ivory and this
           line is 13px, so it has almost no margin */}
       <div className="border-t border-hairline py-7 text-center text-muted text-[13px] tracking-[0.06em]">
         © {new Date().getFullYear()} Cynosure Global Residency. All rights reserved.

@@ -33,7 +33,7 @@ export default function Leadership() {
                 {founder.role.split("|").map((r) => (
                   <li
                     key={r}
-                    className="text-soft text-[13px] uppercase tracking-[0.16em]"
+                    className="text-muted text-[13px] uppercase tracking-[0.16em]"
                   >
                     {r.trim()}
                   </li>
@@ -74,7 +74,7 @@ export default function Leadership() {
               <blockquote className="t-h4 text-ink leading-relaxed">
                 {founder.quote}
               </blockquote>
-              <figcaption className="mt-5 text-soft text-[13px] uppercase tracking-[0.16em]">
+              <figcaption className="mt-5 text-muted text-[13px] uppercase tracking-[0.16em]">
                 {founder.name}
               </figcaption>
             </figure>

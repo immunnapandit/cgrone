@@ -1,4 +1,4 @@
-import { FaCompass, FaGlobeAmericas } from "react-icons/fa";
+import { LuCompass, LuGlobe } from "react-icons/lu";
 
 /* Copy here used to read as a visa consultancy — "Best Immigration & Global
    Residency Consultation", "Ready to fly with us to your dream country", a
@@ -16,12 +16,12 @@ export const aboutIntro = {
   },
   blocks: [
     {
-      icon: FaCompass,
+      icon: LuCompass,
       title: "Strategic Assessment",
       text: "A strategy-first assessment of the pathway that actually fits your profile, before any application is filed.",
     },
     {
-      icon: FaGlobeAmericas,
+      icon: LuGlobe,
       title: "Regulated Professional Network",
       text: "Coordinated with regulated immigration professionals and qualified lawyers across jurisdictions.",
     },

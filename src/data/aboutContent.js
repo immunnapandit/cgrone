@@ -1,8 +1,8 @@
-import { FaGlobe, FaHandshake } from "react-icons/fa";
+import { LuGlobe, LuHandshake } from "react-icons/lu";
 
 export const aboutHighlights = [
-  { icon: FaGlobe, title: ["20+ Years", "Global Experience"] },
-  { icon: FaHandshake, title: ["Trusted Partner", "Network"] },
+  { icon: LuGlobe, title: ["20+ Years", "Global Experience"] },
+  { icon: LuHandshake, title: ["Trusted Partner", "Network"] },
 ];
 
 export const aboutBulletPoints = [

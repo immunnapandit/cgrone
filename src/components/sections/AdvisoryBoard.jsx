@@ -50,7 +50,7 @@ export default function AdvisoryBoard() {
                 <span className="chev">»</span> {philosophy.eyebrow}
               </div>
               <h3 className="t-h4 text-ink mb-5">{philosophy.heading}</h3>
-              <p className="t-body text-base mb-8">{philosophy.text}</p>
+              <p className="t-body mb-8">{philosophy.text}</p>
               <p className="t-lead text-ink border-l-2 border-primary pl-6 mt-auto">
                 {philosophy.closing}
               </p>

@@ -75,7 +75,7 @@ export default function WhyChooseUs() {
                       <dt className="t-num text-3xl text-ink leading-none shrink-0 w-28">
                         {f.value}
                       </dt>
-                      <dd className="text-soft text-[13px] uppercase tracking-[0.16em] leading-snug">
+                      <dd className="text-muted text-[13px] uppercase tracking-[0.16em] leading-snug">
                         {f.label}
                       </dd>
                     </div>

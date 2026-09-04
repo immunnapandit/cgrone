@@ -73,8 +73,22 @@
 
      Measured on the page, not estimated: --c-soft is 4.59:1 on this ground
      and --c-muted 6.10:1, so both clear AA — but note --c-soft has only
-     0.09 of margin. It is the eyebrow/caption colour and must not be
-     lightened, and this ground must not be darkened, without re-checking. */
+     0.09 of margin. It is the caption colour and must not be lightened, and
+     this ground must not be darkened, without re-checking.
+
+     The eyebrow used to be on --c-soft and is on --c-muted as of 2026-09-04.
+     It was set as `--c-soft / 0.85`, which is a lightening this note already
+     forbade: it computed to #818897, 3.46:1, under the 4.5 floor, and the
+     client read it as faded. Anything applying an alpha to --c-soft is a bug
+     by construction — there is no headroom for one.
+
+     ---- --c-soft IS NO LONGER A TEXT COLOUR (2026-09-04) ----
+     A token that fails the moment anyone touches it is a trap, not a token, so
+     rather than keep 0.09 of margin under guard the design audit moved every
+     text use off it: 19 `text-soft` utilities in JSX plus `.t-small` and
+     `.about-section-two … .read-more` here, all now --c-muted at 6.10:1.
+     --c-soft is retained for non-text use only (hairline-adjacent marks, muted
+     iconography). Do not reintroduce it as a type colour. */
   --c-offwhite: 250 251 252;     /* #FAFBFC near-white, cool            */
   --c-hairline: 226 229 234;     /* #E2E5EA cool hairline               */
 
@@ -163,6 +177,23 @@ p {
    .t-h4 and .t-h5 are the exception to rule 1 and take 500: below about
    20px Garamond at 400 goes spindly and starts to disappear.
    ---------------------------------------------------------------------- */
+
+/* ----------------------------------------------------------------------
+   BORDER RADIUS: THE SCALE IS 0 AND 50%. THERE IS NOTHING IN BETWEEN.
+
+   The site is built from hairlines and right angles, and that is its single
+   strongest systematic decision — the home page renders zero non-zero radius
+   values. `border-radius: 50%` (Tailwind `rounded-full`) is permitted for
+   genuine circles only: the numbered process discs, the standards badges, the
+   scroll-top button.
+
+   The 2026-09-04 audit found the inner pages had drifted — five
+   `rounded-[2px]` on country-flag thumbnails, which is the undecided middle:
+   too small to read as intent, large enough to break the crispness the home
+   page establishes. All removed. Do not add an intermediate value; if a
+   softer edge is ever genuinely wanted it is a palette-level decision for the
+   whole site, not a one-off utility on a component.
+   ---------------------------------------------------------------------- */
 @layer components {
   .t-display {
     font-family: "EB Garamond", Garamond, Georgia, serif;
@@ -173,10 +204,20 @@ p {
     text-wrap: balance;
   }
 
+  /* Scale retuned 2026-09-04 on a consistent ~1.35 ratio. It was
+     60 / 42 / 31 / 21 / 18 at desktop, whose ratios ran 1.43, 1.35, 1.48, 1.17
+     — a hole between 21 and 31 where card and sub-section titles belong, and
+     .t-h4/.t-h5 close enough to be interchangeable, so neither did any
+     hierarchical work. Now 60 / 44 / 32 / 24 / 18: ratios 1.36, 1.38, 1.33, 1.33.
+
+     Every step stays fluid so the order cannot invert — h2 tracks 3vw against
+     h3's 2.1vw, and the clamp floors (32 / 26) preserve the same ordering at the
+     small end that the ceilings (44 / 32) do at the large one. The mobile end is
+     naturally more compressed; that is expected, not a regression. */
   .t-h2 {
     font-family: "EB Garamond", Garamond, Georgia, serif;
     font-weight: 400;
-    font-size: clamp(1.875rem, 2.9vw, 2.625rem);
+    font-size: clamp(2rem, 3vw, 2.75rem);
     line-height: 1.18;
     letter-spacing: normal;
     text-wrap: balance;
@@ -185,17 +226,19 @@ p {
   .t-h3 {
     font-family: "EB Garamond", Garamond, Georgia, serif;
     font-weight: 400;
-    font-size: clamp(1.5rem, 2vw, 1.9375rem);
+    font-size: clamp(1.625rem, 2.1vw, 2rem);
     line-height: 1.25;
     letter-spacing: normal;
     text-wrap: balance;
   }
 
+  /* The step that was missing. 21px at the floor so it still clears .t-h5's
+     18px on a phone, 24px at the ceiling to fill the old gap. */
   .t-h4 {
     font-family: "EB Garamond", Garamond, Georgia, serif;
     font-weight: 500;
-    font-size: clamp(1.1875rem, 1.35vw, 1.3125rem);
-    line-height: 1.35;
+    font-size: clamp(1.3125rem, 1.6vw, 1.5rem);
+    line-height: 1.3;
     letter-spacing: normal;
     text-wrap: balance;
   }
@@ -206,6 +249,7 @@ p {
     font-size: 1.125rem;
     line-height: 1.45;
     letter-spacing: normal;
+    text-wrap: balance;
   }
 
   /* Henley's hero standfirst is 21px and their body is 16px. */
@@ -228,7 +272,60 @@ p {
   .t-small {
     font-size: 0.9375rem;
     line-height: 1.6;
-    color: rgb(var(--c-soft));
+    color: rgb(var(--c-muted));
+  }
+
+  /* ---- programme detail scale ------------------------------------------
+     The scale above carries two comments that are simply wrong: "tops out at
+     Henley's 60px" and "their body is 16px". Measured off the reference page
+     in a browser at a 1440 viewport on 2026-09-04:
+
+         h1    40px / 52    (not 60)
+         h2    36px / 42    (not 44)
+         body  14px / 18    (not 16 / 1.65)
+
+     So the site is set roughly 50% larger than the reference it was drawn
+     from, which is why the programme page reads as though the browser is
+     zoomed in: 60px Garamond and 16px/1.65 body inside a 585px column is a
+     lot of type for the measure.
+
+     Scoped to .programme-page rather than corrected in the tokens, because
+     the tokens are load-bearing for fifteen other routes and changing them is
+     a separate, whole-site job. Heads go to the reference's numbers exactly.
+     Body stops at 15px/1.6 rather than 14px/1.286 — that line-height is tight
+     enough to hurt on the longer paragraphs here, and 14px body is a floor
+     worth arguing about rather than inheriting.
+
+     Single class + single class, so these beat the bare .t-* rules on
+     specificity inside this same layer. Keep them after the base scale. */
+  .programme-page .t-display {
+    font-size: clamp(2rem, 2.9vw, 2.5rem);
+    line-height: 1.3;
+  }
+
+  .programme-page .t-h2 {
+    font-size: clamp(1.75rem, 2.5vw, 2.25rem);
+    line-height: 1.167;
+  }
+
+  .programme-page .t-h3 {
+    font-size: clamp(1.375rem, 1.8vw, 1.625rem);
+    line-height: 1.25;
+  }
+
+  .programme-page .t-h4 {
+    font-size: clamp(1.125rem, 1.4vw, 1.25rem);
+    line-height: 1.35;
+  }
+
+  .programme-page .t-body {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+
+  .programme-page .t-lead {
+    font-size: 1.0625rem;
+    line-height: 1.6;
   }
 
   /* numerals in stats/counters line up in columns */
@@ -249,7 +346,15 @@ p {
     font-weight: 500;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: rgb(var(--c-soft) / 0.85);
+    /* --c-muted at full opacity, 6.10:1 on offwhite and 6.32:1 on white.
+       Was `--c-soft / 0.85`, which computed to #818897 — 3.46:1 on offwhite,
+       i.e. BELOW the 4.5:1 floor, and the client read it as faded. The note on
+       --c-soft says it has 0.09 of margin and must not be lightened; the 0.85
+       alpha was doing exactly that. Plain --c-soft would pass at 4.59:1, but
+       12px uppercase tracked out to 0.22em reads harder than its ratio
+       suggests, so this takes the body-copy token and its comfortable margin.
+       Do not reintroduce an alpha here. */
+    color: rgb(var(--c-muted));
     padding: 0;
     border: 0;
     line-height: 1;
@@ -274,10 +379,26 @@ p {
      and the site's --c-primary. Two steps lighter, still corporate, and white
      on it is 7.9:1.
 
-     Note this is the one place the accent appears as a large fill, and that
-     is deliberate rather than a lapse: for Henley #405363 is a SURFACE
-     colour, not an accent. It does not license the slate anywhere else at
-     this size. See .btn-light for the dark-ground counterpart. */
+     For Henley #405363 is a SURFACE colour rather than an accent, which is
+     what makes it defensible as a large fill.
+
+     ---- THE SLATE IS NOW THE SITE'S DARK SURFACE (2026-09-04) ----
+     This note used to end "it does not license the slate anywhere else at this
+     size." That restriction is lifted, at the client's instruction: they read
+     the dark navy fills as too dark and pointed at this button as the colour
+     they wanted instead. So the seven solid --c-ink fills — the scroll-top
+     button, the footer contact tiles, the RegulatedPartner dark card, the
+     SecurityPrivacy badges, the pillar-card icon chips and the two numbered
+     discs — are all --c-primary now, and .btn-outline fills to it rather than
+     to the navy. White on it is 7.9:1.
+
+     --c-ink remains the HEADING and body-emphasis colour, untouched at
+     15.9:1 on white; only fills moved. Three dark uses were deliberately left:
+     the Contact panel and PageTitle base colours (they sit under photographs as
+     no-white-flash fallbacks, so lightening them changes nothing visible) and
+     the .video-cta veil (that one is a contrast device holding white type over
+     a photograph — lightening it would weaken the type it exists to protect).
+     See .btn-light for the dark-ground counterpart. */
   .btn-primary {
     display: inline-flex;
     align-items: center;
@@ -323,6 +444,71 @@ p {
     background: rgb(var(--c-offwhite));
     border-color: rgb(var(--c-offwhite));
     color: rgb(var(--c-ink));
+  }
+
+  /* ---- button sizes ----
+     Named modifiers, added 2026-09-04. Before this there was one button size
+     and two call-sites that disagreed with it via !important: the navbar ran
+     `!py-3 !px-5 text-[11px] 2xl:!px-6 2xl:text-xs` and the footer
+     `!py-3 !px-6 text-xs`. Three sizes and two letter-spacings shipped, none of
+     them named, and the next size need would have been a fourth override.
+
+     Only size properties live here — fill, label colour and hover stay with
+     .btn-primary / .btn-light, so a size composes with either ground.
+     Letter-spacing is deliberately NOT varied: one value, 0.12em, across both.
+
+     12px rather than the 11px the audit suggested. The two overrides being
+     replaced were 11px and 12px, and 11px uppercase tracked to 0.12em is below
+     comfortable — 12px unifies them upward. Measured after: the navbar bar comes
+     to ~1287px of its 1400 container, so the width budget still holds.
+
+     These are single-class selectors like .btn-primary, so they win on source
+     order alone. Keep them after the base buttons in this layer. */
+  .btn-sm {
+    font-size: 12px;
+    padding: 13px 24px;
+  }
+
+  /* The hero's SECONDARY action. It was bare white type on a 1px underline,
+     sitting on the brightest part of the skyline — measured as the one
+     interactive element in the composition that a visitor genuinely could not
+     find, and the only route from the hero to the jurisdiction pages.
+
+     It carries its own ground now: a 0.7-alpha deepest-navy fill behind a
+     hairline white border. Sized to match .hero-cta exactly (13px / 17px 34px)
+     so the two sit as a matched pair rather than two unrelated objects — a
+     white slab and its inversion.
+
+     This is deliberately NOT the hero scrim that was built and rejected. The
+     fill is bounded by the button box; nothing is laid over the photograph and
+     the headline and standfirst are untouched. Worst case, against pure white
+     pixels, white-on-fill still measures above 5:1. */
+  .btn-ghost-light {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgb(var(--c-ink-deep) / 0.7);
+    color: #fff;
+    font-family: "Roboto", system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 17px 34px;
+    border: 1px solid rgb(255 255 255 / 0.55);
+    backdrop-filter: blur(2px);
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  }
+
+  .btn-ghost-light:hover {
+    background: #fff;
+    border-color: #fff;
+    color: rgb(var(--c-ink));
+  }
+
+  .btn-md {
+    font-size: 13px;
+    padding: 17px 34px;
   }
 
   /* The hero's primary action. A white slab with a navy label at every width:
@@ -379,10 +565,45 @@ p {
     transition: background-color 0.35s ease, border-color 0.35s ease, color 0.35s ease;
   }
 
+  /* Fills to the slate, not the navy. .btn-primary rests on --c-primary, so an
+     outline button that filled to --c-ink on hover was landing two steps darker
+     than the button it sits beside — the same too-dark note the solid fills got
+     in this pass. */
   .btn-outline:hover {
-    background: rgb(var(--c-ink));
-    border-color: rgb(var(--c-ink));
+    background: rgb(var(--c-primary));
+    border-color: rgb(var(--c-primary));
     color: #fff;
+  }
+
+  /* .btn-outline's dark-ground counterpart, added for the slate panels on the
+     programme detail pages, where the reference layout puts a secondary action
+     beside the white primary one.
+
+     .btn-ghost-light is the hero's version of the same idea and carries a 0.7
+     navy fill because it sits over a photograph. On a flat slate panel that
+     fill reads as a second, darker rectangle inside the first, so this one is
+     genuinely transparent and the hairline does all the work. White on
+     --c-primary is 7.9:1; the border alpha matches .btn-ghost-light's. */
+  .btn-outline-light {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: transparent;
+    color: #fff;
+    border: 1px solid rgb(255 255 255 / 0.55);
+    font-family: "Roboto", system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 16px 33px;
+    transition: background-color 0.35s ease, border-color 0.35s ease, color 0.35s ease;
+  }
+
+  .btn-outline-light:hover {
+    background: #fff;
+    border-color: #fff;
+    color: rgb(var(--c-ink));
   }
 
   /* ---- focus and press states ------------------------------------------
@@ -413,6 +634,7 @@ p {
      accent is barred from dark grounds. White inverts cleanly. */
   .on-dark :where(a, button, [tabindex]:not([tabindex="-1"])):focus-visible,
   :where(a, button):focus-visible.btn-light,
+  :where(a, button):focus-visible.btn-outline-light,
   :where(a, button):focus-visible.hero-cta {
     outline-color: #fff;
   }
@@ -436,9 +658,18 @@ p {
   }
 
   .btn-outline:active {
-    background: rgb(var(--c-ink-deep));
+    background: rgb(var(--c-primary-dark));
     border-color: rgb(var(--c-ink-deep));
     color: #fff;
+  }
+
+  /* Presses THROUGH to the filled state rather than to a darker slate: on a
+     slate panel there is no darker slate available that is not simply the navy
+     this palette moved away from. */
+  .btn-outline-light:active {
+    background: rgb(var(--c-hairline));
+    border-color: rgb(var(--c-hairline));
+    color: rgb(var(--c-ink));
   }
 
   /* The white slab presses to hairline, like .btn-light — it is the same
@@ -628,6 +859,7 @@ p {
     .btn-primary,
     .btn-light,
     .btn-outline,
+    .btn-outline-light,
     .hero-cta {
       display: flex;
       width: 100%;
@@ -659,7 +891,9 @@ p {
   height: 100%;
   /* tighter on a phone, where these three stack and their padding alone was
      costing most of a screen */
-  padding: 22px 20px 20px;
+  /* Evened up 2026-09-04. Was 22px 20px 20px — three different values on a
+     52px-icon card, and the uneven horizontal/vertical pair read as crowded. */
+  padding: 28px 24px;
   background-color: #ffffff;
   border: 1px solid rgb(var(--c-hairline));
   box-shadow: 0 18px 40px -28px rgba(17, 34, 61, 0.35);
@@ -673,7 +907,9 @@ p {
   top: 0;
   height: 2px;
   width: 0;
-  background-color: rgb(var(--c-primary));
+  /* matches the card's own icon accent rather than the one shared slate, so the
+     hover reads as one gesture per card */
+  background-color: var(--card-accent, rgb(var(--c-primary)));
   transition: width 0.45s ease-out;
 }
 
@@ -685,10 +921,15 @@ p {
   width: 100%;
 }
 
-/* Navy glyph in a hairline box, filling to solid navy on hover. The accent
-   appears on this card exactly once, on the rule that draws across its top
-   edge — three tinted icon tiles in the first viewport was most of what made
-   the top of the page read as decorated rather than composed. */
+/* Coloured glyph on its own tint, filling to the solid accent on hover. Each
+   card sets --card-accent / -wash / -edge inline from heroFeatures.js, which is
+   also where the hues and their contrast ratios are recorded.
+
+   This was monochrome navy until 2026-09-03 — three tinted icon tiles in the
+   first viewport was most of what made the top of the page read as decorated
+   rather than composed — and was changed back at the client's request. The
+   fallbacks below are that navy treatment, so a card that ships without the
+   custom properties still renders correctly rather than losing its border. */
 .feature-block .inner-box .icon {
   flex-shrink: 0;
   width: 52px;
@@ -696,15 +937,35 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 21px;
-  color: rgb(var(--c-ink));
-  border: 1px solid rgb(var(--c-hairline));
+  /* 24px, up from the 21px the solid Font Awesome glyphs used. These are Lucide
+     strokes now: an outline occupies its box more lightly than a filled shape,
+     so matching the old optical weight takes a slightly larger glyph. */
+  font-size: 24px;
+  color: var(--card-accent, rgb(var(--c-ink)));
+  background-color: var(--card-accent-wash, transparent);
+  border: 1px solid var(--card-accent-edge, rgb(var(--c-hairline)));
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
+/* Every Lucide glyph on the site, not just this card's.
+
+   Lucide ships at stroke-width 2, which is a UI-control weight. 1.75 is the
+   editorial one — it is the difference between an app toolbar and a brochure.
+   CSS wins over the stroke-width presentation attribute react-icons emits.
+
+   The selector keys off the two attributes that separate the sets: react-icons
+   renders Lucide as fill="none" stroke="currentColor", and Font Awesome as
+   fill="currentColor" stroke-width="0". So the utility arrows and chevrons and
+   the four social brand marks, all still on Font Awesome, are untouched by
+   this — which is intended, since a 0-width stroke on a filled path would do
+   nothing anyway. */
+svg[fill="none"][stroke="currentColor"] {
+  stroke-width: 1.75;
+}
+
 .feature-block .inner-box:hover .icon {
-  background-color: rgb(var(--c-ink));
-  border-color: rgb(var(--c-ink));
+  background-color: var(--card-accent, rgb(var(--c-ink)));
+  border-color: var(--card-accent, rgb(var(--c-ink)));
   color: #fff;
 }
 
@@ -723,6 +984,22 @@ p {
   line-height: 1.6;
   color: rgb(var(--c-muted));
   margin-bottom: 0;
+}
+
+/* ---- FAQ disclosure marker ----
+   The plus rotates to an x when its row opens, on the programme detail pages.
+
+   Written as plain CSS rather than Tailwind's `group-open:rotate-45`: that
+   variant matched and set --tw-rotate: 45deg correctly, but the composed
+   `transform: translate(…) rotate(var(--tw-rotate)) …` still resolved to the
+   identity matrix on this element, so the marker never turned. Two lines of
+   real CSS are more legible than the composition anyway. */
+.faq-marker {
+  transition: transform 0.3s ease;
+}
+
+details[open] > summary .faq-marker {
+  transform: rotate(45deg);
 }
 
 /* ---- inner page banner ---- */
@@ -894,7 +1171,7 @@ p {
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgb(var(--c-soft));
+  color: rgb(var(--c-muted));
   transition: color 0.15s linear;
 }
 
@@ -1319,7 +1596,13 @@ p {
   font-size: 24px;
   line-height: 1em;
   margin-top: 2px;
-  color: rgb(var(--c-primary));
+  /* White at 80%, NOT --c-primary. This block only ever renders on the navy
+     panel inside .why-choose-us, and the slate accent is a light-ground colour:
+     measured against this panel's #263E69 it is 1.33:1, i.e. invisible. White
+     at 0.8 is 7.46:1. The glyphs are Lucide strokes now, so this matters more
+     than it did — a 1.75px outline at 1.33:1 disappears completely where a
+     solid filled glyph at least still read as a smudge. */
+  color: rgb(255 255 255 / 0.8);
 }
 
 .why-choose-block .inner-box .content-box {

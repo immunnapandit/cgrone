@@ -45,7 +45,7 @@ export default function Process() {
                 </div>
 
                 <div className="max-w-[280px] mx-auto px-6 py-5">
-                  <span className="text-soft font-heading font-semibold tracking-[0.22em] text-[12px]">STEP {s.n}</span>
+                  <span className="text-muted font-heading font-semibold tracking-[0.22em] text-[12px]">STEP {s.n}</span>
                   <h3 className="t-h4 text-ink mt-2.5 mb-3 whitespace-pre-line">{s.title}</h3>
                   <p className="t-body text-balance">{s.text}</p>
                 </div>

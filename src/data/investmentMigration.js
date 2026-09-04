@@ -41,6 +41,11 @@ export const investmentMigration = {
       groupTitle: "Caribbean Citizenship by Investment",
       cards: [
         {
+          /* `to` opts a card into having its own detail page. Only programmes
+             with an entry in programmePages.js carry one — the rest render as
+             plain cards until their page is written, so nothing links to a
+             route that redirects. */
+          to: "/investment-migration/antigua-barbuda",
           title: "Antigua & Barbuda",
           Flag: AG,
           text: "Qualifying contribution, approved real estate and other permitted routes.",

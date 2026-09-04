@@ -51,7 +51,7 @@ export default function GlobalMobility() {
                     </span>
                   </div>
                   <h3 className="t-h4 text-ink mb-3 md:min-h-[3.5rem]">{title}</h3>
-                  <p className="t-body text-base">{text}</p>
+                  <p className="t-body">{text}</p>
                 </article>
               ))}
             </div>

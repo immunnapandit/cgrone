@@ -15,7 +15,13 @@ import aboutImage from "@/assets/images/about/Passport.webp";
 export default function About() {
   return (
     <section id="about" className="relative py-14 md:py-20 lg:py-24 bg-white overflow-hidden scroll-mt-28">
-      <div className="max-w-[1400px] mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
+      {/* items-start, not items-center. Centering a 413px-tall image column
+          against a ~640px text column pushed the photograph 101px below the
+          eyebrow — an offset too small to read as intent and too large to read
+          as alignment, and it left a conspicuous void at the top left. Aligned
+          tops also put the left accent rule level with the eyebrow, which is
+          what makes the asymmetry look measured rather than accidental. */}
+      <div className="max-w-[1400px] mx-auto px-6 grid lg:grid-cols-2 gap-16 items-start">
         <Reveal direction="left" className="relative">
           <div className="relative pl-6 border-l-2 border-primary">
             {/* The box matches the photograph's own ratio, so nothing is
@@ -67,7 +73,12 @@ export default function About() {
                     side by side — which reads as one of them being in a state
                     rather than as a deliberate pair. This matches the hero
                     feature cards, so icon boxes look the same sitewide. */}
-                <div className="w-14 h-14 border border-hairline text-ink flex items-center justify-center text-xl">
+                {/* text-2xl, not text-xl: the other three w-14 icon tiles on the
+                    site (GlobalMobility, Contact, WorkforceMobility) are all
+                    24px, and these two were the odd ones at 20px — which the
+                    comment above already claimed they were not. Stroke glyphs
+                    make the gap more obvious than filled ones did. */}
+                <div className="w-14 h-14 border border-hairline text-ink flex items-center justify-center text-2xl">
                   <Icon />
                 </div>
                 <p className="t-h5 text-ink leading-snug">

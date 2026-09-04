@@ -1,18 +1,18 @@
-import { FaLightbulb, FaGlobeAmericas, FaHandshake } from "react-icons/fa";
+import { LuGlobe, LuHandshake, LuLightbulb } from "react-icons/lu";
 
 export const whyChooseUsPerks = [
   {
-    icon: FaLightbulb,
+    icon: LuLightbulb,
     title: "Strategy-First, Not Paperwork-First",
     text: "International mobility should begin with strategy, not paperwork — the right pathway before the application.",
   },
   {
-    icon: FaGlobeAmericas,
+    icon: LuGlobe,
     title: "20+ Years of International Experience",
     text: "Two decades of experience across immigration, global mobility and investment migration.",
   },
   {
-    icon: FaHandshake,
+    icon: LuHandshake,
     title: "Trusted Partner Network",
     text: "A coordinated network of qualified lawyers and regulated immigration professionals across jurisdictions.",
   },

@@ -64,7 +64,7 @@ const BUTTON_LABEL = {
   error: "Try Again",
 };
 
-const LABEL = "font-heading text-[11px] uppercase tracking-[0.18em] text-soft mb-2";
+const LABEL = "font-heading text-[11px] uppercase tracking-[0.18em] text-muted mb-2";
 const FIELD =
   "bg-transparent border-b border-hairline pb-2.5 text-ink outline-none focus:border-ink transition-colors font-body";
 

@@ -31,7 +31,7 @@ export default function SecurityPrivacy() {
           {measures.map((m, i) => (
             <Reveal key={m.text} delay={i * 0.06}>
               <div className="bg-white p-7 h-full border-t-2 border-primary shadow-sm">
-                <span className="w-11 h-11 mb-5 rounded-full bg-ink text-white flex items-center justify-center text-base">
+                <span className="w-11 h-11 mb-5 rounded-full bg-primary text-white flex items-center justify-center text-base">
                   <m.icon />
                 </span>
                 <p className="t-body">{m.text}</p>

@@ -1,17 +1,4 @@
-import {
-  FaCertificate,
-  FaBalanceScale,
-  FaClipboardCheck,
-  FaUserShield,
-  FaFileSignature,
-  FaUserTie,
-  FaLock,
-  FaKey,
-  FaFolderOpen,
-  FaShieldAlt,
-  FaSitemap,
-  FaDatabase,
-} from "react-icons/fa";
+import { LuAward, LuClipboardCheck, LuDatabase, LuFilePen, LuFolderOpen, LuKey, LuLock, LuNetwork, LuScale, LuShield, LuShieldCheck, LuUserRound } from "react-icons/lu";
 
 /* Verbatim from src/assets/Documents/Professional_Standards_Industry_Network.docx */
 export const professionalStandards = {
@@ -21,12 +8,12 @@ export const professionalStandards = {
     "International immigration and global mobility require more than knowledge of individual visa programmes. They require structured processes, professional judgement, confidentiality and access to the right specialists at the right stage.",
   body: "With extensive experience across immigration, global mobility and international business, we have developed our practice around professional standards designed to protect client interests and deliver a consistent, transparent service.",
   approach: [
-    { icon: FaCertificate, text: "Membership of relevant professional and industry organisations" },
-    { icon: FaBalanceScale, text: "Collaboration with appropriately regulated immigration and legal professionals" },
-    { icon: FaClipboardCheck, text: "Established processes for client onboarding and case management" },
-    { icon: FaUserShield, text: "Secure handling of confidential client information and documentation" },
-    { icon: FaFileSignature, text: "Clear engagement terms, responsibilities and communication protocols" },
-    { icon: FaUserTie, text: "Access to specialist professionals where a matter requires regulated advice" },
+    { icon: LuAward, text: "Membership of relevant professional and industry organisations" },
+    { icon: LuScale, text: "Collaboration with appropriately regulated immigration and legal professionals" },
+    { icon: LuClipboardCheck, text: "Established processes for client onboarding and case management" },
+    { icon: LuShieldCheck, text: "Secure handling of confidential client information and documentation" },
+    { icon: LuFilePen, text: "Clear engagement terms, responsibilities and communication protocols" },
+    { icon: LuUserRound, text: "Access to specialist professionals where a matter requires regulated advice" },
   ],
   network: {
     title: "Our Professional Network",
@@ -51,12 +38,12 @@ export const securityPrivacy = {
   intro:
     "Our systems are built around recognised professional best practices, with a focus on secure information handling, controlled access and clear accountability across every client engagement.",
   measures: [
-    { icon: FaLock, text: "Secure client onboarding and document handling" },
-    { icon: FaKey, text: "Controlled access to sensitive information" },
-    { icon: FaFolderOpen, text: "Professional document management and storage" },
-    { icon: FaShieldAlt, text: "Secure communication and information sharing" },
-    { icon: FaSitemap, text: "Structured case management and accountability" },
-    { icon: FaDatabase, text: "Strong data protection and privacy practices" },
+    { icon: LuLock, text: "Secure client onboarding and document handling" },
+    { icon: LuKey, text: "Controlled access to sensitive information" },
+    { icon: LuFolderOpen, text: "Professional document management and storage" },
+    { icon: LuShield, text: "Secure communication and information sharing" },
+    { icon: LuNetwork, text: "Structured case management and accountability" },
+    { icon: LuDatabase, text: "Strong data protection and privacy practices" },
   ],
   note: "Where specialist legal, immigration, accounting or technology services are required, we work with appropriately qualified professional organisations and service providers.",
   closing:

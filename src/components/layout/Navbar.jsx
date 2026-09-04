@@ -35,8 +35,19 @@ export default function Navbar() {
       }`}
     >
       <div className="max-w-[1400px] mx-auto px-6 flex items-center justify-between">
-        <Link to="/" className="flex items-center">
-          <img src={logo} alt="Cynosure Global Residency" className="h-14 sm:h-16 w-auto" />
+        {/* The height lives on the link, not the image, so the header keeps the
+            same 56/64px box that --nav-clear in index.css is derived from, and
+            the logo is sized by width instead. The file is trimmed to the ink
+            (aspect 4.56 rather than 3.59), so `h-16 w-auto` alone would take it
+            to 291px and push the measured bar to exactly 1400. 228px between xl
+            and 2xl is deliberate: that is the width the bar below was fitted to,
+            so the horizontal nav keeps its clearance. */}
+        <Link to="/" className="flex items-center h-14 sm:h-16">
+          <img
+            src={logo}
+            alt="Cynosure Global Residency — Your Global Future. Our Focus."
+            className="max-h-full w-auto max-w-[210px] sm:max-w-[240px] xl:max-w-[228px] 2xl:max-w-[240px] object-contain"
+          />
         </Link>
 
         {/* Breakpoint raised from lg to xl, and the spacing tightened.
@@ -120,7 +131,7 @@ export default function Navbar() {
           )}
         </nav>
 
-        <Link to="/contact" className="hidden xl:inline-flex btn-primary !py-3 !px-5 text-[11px] 2xl:!px-6 2xl:text-xs">
+        <Link to="/contact" className="hidden xl:inline-flex btn-primary btn-sm">
           Contact Us
         </Link>
 

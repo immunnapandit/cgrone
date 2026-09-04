@@ -11,6 +11,7 @@ import GlobalMobility from "@/pages/GlobalMobility";
 import ContactPage from "@/pages/Contact";
 import CountryDetail from "@/pages/CountryDetail";
 import InvestmentMigration from "@/pages/InvestmentMigration";
+import ProgrammeDetail from "@/pages/ProgrammeDetail";
 import GlobalImmigration from "@/pages/GlobalImmigration";
 import WorkforceMobility from "@/pages/WorkforceMobility";
 import WorkforceSector from "@/pages/WorkforceSector";
@@ -68,6 +69,9 @@ export default function App() {
         <Route path="/contact" element={<ContactPage />} />
         {/* the three pillars — see Cynosure_Website_Layout_Pattern.docx */}
         <Route path="/investment-migration" element={<InvestmentMigration />} />
+        {/* one page per CBI/RBI programme — nested under the pillar rather than
+            under /countries/, which is for the jurisdictions we operate in */}
+        <Route path="/investment-migration/:slug" element={<ProgrammeDetail />} />
         <Route path="/global-immigration" element={<GlobalImmigration />} />
         <Route path="/workforce-mobility" element={<WorkforceMobility />} />
         <Route path="/workforce-mobility/:slug" element={<WorkforceSector />} />

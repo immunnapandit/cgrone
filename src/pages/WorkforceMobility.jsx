@@ -60,7 +60,7 @@ export default function WorkforceMobility() {
                       <Icon />
                     </span>
                     <h3 className="t-h3 text-ink mb-3">{title}</h3>
-                    <p className="t-body text-base">{text}</p>
+                    <p className="t-body">{text}</p>
                   </>
                 );
                 return slug ? (
@@ -109,7 +109,7 @@ export default function WorkforceMobility() {
             <dl className="grid sm:grid-cols-2 gap-5 mb-10">
               {d.audiences.map((a) => (
                 <div key={a.label} className="bg-white border border-hairline p-7">
-                  <dt className="font-heading font-medium text-[12px] uppercase tracking-[0.18em] text-soft mb-2">
+                  <dt className="font-heading font-medium text-[12px] uppercase tracking-[0.18em] text-muted mb-2">
                     {a.label}
                   </dt>
                   <dd className="t-h4 text-ink">{a.text}</dd>

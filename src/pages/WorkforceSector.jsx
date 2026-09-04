@@ -61,7 +61,7 @@ export default function WorkforceSector() {
                 <h2 className="t-h4 text-ink mb-5">{d.whoTitle}</h2>
                 <ul className="space-y-2.5 mb-6">
                   {d.who.map((w) => (
-                    <li key={w} className="flex items-start gap-3 t-body text-base">
+                    <li key={w} className="flex items-start gap-3 t-body">
                       <span className="w-1.5 h-1.5 mt-2.5 rounded-full bg-ink/25 shrink-0" />
                       {w}
                     </li>
@@ -94,10 +94,10 @@ export default function WorkforceSector() {
                   <span className="t-num block text-2xl text-ink/30 leading-none mb-4">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <span className="font-heading font-semibold text-[11px] uppercase tracking-[0.2em] text-soft">
+                  <span className="font-heading font-semibold text-[11px] uppercase tracking-[0.2em] text-muted">
                     {s.n}
                   </span>
-                  <p className="t-body text-base mt-4">{s.text}</p>
+                  <p className="t-body mt-4">{s.text}</p>
                 </li>
               ))}
             </ol>
@@ -128,7 +128,7 @@ export default function WorkforceSector() {
                 >
                   <m.Flag
                     title={m.name}
-                    className="w-7 h-[18px] object-cover rounded-[2px] ring-1 ring-ink/10"
+                    className="w-7 h-[18px] object-cover ring-1 ring-ink/10"
                   />
                   {m.name}
                 </span>
@@ -150,7 +150,7 @@ export default function WorkforceSector() {
             <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-5">
               {d.employers.chain.map((step, i) => (
                 <div key={step} className="bg-white border border-hairline px-6 py-7 text-center">
-                  <span className="t-num text-sm text-soft block mb-2">0{i + 1}</span>
+                  <span className="t-num text-sm text-muted block mb-2">0{i + 1}</span>
                   <span className="font-heading font-medium text-[13px] uppercase tracking-[0.14em] text-ink">
                     {step}
                   </span>

@@ -1,4 +1,4 @@
-import { FaUserNurse, FaConciergeBell, FaTools } from "react-icons/fa";
+import { LuConciergeBell, LuStethoscope, LuWrench } from "react-icons/lu";
 import DE from "country-flag-icons/react/3x2/DE";
 import MT from "country-flag-icons/react/3x2/MT";
 import PL from "country-flag-icons/react/3x2/PL";
@@ -29,20 +29,20 @@ export const workforceHub = {
   focus: [
     {
       slug: "healthcare",
-      icon: FaUserNurse,
+      icon: LuStethoscope,
       title: "Healthcare",
       text: "Connecting healthcare employers with qualified doctors, nurses and allied healthcare professionals from international talent markets.",
     },
     {
       slug: "hospitality",
-      icon: FaConciergeBell,
+      icon: LuConciergeBell,
       title: "Hospitality & Tourism",
       text: "Supporting hotels, resorts, restaurants and food-service businesses with skilled chefs, cooks, F&B and hospitality professionals.",
     },
     {
       // no dedicated document yet — rendered without a link
       slug: null,
-      icon: FaTools,
+      icon: LuWrench,
       title: "Skilled Technical Workforce",
       text: "Sourcing experienced technical talent including electricians, welders, HVAC technicians, CNC operators, maintenance and other skilled trades.",
     },

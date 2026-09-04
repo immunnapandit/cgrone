@@ -34,7 +34,7 @@ export default function Services() {
         </Reveal>
 
         <div className="grid md:grid-cols-3 gap-6 md:gap-8">
-          {pillars.map(({ n, icon: Icon, img, title, audience, sub, to }) => (
+          {pillars.map(({ icon: Icon, img, title, audience, sub, to }) => (
             <Reveal key={title}>
               <article className="group h-full flex flex-col bg-white border border-hairline">
                 {/* the badge hangs below the photo, so it cannot live inside
@@ -47,17 +47,26 @@ export default function Services() {
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   </div>
-                  <span className="absolute left-6 -bottom-6 z-10 w-12 h-12 bg-ink text-white flex items-center justify-center text-lg">
+                  <span className="absolute left-6 -bottom-6 z-10 w-12 h-12 bg-primary text-white flex items-center justify-center text-lg">
                     <Icon />
                   </span>
                 </div>
 
                 <div className="flex flex-col flex-1 p-6 pt-10 md:p-8 md:pt-12">
-                  <span className="text-[11px] text-soft font-heading font-medium tracking-[0.22em] mb-3">
-                    {n}
-                  </span>
-                  <h3 className="t-h3 text-ink mb-3">{title}</h3>
-                  <p className="t-body text-base mb-6">{audience}</p>
+                  {/* The 01 / 02 / 03 eyebrow is gone. These three are parallel
+                      service lines, not steps — nothing is first — so numbering
+                      encoded an order that does not exist and invited the row to
+                      be read as a process. Numbering stays in Process, where the
+                      sequence is real.
+
+                      min-h reserves two lines of the title at md and up, which is
+                      what keeps the row aligned: "Global Immigration" fits on one
+                      line while the other two wrap, and without this every element
+                      below it in that card sat 38px above its neighbours. 2.5em is
+                      exactly two lines at .t-h3's 1.25 line-height. Below md the
+                      cards stack, so there is no row to align to. */}
+                  <h3 className="t-h3 text-ink mb-3 md:min-h-[2.5em]">{title}</h3>
+                  <p className="t-body mb-6">{audience}</p>
 
                   {/* Labels, not links — the pillar itself is the link.
                       These were bordered pills, which read as SaaS filter
@@ -69,7 +78,7 @@ export default function Services() {
                     {sub.map((s) => (
                       <li
                         key={s}
-                        className="border-b border-hairline py-2.5 text-soft text-[11px] uppercase tracking-[0.14em]"
+                        className="border-b border-hairline py-2.5 text-muted text-[11px] uppercase tracking-[0.14em]"
                       >
                         {s}
                       </li>
