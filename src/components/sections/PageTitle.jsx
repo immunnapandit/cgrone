@@ -13,7 +13,7 @@ export default function PageTitle({ title, crumbs = [], image }) {
       className="page-title"
       style={image ? { backgroundImage: `url(${image})` } : undefined}
     >
-      <div className="max-w-[1400px] mx-auto px-6">
+      <div className="container-page">
         <div className="title-outer">
           <WordsSlideUp as="h1" text={title} className="t-display title" />
           <ul className="page-breadcrumb">

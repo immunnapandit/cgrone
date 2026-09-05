@@ -21,7 +21,7 @@ export default function InvestmentMigration() {
       />
 
       <section className="py-14 md:py-20 lg:py-24 bg-white">
-        <div className="max-w-[1400px] mx-auto px-6">
+        <div className="container-page">
           <div className="grid lg:grid-cols-12 gap-x-16 gap-y-10 items-end pb-12 mb-12 border-b border-hairline">
             <Reveal className="lg:col-span-7">
               <div className="eyebrow mb-6">
@@ -55,7 +55,7 @@ export default function InvestmentMigration() {
              like a separate page. */
           className={`py-14 md:py-20 lg:py-24 scroll-mt-28 bg-white${i === 0 ? "" : " border-t border-hairline"}`}
         >
-          <div className="max-w-[1400px] mx-auto px-6">
+          <div className="container-page">
             <Reveal className="max-w-3xl mb-10">
               <h2 className="t-h2 text-ink mb-5">{s.title}</h2>
               <p className="t-body">{s.lead}</p>
@@ -65,7 +65,7 @@ export default function InvestmentMigration() {
               {/* a tracked-out utility label, not a heading — .t-h4 is a
                   heading style and this is a group marker above one */}
               {s.groupTitle && (
-                <p className="font-heading font-medium text-[12px] uppercase tracking-[0.18em] text-muted mb-6">
+                <p className="t-label mb-6">
                   {s.groupTitle}
                 </p>
               )}
@@ -102,8 +102,8 @@ export default function InvestmentMigration() {
                         <h3 className="t-h4 text-ink mb-3">{c.title}</h3>
                         <p className="t-body">{c.text}</p>
                         {c.to && (
-                          <span className="mt-6 inline-flex items-center gap-1.5 text-ink font-heading font-semibold text-[12px] uppercase tracking-[0.16em] border-b-2 border-primary pb-1.5 transition-all duration-300 group-hover:gap-3">
-                            Explore <FaAngleRight className="text-xs" />
+                          <span className="link-arrow mt-6">
+                            Explore <FaAngleRight />
                           </span>
                         )}
                       </Card>
@@ -160,7 +160,7 @@ export default function InvestmentMigration() {
       />
 
       <section className="py-14 md:py-20 lg:py-24 bg-white">
-        <div className="max-w-[1400px] mx-auto px-6">
+        <div className="container-page">
           <Reveal className="max-w-3xl">
             <p className="t-lead text-ink border-l-2 border-primary pl-6 mb-9">{d.closing}</p>
             <Link to="/contact" className="btn-primary">

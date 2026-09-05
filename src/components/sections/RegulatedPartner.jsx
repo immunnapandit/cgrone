@@ -14,7 +14,7 @@ export default function RegulatedPartner({ data }) {
 
   return (
     <section className="py-14 md:py-20 lg:py-24 bg-white border-y border-hairline">
-      <div className="max-w-[1400px] mx-auto px-6">
+      <div className="container-page">
         <Reveal className="max-w-3xl mb-14">
           <div className="eyebrow mb-6">
             <span className="chev">»</span> Professional Responsibility
@@ -40,11 +40,24 @@ export default function RegulatedPartner({ data }) {
                   {col.items.map((it) => (
                     <li
                       key={it}
-                      className={`flex items-start gap-3 text-[16px] ${
+                      /* .t-body, was text-[16px] — the one 16px body run left
+                         on the site, against the scale's 15px. */
+                      className={`t-body flex items-start gap-3 ${
                         i === 0 ? "text-muted" : "text-white/75"
                       }`}
                     >
-                      <span className="w-1.5 h-1.5 mt-2.5 rounded-full bg-ink/25 shrink-0" />
+                      {/* The bullet followed neither column. It was ink/25 on
+                          BOTH, and this second column is bg-primary: navy at
+                          25% over the slate composites to #364759, which
+                          measures 1.20:1 against it — the bullets on the dark
+                          half were not faint, they were invisible. White at
+                          50% is 3.34:1 there. The type already switches per
+                          column; the mark beside it has to as well. */}
+                      <span
+                        className={`w-1.5 h-1.5 mt-2.5 rounded-full shrink-0 ${
+                          i === 0 ? "bg-ink/30" : "bg-white/50"
+                        }`}
+                      />
                       {it}
                     </li>
                   ))}

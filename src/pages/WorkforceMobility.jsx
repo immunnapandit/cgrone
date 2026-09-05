@@ -20,7 +20,7 @@ export default function WorkforceMobility() {
       />
 
       <section className="py-14 md:py-20 lg:py-24 bg-white">
-        <div className="max-w-[1400px] mx-auto px-6">
+        <div className="container-page">
           <div className="grid lg:grid-cols-12 gap-x-16 gap-y-10 items-end pb-12 mb-12 border-b border-hairline">
             <Reveal className="lg:col-span-7">
               <div className="eyebrow mb-6">
@@ -46,7 +46,7 @@ export default function WorkforceMobility() {
       </section>
 
       <section className="py-14 md:py-20 lg:py-24 bg-white border-t border-hairline">
-        <div className="max-w-[1400px] mx-auto px-6">
+        <div className="container-page">
           <Reveal className="max-w-3xl mb-10">
             <h2 className="t-h2 text-ink">{d.focusTitle}</h2>
           </Reveal>
@@ -70,8 +70,8 @@ export default function WorkforceMobility() {
                     className="group bg-white border border-hairline p-8 lg:p-10 flex flex-col hover:bg-offwhite transition-colors"
                   >
                     {body}
-                    <span className="mt-7 inline-flex items-center gap-1.5 text-ink font-heading font-semibold text-[12px] uppercase tracking-[0.16em] border-b-2 border-primary pb-1.5 self-start group-hover:gap-3 transition-all">
-                      Read More <FaAngleRight className="text-xs" />
+                    <span className="link-arrow mt-7 self-start">
+                      Read More <FaAngleRight />
                     </span>
                   </Link>
                 ) : (
@@ -93,7 +93,7 @@ export default function WorkforceMobility() {
       />
 
       <section className="py-14 md:py-20 lg:py-24 bg-white">
-        <div className="max-w-[1400px] mx-auto px-6 grid lg:grid-cols-12 gap-x-16 gap-y-10">
+        <div className="container-page grid lg:grid-cols-12 gap-x-16 gap-y-10">
           <Reveal className="lg:col-span-5">
             <h2 className="t-h2 text-ink">{d.approachTitle}</h2>
           </Reveal>
@@ -109,7 +109,7 @@ export default function WorkforceMobility() {
             <dl className="grid sm:grid-cols-2 gap-5 mb-10">
               {d.audiences.map((a) => (
                 <div key={a.label} className="bg-white border border-hairline p-7">
-                  <dt className="font-heading font-medium text-[12px] uppercase tracking-[0.18em] text-muted mb-2">
+                  <dt className="t-label mb-2">
                     {a.label}
                   </dt>
                   <dd className="t-h4 text-ink">{a.text}</dd>

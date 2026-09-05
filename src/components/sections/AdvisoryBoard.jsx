@@ -8,7 +8,7 @@ import { whyCynosure, advisoryBoard, philosophy } from "@/data/advisory";
 export default function AdvisoryBoard() {
   return (
     <section id="advisory-board" className="py-14 md:py-20 lg:py-24 bg-white scroll-mt-28">
-      <div className="max-w-[1400px] mx-auto px-6">
+      <div className="container-page">
         <Reveal className="max-w-3xl mb-20">
           <div className="eyebrow mb-6">
             <span className="chev">»</span> {whyCynosure.eyebrow}
@@ -36,7 +36,7 @@ export default function AdvisoryBoard() {
               {advisoryBoard.disciplines.map((d) => (
                 <li
                   key={d}
-                  className="border-b border-hairline py-2.5 text-muted text-[12px] uppercase tracking-[0.14em]"
+                  className="t-label-sm border-b border-hairline py-2.5"
                 >
                   {d}
                 </li>

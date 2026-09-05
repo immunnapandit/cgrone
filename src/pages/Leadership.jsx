@@ -19,7 +19,7 @@ export default function Leadership() {
       />
 
       <section className="py-14 md:py-20 lg:py-24 bg-white">
-        <div className="max-w-[1400px] mx-auto px-6 grid lg:grid-cols-12 gap-x-16 gap-y-12">
+        <div className="container-page grid lg:grid-cols-12 gap-x-16 gap-y-12">
           {/* name block holds the left rail, the bio runs beside it */}
           <Reveal className="lg:col-span-4">
             <div className="lg:sticky lg:top-32 border-t-2 border-primary pt-8">
@@ -33,7 +33,7 @@ export default function Leadership() {
                 {founder.role.split("|").map((r) => (
                   <li
                     key={r}
-                    className="text-muted text-[13px] uppercase tracking-[0.16em]"
+                    className="t-label"
                   >
                     {r.trim()}
                   </li>
@@ -49,7 +49,7 @@ export default function Leadership() {
                 {founder.focus.map((f) => (
                   <li
                     key={f}
-                    className="border-b border-hairline py-2.5 text-muted text-[12px] uppercase tracking-[0.14em]"
+                    className="t-label-sm border-b border-hairline py-2.5"
                   >
                     {f}
                   </li>
@@ -74,7 +74,7 @@ export default function Leadership() {
               <blockquote className="t-h4 text-ink leading-relaxed">
                 {founder.quote}
               </blockquote>
-              <figcaption className="mt-5 text-muted text-[13px] uppercase tracking-[0.16em]">
+              <figcaption className="t-label mt-5">
                 {founder.name}
               </figcaption>
             </figure>

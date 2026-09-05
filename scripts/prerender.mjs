@@ -67,9 +67,30 @@ const heroPreload = heroAsset
 const paths = allPaths();
 
 for (const routePath of paths) {
-  let html = template.replace(
-    SEO_BLOCK,
-    buildHead(getRouteMeta(routePath), SITE_URL, CONTACT_EMAIL)
+  const head = buildHead(getRouteMeta(routePath), SITE_URL, CONTACT_EMAIL);
+
+  /* The ROOT file keeps its <!--seo--> markers; the per-route files do not
+     need them, because a host serves those directly and nothing ever rewrites
+     them.
+
+     dist/index.html is different: it is also the template server.js holds in
+     memory and falls back to for any path that is not a prerendered file —
+     which is every 404. Consuming the markers here left that fallback dead,
+     and it says so on boot: "[seo] markers not found in dist/index.html —
+     serving default tags". The visible effect was that every unknown URL was
+     served the HOME page's title and canonical, so the correct 404 status
+     server.js sends was paired with a body claiming to be the home page. That
+     is a soft 404, and it also undid the NOT_FOUND_META added to seo.js.
+
+     Re-wrapping costs a static host nothing: with no server to substitute
+     them, the markers are HTML comments around the home tags that were going
+     in anyway.
+
+     Replacement is a FUNCTION rather than a string so that a `$&` or `$1` in
+     the generated head is inserted literally instead of being read as a
+     replacement pattern. */
+  let html = template.replace(SEO_BLOCK, () =>
+    routePath === "/" ? `<!--seo-->\n${head}\n    <!--/seo-->` : head
   );
 
   if (routePath === "/" && heroPreload) {

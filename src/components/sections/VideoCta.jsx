@@ -20,7 +20,7 @@ export default function VideoCta() {
     <section className="video-cta">
       <div className="bg" style={{ backgroundImage: `url(${bg})` }} />
 
-      <div className="relative max-w-[1400px] mx-auto px-6">
+      <div className="relative container-page">
         <div className="outer-box">
           <div className="title-box">
             <WordsSlideUp
@@ -71,6 +71,14 @@ export default function VideoCta() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setOpen(false)}
+            /* role/aria-modal: Escape and the close button were already here,
+               but without these the overlay was an anonymous <div> — a screen
+               reader had no signal that a dialog had opened or that the page
+               behind it was inert. aria-label names it, since the only heading
+               inside is the iframe's own. */
+            role="dialog"
+            aria-modal="true"
+            aria-label="Cynosure intro video"
             className="fixed inset-0 z-[100] bg-black/80 flex items-center justify-center p-6"
           >
             <button

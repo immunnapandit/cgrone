@@ -16,10 +16,13 @@ export default function ScrollTop() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25 }}
+          type="button"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          /* Icon-only, so it needs a name — it announced as "button". */
+          aria-label="Back to top"
           className="fixed bottom-7 right-7 z-50 w-11 h-11 bg-primary text-white flex items-center justify-center shadow-[0_10px_28px_-12px_rgba(17,34,61,0.6)] hover:bg-dark transition-colors"
         >
-          <FaChevronUp />
+          <FaChevronUp aria-hidden="true" />
         </motion.button>
       )}
     </AnimatePresence>

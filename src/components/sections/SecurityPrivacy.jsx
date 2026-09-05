@@ -18,7 +18,7 @@ export default function SecurityPrivacy() {
           section announces itself with a rule of its own. */}
       <div className="absolute top-0 left-0 w-full h-3 bg-brand" />
 
-      <div className="relative max-w-[1400px] mx-auto px-6">
+      <div className="relative container-page">
         <Reveal className="max-w-3xl">
           <div className="eyebrow mb-6">
             <span className="chev">»</span> {eyebrow}

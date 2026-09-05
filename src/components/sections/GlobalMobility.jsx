@@ -14,7 +14,7 @@ export default function GlobalMobility() {
   return (
     <>
       <section id="global-mobility" className="py-14 md:py-20 lg:py-24 bg-white scroll-mt-28">
-        <div className="max-w-[1400px] mx-auto px-6">
+        <div className="container-page">
           <div className="grid lg:grid-cols-12 gap-x-16 gap-y-10 items-end pb-14 mb-14 border-b border-hairline">
             <Reveal className="lg:col-span-7">
               <div className="eyebrow mb-6">
@@ -60,7 +60,7 @@ export default function GlobalMobility() {
       </section>
 
       <section className="py-14 md:py-20 lg:py-24 bg-white border-y border-hairline">
-        <div className="max-w-[1400px] mx-auto px-6 grid lg:grid-cols-12 gap-x-16 gap-y-10">
+        <div className="container-page grid lg:grid-cols-12 gap-x-16 gap-y-10">
           <Reveal className="lg:col-span-5">
             <h2 className="t-h2 text-ink">{extension.title}</h2>
           </Reveal>

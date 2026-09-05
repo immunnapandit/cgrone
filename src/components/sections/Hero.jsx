@@ -195,18 +195,33 @@ export default function Hero() {
 
           {/* Hidden while there is one frame — a slide picker with a single
               slide is a control that does nothing. The only thing over the
-              photo either way, and it covers 40x6px of it. */}
+              photo either way, and it covers 40x6px of it.
+
+              The dot IS the button no longer. It was a 6px-tall control —
+              h-1.5, and 6px wide when inactive — which is a 6x6 hit target on a
+              touch screen, against a 44pt floor and WCAG 2.2's 24x24 minimum.
+              The mark stays exactly the same size; the button around it is now
+              44px tall with a 24px minimum width, and bottom-1 pulls the taller
+              row back down so the dots sit where they always did. aria-current
+              tells a screen reader which frame is showing — previously the four
+              buttons were indistinguishable. */}
           {heroSlides.length > 1 && (
-            <div className="absolute z-20 right-6 bottom-6 flex gap-2">
+            <div className="absolute z-20 right-6 bottom-1 flex gap-2">
               {heroSlides.map((s, i) => (
                 <button
                   key={s.src}
+                  type="button"
                   onClick={() => setSlide(i)}
                   aria-label={`Show slide ${i + 1}`}
-                  className={`h-1.5 rounded-full shadow-sm transition-all duration-300 ${
-                    i === slide ? "w-8 bg-white" : "w-1.5 bg-white/60 hover:bg-white"
-                  }`}
-                />
+                  aria-current={i === slide}
+                  className="group/dot grid place-items-center h-11 min-w-[24px]"
+                >
+                  <span
+                    className={`block h-1.5 rounded-full shadow-sm transition-all duration-300 ${
+                      i === slide ? "w-8 bg-white" : "w-1.5 bg-white/60 group-hover/dot:bg-white"
+                    }`}
+                  />
+                </button>
               ))}
             </div>
           )}
@@ -222,8 +237,22 @@ export default function Hero() {
 
             The top padding clears the fixed navbar at every width — it is the
             copy that starts under the header now, not a photo band with a
-            margin. --nav-clear is 104px on a phone and 128px from sm. */}
-        <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 flex flex-col pt-[calc(var(--nav-clear)+20px)] lg:pt-[calc(var(--nav-clear)+16px)] pb-14 lg:pb-10">
+            margin. --nav-clear is 104px on a phone and 128px from sm.
+
+            `lg:justify-center` centres the block in the frame instead of
+            hanging it off that padding. The padding alone was tuned when the
+            headline was 60px; once the type scale came down to the reference's
+            40px the block lost ~60px of height, the min-h-[820px] frame did
+            not, and the copy ended up sitting 54px below the navbar with 330px
+            of empty photograph under the buttons. Centring fixes that and
+            keeps fixing it — the next change to the headline length or the
+            type scale re-centres on its own rather than silently drifting back
+            up. The padding stays as the floor that clears the navbar.
+
+            Below lg the copy is usually TALLER than the min-height, so there is
+            no free space to distribute and centring would do nothing; it is
+            left at flex-start there so the phone keeps its fixed top offset. */}
+        <div className="relative z-10 w-full container-page flex flex-col lg:justify-center pt-[calc(var(--nav-clear)+20px)] lg:pt-[calc(var(--nav-clear)+16px)] pb-14 lg:pb-10">
           <div className="hero-copy max-w-[640px] on-photo">
             {/* headline and standfirst are the homepage block from
                 Cynosure_Website_Layout_Pattern.docx, verbatim */}
@@ -269,7 +298,7 @@ export default function Hero() {
           roughly 260px of empty white between the cards and the next
           heading — the widest seam on the page. */}
       <div className="relative bg-white pt-12 md:pt-16">
-        <div className="max-w-[1400px] mx-auto px-6">
+        <div className="container-page">
           {/* The 2006 / 5 / 3 credentials row stood here, between the
               photograph and these cards. Removed at the client's request
               2026-09-01 — the second time this row has been taken out (the

@@ -36,7 +36,7 @@ export default function Footer() {
        area left on the page; the accent top rule and the navy contact tiles
        keep it anchored so it still reads as a footer, not another section. */
     <footer className="bg-offwhite text-ink pt-0 border-t-2 border-primary">
-      <div className="max-w-[1400px] mx-auto px-6 -translate-y-10">
+      <div className="container-page -translate-y-10">
         {/* white card on ivory — a soft shadow does the separating now that
             there is no navy behind it */}
         <Reveal className="bg-white grid sm:grid-cols-3 gap-6 px-10 py-10 shadow-xl border border-hairline">
@@ -53,7 +53,7 @@ export default function Footer() {
                   <it.icon />
                 </div>
                 <div>
-                  <p className="font-heading font-medium text-[12px] uppercase tracking-[0.18em] text-muted mb-0.5">{it.label}</p>
+                  <p className="t-label mb-0.5">{it.label}</p>
                   <p className="t-h5 text-ink leading-snug break-all">{it.value}</p>
                 </div>
               </Wrapper>
@@ -62,7 +62,7 @@ export default function Footer() {
         </Reveal>
       </div>
 
-      <div className="max-w-[1400px] mx-auto px-6 pb-12 md:pb-16 grid md:grid-cols-4 gap-8 md:gap-12">
+      <div className="container-page pb-12 md:pb-16 grid md:grid-cols-4 gap-8 md:gap-12">
         <div>
           {/* the white box existed only to lift the logo off the navy */}
           <Link to="/" className="inline-block mb-5">
@@ -101,7 +101,7 @@ export default function Footer() {
                     and it makes a list of destinations read as a list of
                     instructions. Hover darkens to navy rather than switching
                     to the accent — one colour change per interaction. */}
-                <FooterLink href={s.href} className="text-[16px] text-muted hover:text-ink transition-colors">
+                <FooterLink href={s.href} className="t-body inline-block py-0.5 hover:text-ink transition-colors">
                   {s.label}
                 </FooterLink>
               </li>
@@ -116,7 +116,7 @@ export default function Footer() {
           <ul className="grid grid-cols-2 gap-x-5 gap-y-3 sm:grid-cols-1 sm:space-y-3">
             {footerLinks.map((l) => (
               <li key={l.label}>
-                <FooterLink href={l.href} className="text-[16px] text-muted hover:text-ink transition-colors">
+                <FooterLink href={l.href} className="t-body inline-block py-0.5 hover:text-ink transition-colors">
                   {l.label}
                 </FooterLink>
               </li>
@@ -141,7 +141,9 @@ export default function Footer() {
               required
               autoComplete="email"
               placeholder="Your Email address"
-              className="bg-white border border-hairline px-5 py-3 outline-none focus:border-primary transition-colors text-ink placeholder:text-muted"
+              /* focus:border-ink, matching the contact form. This was
+                 focus:border-primary — the same field, two focus colours. */
+              className="bg-white border border-hairline px-5 py-3 outline-none focus:border-ink transition-colors text-ink placeholder:text-muted"
             />
 
             {/* Honeypot — see the matching field on the contact form. */}
@@ -180,7 +182,10 @@ export default function Footer() {
                   target="_blank"
                   rel="noreferrer noopener"
                   aria-label={label}
-                  className="w-9 h-9 border border-hairline text-ink flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary transition-colors"
+                  /* 44px, was 36 — under the touch floor, and the only
+                     interactive square on the site that disagreed with the
+                     video modal's close button (w-11 h-11). */
+                  className="w-11 h-11 border border-hairline text-ink flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary transition-colors"
                 >
                   <Icon className="text-sm" />
                 </a>
@@ -189,9 +194,11 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* text-muted, not text-muted — soft lands at 4.52:1 on ivory and this
-          line is 13px, so it has almost no margin */}
-      <div className="border-t border-hairline py-7 text-center text-muted text-[13px] tracking-[0.06em]">
+      {/* --c-muted, not --c-soft: soft lands at 4.52:1 on this ground and the
+          line was 13px, so it had almost no margin. .t-small is 14px on muted
+          at 6.10:1 — the token for exactly this, and it drops the stray
+          0.06em tracking that nothing else on the site used. */}
+      <div className="t-small border-t border-hairline py-7 text-center">
         © {new Date().getFullYear()} Cynosure Global Residency. All rights reserved.
       </div>
     </footer>

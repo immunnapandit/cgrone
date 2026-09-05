@@ -195,30 +195,51 @@ p {
    whole site, not a one-off utility on a component.
    ---------------------------------------------------------------------- */
 @layer components {
+  /* ---- type scale ------------------------------------------------------
+     Rebuilt 2026-09-04 against MEASURED reference values.
+
+     The scale this replaces was annotated "tops out at Henley's 60px" and
+     "their body is 16px". Neither is true. Measured off
+     henleyglobal.com/citizenship-investment/antigua-barbuda in a browser at a
+     1440 viewport:
+
+         h1    40px / 52    (the old scale said 60)
+         h2    36px / 42    (the old scale said 44)
+         body  14px / 18    (the old scale said 16 / 1.65)
+
+     So the site was set roughly 50% larger than the reference it was drawn
+     from — which is what "sab kuchh bada lag raha hai, zoom kiya hua lagta
+     hai" was describing. Headings now carry the reference's numbers exactly.
+
+     Desktop ladder: 40 / 36 / 26 / 20 / 16.
+     Ratios: 1.11, 1.38, 1.30, 1.25.
+
+     The 40/36 step is deliberately tight because it is the reference's own:
+     .t-display and .t-h2 never sit adjacent — display is a page or hero
+     headline, h2 is a section head further down — so the small ratio never has
+     to do hierarchical work between two neighbours.
+
+     Every step stays fluid, and the clamp floors preserve the same ordering at
+     the small end that the ceilings do at the large one, so the order cannot
+     invert at any viewport.
+
+     Body stops at 15px/1.6 rather than the reference's 14px/1.286. That
+     line-height is tight enough to hurt on longer paragraphs, and 14px body is
+     a floor worth arguing about rather than inheriting. */
   .t-display {
     font-family: "EB Garamond", Garamond, Georgia, serif;
     font-weight: 400;
-    font-size: clamp(2.5rem, 4.4vw, 3.75rem);   /* tops out at Henley's 60px */
-    line-height: 1.133;
+    font-size: clamp(2rem, 2.9vw, 2.5rem);
+    line-height: 1.3;
     letter-spacing: normal;
     text-wrap: balance;
   }
 
-  /* Scale retuned 2026-09-04 on a consistent ~1.35 ratio. It was
-     60 / 42 / 31 / 21 / 18 at desktop, whose ratios ran 1.43, 1.35, 1.48, 1.17
-     — a hole between 21 and 31 where card and sub-section titles belong, and
-     .t-h4/.t-h5 close enough to be interchangeable, so neither did any
-     hierarchical work. Now 60 / 44 / 32 / 24 / 18: ratios 1.36, 1.38, 1.33, 1.33.
-
-     Every step stays fluid so the order cannot invert — h2 tracks 3vw against
-     h3's 2.1vw, and the clamp floors (32 / 26) preserve the same ordering at the
-     small end that the ceilings (44 / 32) do at the large one. The mobile end is
-     naturally more compressed; that is expected, not a regression. */
   .t-h2 {
     font-family: "EB Garamond", Garamond, Georgia, serif;
     font-weight: 400;
-    font-size: clamp(2rem, 3vw, 2.75rem);
-    line-height: 1.18;
+    font-size: clamp(1.75rem, 2.5vw, 2.25rem);
+    line-height: 1.167;
     letter-spacing: normal;
     text-wrap: balance;
   }
@@ -226,35 +247,35 @@ p {
   .t-h3 {
     font-family: "EB Garamond", Garamond, Georgia, serif;
     font-weight: 400;
-    font-size: clamp(1.625rem, 2.1vw, 2rem);
+    font-size: clamp(1.375rem, 1.8vw, 1.625rem);
     line-height: 1.25;
     letter-spacing: normal;
     text-wrap: balance;
   }
 
-  /* The step that was missing. 21px at the floor so it still clears .t-h5's
-     18px on a phone, 24px at the ceiling to fill the old gap. */
   .t-h4 {
     font-family: "EB Garamond", Garamond, Georgia, serif;
     font-weight: 500;
-    font-size: clamp(1.3125rem, 1.6vw, 1.5rem);
-    line-height: 1.3;
+    font-size: clamp(1.125rem, 1.4vw, 1.25rem);
+    line-height: 1.35;
     letter-spacing: normal;
     text-wrap: balance;
   }
 
+  /* 16px, down from 18px. At the old value it sat 2px under .t-h4's new 20px
+     and the two stopped being distinguishable — the exact failure the previous
+     scale note describes and then reintroduced from the other direction. */
   .t-h5 {
     font-family: "EB Garamond", Garamond, Georgia, serif;
     font-weight: 500;
-    font-size: 1.125rem;
-    line-height: 1.45;
+    font-size: 1rem;
+    line-height: 1.5;
     letter-spacing: normal;
     text-wrap: balance;
   }
 
-  /* Henley's hero standfirst is 21px and their body is 16px. */
   .t-lead {
-    font-size: 1.125rem;
+    font-size: 1.0625rem;
     line-height: 1.6;
     font-weight: 400;
     color: rgb(var(--c-muted));
@@ -262,70 +283,70 @@ p {
   }
 
   .t-body {
-    font-size: 1rem;
-    line-height: 1.65;
+    font-size: 0.9375rem;
+    line-height: 1.6;
     font-weight: 400;
     color: rgb(var(--c-muted));
     max-width: 68ch;
   }
 
+  /* 14px. It was 15px, which is what .t-body is now — .t-small has to stay a
+     step below body or it names nothing. */
   .t-small {
-    font-size: 0.9375rem;
+    font-size: 0.875rem;
     line-height: 1.6;
     color: rgb(var(--c-muted));
   }
 
-  /* ---- programme detail scale ------------------------------------------
-     The scale above carries two comments that are simply wrong: "tops out at
-     Henley's 60px" and "their body is 16px". Measured off the reference page
-     in a browser at a 1440 viewport on 2026-09-04:
+  /* ---- the label tier --------------------------------------------------
+     Added 2026-09-05. The scale above stops at .t-small and the uppercase
+     label — the single most-repeated text object on this site — had no token
+     at all, so every component invented one. Counted across src/: FOUR sizes
+     (10/11/12/13px) against SEVEN letter-spacings (0.06 / 0.1 / 0.14 / 0.16 /
+     0.18 / 0.2 / 0.22em) and THREE weights, over ~35 call sites, for what is
+     semantically one or two objects. Two examples of the same role landing
+     differently: the contact form's field labels were 11px/0.18em while
+     /contact's own were 12px/0.18em, and the pillar list rows were 11px/0.14em
+     while the identical advisory-board rows were 12px/0.14em.
 
-         h1    40px / 52    (not 60)
-         h2    36px / 42    (not 44)
-         body  14px / 18    (not 16 / 1.65)
+     Three tokens now cover the whole tier, and they are deliberately few:
 
-     So the site is set roughly 50% larger than the reference it was drawn
-     from, which is why the programme page reads as though the browser is
-     zoomed in: 60px Garamond and 16px/1.65 body inside a 585px column is a
-     lot of type for the measure.
+       .eyebrow     12px / 0.22em — the SECTION KICKER, already here. Widest
+                    tracking because it sits alone above a heading with a rule
+                    beside it and nothing competing for the eye.
+       .t-label     12px / 0.16em — the workhorse. Form field labels, metadata,
+                    card kickers, standalone captions.
+       .t-label-sm  11px / 0.14em — dense rows only: ruled list items, table-ish
+                    columns, chips. Tracking closes as the size drops because
+                    tracking and size trade off — 0.16em at 11px starts to read
+                    as spaced-out rather than as tracked.
 
-     Scoped to .programme-page rather than corrected in the tokens, because
-     the tokens are load-bearing for fifteen other routes and changing them is
-     a separate, whole-site job. Heads go to the reference's numbers exactly.
-     Body stops at 15px/1.6 rather than 14px/1.286 — that line-height is tight
-     enough to hurt on the longer paragraphs here, and 14px body is a floor
-     worth arguing about rather than inheriting.
+     Weight is 500 on both. 600 belongs to .link-arrow, which is an ACTION, and
+     keeping the weight step aligned to interactivity is what lets a reader tell
+     a label from a link without reading it.
 
-     Single class + single class, so these beat the bare .t-* rules on
-     specificity inside this same layer. Keep them after the base scale. */
-  .programme-page .t-display {
-    font-size: clamp(2rem, 2.9vw, 2.5rem);
-    line-height: 1.3;
+     Colour is --c-muted (6.10:1 on offwhite, 6.32:1 on white) and NOT --c-soft,
+     per the note on that token above. Both are overridable by a `text-*`
+     utility at the call site — utilities are a later layer — which is how the
+     dark-panel and text-ink uses keep working. */
+  .t-label {
+    font-family: "Roboto", system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgb(var(--c-muted));
   }
 
-  .programme-page .t-h2 {
-    font-size: clamp(1.75rem, 2.5vw, 2.25rem);
-    line-height: 1.167;
-  }
-
-  .programme-page .t-h3 {
-    font-size: clamp(1.375rem, 1.8vw, 1.625rem);
-    line-height: 1.25;
-  }
-
-  .programme-page .t-h4 {
-    font-size: clamp(1.125rem, 1.4vw, 1.25rem);
-    line-height: 1.35;
-  }
-
-  .programme-page .t-body {
-    font-size: 0.9375rem;
-    line-height: 1.6;
-  }
-
-  .programme-page .t-lead {
-    font-size: 1.0625rem;
-    line-height: 1.6;
+  .t-label-sm {
+    font-family: "Roboto", system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgb(var(--c-muted));
   }
 
   /* numerals in stats/counters line up in columns */
@@ -604,6 +625,180 @@ p {
     background: #fff;
     border-color: #fff;
     color: rgb(var(--c-ink));
+  }
+
+  /* ---- the arrow link ---------------------------------------------------
+     The site's tertiary action: uppercase label, accent rule under it, arrow
+     that nudges forward on hover. "Explore", "Read More", "Book a Confidential
+     Consultation", the country and programme links.
+
+     Added 2026-09-05 because this was the worst consistency defect left. NINE
+     hand-written copies of one object, drifting on five separate axes:
+
+       Insights           12px  600  gap-1.5  ->3    300ms
+       Services           12px  600  gap-1.5  ->3    300ms
+       WhyChooseUs        13px  600  gap-2    ->3.5  300ms
+       CountryDetail      12px  600  gap-2    ->3    300ms
+       GlobalImmigration  12px  600  gap-1.5  ->3    (none — 150ms default)
+       InvestmentMigration 12px 600  gap-1.5  ->3    300ms
+       ProgrammeDetail    12px  600  gap-1.5  ->3    300ms
+       WorkforceMobility  12px  600  gap-1.5  ->3    (none — 150ms default)
+       StatementBand      13px  500  gap-2    ->3.5  300ms   (dark ground)
+
+     The majority reading — 12px / 600 / 0.16em — is the token. Two things were
+     wrong in ALL nine, though, and neither is a matter of taste:
+
+     1. `transition-all`. Exactly the bug the .btn-outline note below records
+        and fixes: with `all`, the :focus-visible outline is a transitionable
+        property too, so the keyboard ring FADED IN over 300ms instead of
+        appearing on the keystroke. The one indicator that has to be immediate
+        was the one being animated, on every tertiary link on the site. Named
+        properties only here.
+
+     2. `hover:gap-*` animates `gap`, which is a layout property — every hover
+        forced a reflow of the flex line. The site already settled on the right
+        idiom for this: `.read-more:hover svg { transform: translateX(4px) }`
+        in the about-page block, annotated "one idiom for 'this moves you
+        onward' across the site". This is that idiom, on the compositor.
+
+     Sizing: 12px at line-height 1.5 is 18px, plus the 6px rule offset, so the
+     target box is 24px tall — WCAG 2.2 AA (2.5.8, 24x24 CSS px) for a pointer
+     target that is not inline in a sentence.
+
+     The `.group:hover` selector is for the four call sites where the link is a
+     <span> inside a card-wide <Link class="group">, so the arrow answers to the
+     card rather than to itself. Tailwind's `group` is a plain marker class, so
+     ordinary CSS descends through it. */
+  .link-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: "Roboto", system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgb(var(--c-ink));
+    border-bottom: 2px solid rgb(var(--c-primary));
+    padding-bottom: 6px;
+    transition: color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .link-arrow svg {
+    flex-shrink: 0;
+    font-size: 11px;
+    transition: transform 0.3s ease;
+  }
+
+  .link-arrow:hover svg,
+  .group:hover .link-arrow svg {
+    transform: translateX(4px);
+  }
+
+  /* Dark-ground counterpart — StatementBand's navy panel. The accent rule is
+     2.0:1 on every navy in the palette (the general rule for the slate: light
+     ground only), so the rule inverts to white at low alpha and the label goes
+     solid white, exactly as .btn-outline-light does for the button tier. */
+  .link-arrow-light {
+    color: #fff;
+    border-bottom-color: rgb(255 255 255 / 0.5);
+  }
+
+  .link-arrow-light:hover {
+    border-bottom-color: #fff;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .link-arrow svg {
+      transition: none;
+    }
+
+    .link-arrow:hover svg,
+    .group:hover .link-arrow svg {
+      transform: none;
+    }
+  }
+
+  /* ---- skip link --------------------------------------------------------
+     Off-screen rather than display:none — a hidden element cannot take focus,
+     so `display:none` would make the link unreachable and defeat the purpose.
+     It comes back to the top-left corner the moment it is focused.
+
+     Not `sr-only`: this one has to become VISIBLE on focus, which is the whole
+     mechanism. z-index clears the fixed header (z-50). */
+  .skip-link {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    transform: translateY(-120%);
+    background: rgb(var(--c-ink));
+    color: #fff;
+    font-family: "Roboto", system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 16px 24px;
+    transition: transform 0.2s ease;
+  }
+
+  /* :focus, NOT :focus-visible — the one place on this site that inverts the
+     rule the focus block below sets out. :focus-visible is a heuristic, and a
+     skip link that the browser decides not to mark is a skip link that stays
+     off-screen while holding focus: the visitor tabs once, sees nothing, and
+     the feature silently does not exist. Verified here — a programmatic
+     focus() left it at translateY(-63px).
+
+     Nothing is lost by widening it. The link is invisible until focused, so it
+     cannot be clicked with a mouse, so there is no stray-ring case for
+     :focus-visible to prevent. */
+  .skip-link:focus {
+    transform: translateY(0);
+    outline: 2px solid rgb(var(--c-ink));
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .skip-link {
+      transition: none;
+    }
+  }
+
+  /* <main> takes focus programmatically on route change. It must not paint a
+     ring for that — the visitor did not tab to it, and a 100%-wide outline
+     around the whole page reads as a rendering fault. Keyboard focus on real
+     controls is unaffected. */
+  main:focus,
+  main:focus-visible {
+    outline: none;
+  }
+
+  /* ---- containers -------------------------------------------------------
+     Two widths, both previously written as raw arbitrary values at 49 call
+     sites. Named so the next section does not have to guess which one it is.
+
+     1400 is the site container. 1248 is ProgrammeDetail's, and it is a real
+     decision rather than drift — that page is the only long-form READING page
+     on the site, and a narrower measure is correct for it — but it was
+     undocumented, so it read as a typo nine times over. */
+  .container-page {
+    width: 100%;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .container-narrow {
+    width: 100%;
+    max-width: 1248px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 24px;
+    padding-right: 24px;
   }
 
   /* ---- focus and press states ------------------------------------------
@@ -1082,7 +1277,12 @@ details[open] > summary .faq-marker {
 /* White, not the accent. The banner veil leaves white type at 4.96:1 and the
    accent at 2.6:1 — the gold this replaces failed here too. The underline is
    what marks the link now that colour no longer can. */
+/* inline-block + padding-block so the target clears WCAG 2.2's 24px minimum.
+   As a bare inline link this measured 38x17: line-height alone does not grow
+   an inline box's hit area. */
 .page-breadcrumb li a {
+  display: inline-block;
+  padding-block: 4px;
   color: #fff;
   font-weight: 500;
   text-decoration: underline;

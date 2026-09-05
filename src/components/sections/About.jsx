@@ -21,7 +21,7 @@ export default function About() {
           as alignment, and it left a conspicuous void at the top left. Aligned
           tops also put the left accent rule level with the eyebrow, which is
           what makes the asymmetry look measured rather than accidental. */}
-      <div className="max-w-[1400px] mx-auto px-6 grid lg:grid-cols-2 gap-16 items-start">
+      <div className="container-page grid lg:grid-cols-2 gap-16 items-start">
         <Reveal direction="left" className="relative">
           <div className="relative pl-6 border-l-2 border-primary">
             {/* The box matches the photograph's own ratio, so nothing is

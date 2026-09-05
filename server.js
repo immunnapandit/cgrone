@@ -133,9 +133,14 @@ if (template) {
   app.use((req, res) => {
     const meta = getRouteMeta(req.path);
 
-    /* An unknown path resolves to the home metadata, and the client router
-       redirects it to "/" — so tell crawlers it is not a distinct page rather
-       than letting them index duplicates of the home page under junk URLs. */
+    /* An unknown path resolves to NOT_FOUND_META with a self-referential
+       canonical, and the client router renders the not-found page and stays
+       put. The 404 status below is what stops crawlers indexing junk URLs.
+
+       This used to read "resolves to the home metadata, and the client router
+       redirects it to '/'" — both halves changed on 2026-09-05 when the
+       redirect was replaced by a real not-found page, because sending a 404
+       and then serving a copy of the home page is a soft 404. */
     const isKnown = allPaths().includes(req.path.replace(/\/+$/, "") || "/");
     if (!isKnown) res.status(404);
 

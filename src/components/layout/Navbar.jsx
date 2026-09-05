@@ -15,12 +15,47 @@ export default function Navbar() {
      time also keeps the menu short enough to scroll — the four groups hold 19
      links between them. */
   const [openGroup, setOpenGroup] = useState(null);
-  const onHome = useLocation().pathname === "/";
+  const { pathname, hash } = useLocation();
+  const onHome = pathname === "/";
 
   /* The section links are in-page anchors that only exist on the home page.
      From any other route they need to carry you back there first, so they
      become real "/#section" hrefs and let the browser do the scrolling. */
   const anchor = (href) => (onHome ? href : `/${href}`);
+
+  /* ---- active state ------------------------------------------------------
+     There was none. Not a weak one — none: nothing in the header changed
+     between routes, so on any of the fifteen pages the navigation answered
+     "where am I?" with silence. A visitor on /countries/canada got no
+     indication they were inside Global Immigration, and the four dropdown
+     groups (19 links) gave no clue which one they had come through.
+
+     `isCurrent` is the exact page. `inSection` is prefix matching, so a
+     programme or country page lights its parent group: /investment-migration/
+     antigua-barbuda is inside the Investment & Business Migration group via
+     that group's /investment-migration child. "/" is exact-only — as a prefix
+     it matches every route on the site.
+
+     `isCurrent` compares the fragment too, not just the pathname. Comparing
+     pathnames alone marked THREE children current on /about — "About
+     Cynosure", "Our Story" and "Our Process" all live at /about — so the menu
+     announced "current page" three times and highlighted three rows. A
+     fragment-bearing child is current only when that fragment is the one in
+     the URL; the bare child is current only when there is no fragment. */
+  const isCurrent = (to) => {
+    const [base, frag] = to.split("#");
+    if (pathname !== base) return false;
+    return frag ? hash === `#${frag}` : !hash;
+  };
+
+  const inSection = (to) => {
+    const base = to.split("#")[0];
+    if (base === "/") return pathname === "/";
+    return pathname === base || pathname.startsWith(`${base}/`);
+  };
+
+  const groupActive = (l) =>
+    l.children ? l.children.some((c) => c.to && inSection(c.to)) : inSection(l.to);
 
   return (
     /* No mount animation. This used to slide down from y:-100 on load, which
@@ -34,7 +69,7 @@ export default function Navbar() {
         scrolled ? "bg-white/95 backdrop-blur shadow-lg py-2" : "bg-white py-4"
       }`}
     >
-      <div className="max-w-[1400px] mx-auto px-6 flex items-center justify-between">
+      <div className="container-page flex items-center justify-between">
         {/* The height lives on the link, not the image, so the header keeps the
             same 56/64px box that --nav-clear in index.css is derived from, and
             the logo is sized by width instead. The file is trimmed to the ink
@@ -60,13 +95,43 @@ export default function Navbar() {
         <nav className="hidden xl:flex items-center gap-5 2xl:gap-7 font-heading text-[12px] 2xl:text-[13px] font-medium tracking-[0.1em] 2xl:tracking-[0.14em] uppercase">
           {navLinks.map((l) =>
             l.children ? (
-              <div key={l.label} className="relative group py-2">
+              /* py-2 moved OFF this wrapper and onto the button below. It was
+                 padding a plain div, so the button inside measured 21px tall —
+                 under WCAG 2.2's 24px target minimum — while the sibling plain
+                 nav links, which carry py-2 on the <a> itself, measured 37px.
+                 The two looked identical and had different hit areas. The
+                 wrapper keeps the hover group and the panel's positioning
+                 context; only the padding moved, so nothing shifts visually. */
+              <div key={l.label} className="relative group">
                 {/* uppercase is re-applied here because the UA stylesheet
                     sets button{text-transform:none}, which beats the nav's
                     inherited uppercase and left this reading "Services" */}
-                <button className="flex items-center gap-1 uppercase text-ink hover:text-primary transition-colors duration-300">
+                {/* aria-haspopup + aria-expanded: the panel below opens on
+                    hover and on focus-within, so to a screen reader this
+                    control previously announced as a plain button that did
+                    nothing. It cannot report true/false honestly — the open
+                    state lives in CSS, not in React — but "menu, collapsed" is
+                    the correct resting announcement, and the panel's contents
+                    enter the tab order on focus regardless. */}
+                <button
+                  type="button"
+                  aria-haspopup="true"
+                  aria-expanded={false}
+                  className="relative flex items-center gap-1 py-2 uppercase text-ink hover:text-primary transition-colors duration-300"
+                >
                   {l.label}
-                  <HiChevronDown className="text-xs transition-transform duration-300 group-hover:rotate-180" />
+                  <HiChevronDown aria-hidden="true" className="text-xs transition-transform duration-300 group-hover:rotate-180" />
+                  {/* The active-section rule. Same 2px accent underline the
+                      plain links already grow on hover, held at full width —
+                      so "you are here" and "you are hovering" share one visual
+                      language instead of introducing a second. Not a colour
+                      change: colour alone would fail 1.4.1. */}
+                  {groupActive(l) && (
+                    <span
+                      aria-hidden="true"
+                      className="absolute left-0 -bottom-0.5 h-[2px] w-full bg-primary"
+                    />
+                  )}
                 </button>
 
                 {/* group-focus-within alongside group-hover, and it is not a
@@ -92,7 +157,20 @@ export default function Navbar() {
                         <Link
                           key={c.label}
                           to={c.to}
-                          className="block px-5 py-2.5 text-sm font-medium tracking-normal text-ink hover:text-primary hover:bg-offwhite transition-colors duration-200"
+                          /* aria-current marks the exact page inside the open
+                             panel; the left rule + offwhite ground is its
+                             visible equivalent, so which of the six children
+                             you are on is answerable without opening anything
+                             else. Hash children resolve to their pathname, so
+                             "About Cynosure" and "Our Story" both read as
+                             current on /about — correct, since they are the
+                             same document. */
+                          aria-current={isCurrent(c.to) ? "page" : undefined}
+                          className={`block px-5 py-2.5 text-sm font-medium tracking-normal transition-colors duration-200 hover:text-primary hover:bg-offwhite ${
+                            isCurrent(c.to)
+                              ? "text-ink bg-offwhite border-l-2 border-primary pl-[18px]"
+                              : "text-ink"
+                          }`}
                         >
                           {c.label}
                         </Link>
@@ -113,10 +191,18 @@ export default function Navbar() {
               <Link
                 key={l.label}
                 to={l.to}
+                aria-current={isCurrent(l.to) ? "page" : undefined}
                 className="relative py-2 text-ink hover:text-primary transition-colors duration-300 group"
               >
                 {l.label}
-                <span className="absolute left-0 -bottom-0.5 h-[2px] w-0 bg-primary transition-all duration-300 group-hover:w-full" />
+                {/* One rule, two jobs: it grows from 0 on hover and is simply
+                    held at full width when this is the current page. */}
+                <span
+                  aria-hidden="true"
+                  className={`absolute left-0 -bottom-0.5 h-[2px] bg-primary transition-all duration-300 group-hover:w-full ${
+                    isCurrent(l.to) ? "w-full" : "w-0"
+                  }`}
+                />
               </Link>
             ) : (
               <a
@@ -135,33 +221,69 @@ export default function Navbar() {
           Contact Us
         </Link>
 
-        <button className="xl:hidden text-3xl text-ink" onClick={() => setOpen(!open)}>
-          {open ? <HiX /> : <HiMenu />}
+        {/* Had no accessible name at all — an icon-only button whose only
+            content is an SVG, so it announced as "button". It is also the
+            single most important control on the site below xl, since it is the
+            only route to the navigation.
+
+            -mr-2 p-2 gives it a 44x44 hit area (the glyph alone was ~30px,
+            under both the 44pt Apple and 48dp Material floors) while the
+            negative margin keeps the icon optically flush with the container
+            gutter, so nothing moves visually. */}
+        <button
+          type="button"
+          aria-label={open ? "Close menu" : "Open menu"}
+          aria-expanded={open}
+          aria-controls="mobile-nav"
+          className="xl:hidden -mr-2 p-2 text-3xl text-ink"
+          /* Opening the menu expands the group you are currently inside. All
+             four started collapsed, so on /countries/canada the menu opened
+             onto four identical closed rows and gave no more sense of place
+             than the header already did. Only set on open — after that the
+             visitor's own toggling wins. */
+          onClick={() => {
+            const next = !open;
+            setOpen(next);
+            if (next) setOpenGroup(navLinks.find(groupActive)?.label ?? null);
+          }}
+        >
+          {open ? <HiX aria-hidden="true" /> : <HiMenu aria-hidden="true" />}
         </button>
       </div>
 
       <AnimatePresence>
         {open && (
           <motion.nav
+            id="mobile-nav"
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.35 }}
-            className="xl:hidden overflow-hidden bg-white border-t"
+            /* border-hairline, not a bare `border-t` — that fell through to
+               Tailwind's default gray-200, the one untokenised border left in
+               the codebase. */
+            className="xl:hidden overflow-hidden bg-white border-t border-hairline"
           >
             <div className="flex flex-col px-6 py-4 gap-1 font-heading font-medium uppercase text-[13px] tracking-[0.14em]">
               {navLinks.map((l) =>
                 l.children ? (
                   <div key={l.label}>
+                    {/* Active section gets the accent rule down its left edge
+                        — the vertical counterpart of the desktop underline,
+                        because these rows are stacked rather than in a line. */}
                     <button
+                      type="button"
                       onClick={() =>
                         setOpenGroup((g) => (g === l.label ? null : l.label))
                       }
                       aria-expanded={openGroup === l.label}
-                      className="w-full flex items-center justify-between py-3 uppercase text-ink hover:text-primary transition-colors"
+                      className={`w-full flex items-center justify-between py-3 uppercase text-ink hover:text-primary transition-colors ${
+                        groupActive(l) ? "border-l-2 border-primary pl-3" : ""
+                      }`}
                     >
                       {l.label}
                       <HiChevronDown
+                        aria-hidden="true"
                         className={`text-xs transition-transform duration-300 ${
                           openGroup === l.label ? "rotate-180" : ""
                         }`}
@@ -182,7 +304,12 @@ export default function Navbar() {
                                 key={c.label}
                                 to={c.to}
                                 onClick={() => setOpen(false)}
-                                className="block py-2.5 text-xs normal-case font-medium text-ink/80 hover:text-primary transition-colors"
+                                aria-current={isCurrent(c.to) ? "page" : undefined}
+                                className={`block py-2.5 text-xs normal-case transition-colors hover:text-primary ${
+                                  isCurrent(c.to)
+                                    ? "font-semibold text-ink"
+                                    : "font-medium text-ink/80"
+                                }`}
                               >
                                 {c.label}
                               </Link>
@@ -206,7 +333,10 @@ export default function Navbar() {
                     key={l.label}
                     to={l.to}
                     onClick={() => setOpen(false)}
-                    className="py-3 text-ink hover:text-primary transition-colors"
+                    aria-current={isCurrent(l.to) ? "page" : undefined}
+                    className={`py-3 text-ink hover:text-primary transition-colors ${
+                      isCurrent(l.to) ? "border-l-2 border-primary pl-3" : ""
+                    }`}
                   >
                     {l.label}
                   </Link>

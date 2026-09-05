@@ -7,7 +7,7 @@ import { ourStory } from "@/data/ourStory";
 export default function OurStory() {
   return (
     <section id="our-story" className="py-14 md:py-20 lg:py-24 bg-white border-t border-hairline scroll-mt-28">
-      <div className="max-w-[1400px] mx-auto px-6">
+      <div className="container-page">
         <Reveal className="max-w-3xl mb-16">
           <div className="eyebrow mb-6">
             <span className="chev">»</span> {ourStory.eyebrow}
@@ -24,7 +24,7 @@ export default function OurStory() {
                   <span className="t-num text-3xl text-ink leading-none">
                     {c.marker}
                   </span>
-                  <span className="text-muted text-[11px] uppercase tracking-[0.16em] text-right">
+                  <span className="t-label-sm text-right">
                     {c.place}
                   </span>
                 </div>

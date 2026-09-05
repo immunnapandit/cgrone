@@ -27,7 +27,7 @@ export default function StatementBand({ image, position = "50% 50%", eyebrow, li
       />
       <div className="absolute inset-0 -z-10 bg-gradient-to-r from-ink/90 from-0% via-ink/80 via-55% to-ink/40 to-100%" />
 
-      <div className="relative max-w-[1400px] mx-auto px-6 w-full">
+      <div className="relative container-page w-full">
         <div className="max-w-2xl">
           {eyebrow && (
             <div className="eyebrow text-white/70 mb-6">
@@ -39,9 +39,9 @@ export default function StatementBand({ image, position = "50% 50%", eyebrow, li
           {cta && (
             <Link
               to={cta.to}
-              className="mt-9 inline-flex items-center gap-2 font-heading font-medium text-[13px] uppercase tracking-[0.16em] text-white border-b border-white/50 pb-1.5 hover:gap-3.5 transition-all duration-300"
+              className="link-arrow link-arrow-light mt-9"
             >
-              {cta.label} <FaArrowRight className="text-xs" />
+              {cta.label} <FaArrowRight />
             </Link>
           )}
         </div>

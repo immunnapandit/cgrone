@@ -64,7 +64,9 @@ const BUTTON_LABEL = {
   error: "Try Again",
 };
 
-const LABEL = "font-heading text-[11px] uppercase tracking-[0.18em] text-muted mb-2";
+/* Was 11px/0.18em here and 12px/0.18em on /contact — the same field label on
+   the same form, two sizes. Both are .t-label now. */
+const LABEL = "t-label mb-2";
 const FIELD =
   "bg-transparent border-b border-hairline pb-2.5 text-ink outline-none focus:border-ink transition-colors font-body";
 
@@ -73,7 +75,7 @@ export default function Contact() {
 
   return (
     <section id="contact" className="py-14 md:py-20 lg:py-24 bg-white border-t border-hairline scroll-mt-28">
-      <div className="max-w-[1400px] mx-auto px-6">
+      <div className="container-page">
         {/* ---- section header ----
             This used to sit INSIDE the form column, which meant the section
             opened with a bordered box and no heading of its own — every other
@@ -171,8 +173,15 @@ export default function Contact() {
               </div>
 
               <div className="flex flex-col">
+                {/* "(optional)" to match the phone field. This form marks what
+                    is OPTIONAL rather than what is required, which is a fine
+                    convention — but only while it is complete. Message carried
+                    no `required` attribute and no marker, so three required
+                    fields, one marked-optional field and one silently-optional
+                    field shipped together and the rule "unmarked means
+                    required" was not actually true. */}
                 <label htmlFor="contact-message" className={LABEL}>
-                  Message
+                  Message (optional)
                 </label>
                 <textarea id="contact-message" name="message" rows={3} className={`${FIELD} resize-none`} />
               </div>

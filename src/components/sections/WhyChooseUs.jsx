@@ -6,7 +6,7 @@ import { whyChooseUsPerks, whyChooseUsFacts } from "@/data/whyChooseUs";
 export default function WhyChooseUs() {
   return (
     <section className="why-choose-us">
-      <div className="max-w-[1400px] mx-auto px-6">
+      <div className="container-page">
         <div className="outer-box">
           <div className="grid lg:grid-cols-2">
             {/* navy panel — left on desktop, but second in the source so the
@@ -75,7 +75,7 @@ export default function WhyChooseUs() {
                       <dt className="t-num text-3xl text-ink leading-none shrink-0 w-28">
                         {f.value}
                       </dt>
-                      <dd className="text-muted text-[13px] uppercase tracking-[0.16em] leading-snug">
+                      <dd className="t-label leading-snug">
                         {f.label}
                       </dd>
                     </div>
@@ -84,9 +84,9 @@ export default function WhyChooseUs() {
 
                 <a
                   href="#contact"
-                  className="mt-9 inline-flex items-center gap-2 font-heading font-semibold text-[13px] uppercase tracking-[0.16em] text-ink border-b-2 border-primary pb-1.5 hover:gap-3.5 transition-all duration-300"
+                  className="link-arrow mt-9"
                 >
-                  Book a Confidential Consultation <FaArrowRight className="text-xs" />
+                  Book a Confidential Consultation <FaArrowRight />
                 </a>
               </div>
             </Reveal>

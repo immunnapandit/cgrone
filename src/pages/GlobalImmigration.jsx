@@ -29,7 +29,7 @@ export default function GlobalImmigration() {
       />
 
       <section className="py-14 md:py-20 lg:py-24 bg-white">
-        <div className="max-w-[1400px] mx-auto px-6">
+        <div className="container-page">
           <div className="grid lg:grid-cols-12 gap-x-16 gap-y-10 items-end pb-12 mb-12 border-b border-hairline">
             <Reveal className="lg:col-span-7">
               <div className="eyebrow mb-6">
@@ -77,8 +77,8 @@ export default function GlobalImmigration() {
                   />
                   <h2 className="t-h3 text-ink mb-3">{c.name}</h2>
                   <p className="t-body mb-7">{c.lede}</p>
-                  <span className="mt-auto inline-flex items-center gap-1.5 text-ink font-heading font-semibold text-[12px] uppercase tracking-[0.16em] border-b-2 border-primary pb-1.5 self-start group-hover:gap-3 transition-all">
-                    Explore {c.name} <FaAngleRight className="text-xs" />
+                  <span className="link-arrow mt-auto self-start">
+                    Explore {c.name} <FaAngleRight />
                   </span>
                 </Link>
               ))}

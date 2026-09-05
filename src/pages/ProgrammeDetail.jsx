@@ -53,10 +53,11 @@ import { programmeBySlug } from "@/data/programmePages";
  *                    right edge, top-aligned with the Benefits heading, and at
  *                    its NATURAL aspect — the reference crops nothing here.
  *
- * The type scale is deliberately NOT the reference's. Theirs is 40/36/14px
- * against our 60/44/16, and adopting it would have made this the only page on
- * cgrone.com set at 14px. The measures above are wide enough for our larger
- * type: .t-body caps at 68ch ≈ 544px inside the 585px column.
+ * The type scale IS the reference's now, and it is in the tokens rather than
+ * scoped here — see the scale note in index.css. It was measured off the same
+ * page as the geometry above: 40/36 heads against the 60/44 the site had been
+ * carrying on the strength of a guess. Body is the one deliberate departure,
+ * 15px/1.6 rather than their 14px/1.286.
  */
 
 /* The reference's list bullet is a short horizontal rule set in the margin.
@@ -84,12 +85,19 @@ function RuleList({ items, tone = "dark", className = "" }) {
 function Crumbs({ items }) {
   return (
     <nav aria-label="Breadcrumb">
-      <ol className="flex flex-wrap items-center gap-y-2 font-heading text-[11px] font-medium uppercase tracking-[0.16em] text-muted">
+      <ol className="t-label-sm flex flex-wrap items-center gap-y-2">
         {items.map((c, i) => (
           <li key={c.label} className="flex items-center">
             {i > 0 && <span aria-hidden="true" className="mx-3 sm:mx-4 h-3 w-px bg-hairline" />}
             {c.to ? (
-              <Link to={c.to} className="transition-colors duration-300 hover:text-ink">
+              /* inline-block + py-1 for the 24px target minimum — as a bare
+                 inline link this measured 37x17. Matches the fix on
+                 `.page-breadcrumb li a`, the site's other breadcrumb; these two
+                 have always been separate implementations. */
+              <Link
+                to={c.to}
+                className="inline-block py-1 transition-colors duration-300 hover:text-ink"
+              >
                 {c.label}
               </Link>
             ) : (
@@ -197,10 +205,7 @@ export default function ProgrammeDetail() {
   const procedureParas = Array.isArray(procedure) ? procedure : [procedure];
 
   return (
-    /* .programme-page scopes the reference's type scale to this route — see the
-       block after .t-small in index.css for the measured numbers and why they
-       are not in the tokens. */
-    <div className="programme-page">
+    <>
       {/* ---- 0. split header ------------------------------------------------
           The section clears the fixed navbar itself; everything inside is
           positioned against the strip of page you can actually see. */}
@@ -259,7 +264,7 @@ export default function ProgrammeDetail() {
               aria-hidden="true"
               className="absolute inset-y-0 left-0 right-0 lg:right-[20%] bg-offwhite"
             />
-            <div className="relative max-w-[1248px] mx-auto px-6">
+            <div className="relative container-narrow">
               <Tabs tabs={allTabs} active={tab} onChange={setTab} />
             </div>
           </div>
@@ -278,7 +283,7 @@ export default function ProgrammeDetail() {
           className={panel(t.id)}
         >
           <section className="py-14 md:py-20 lg:py-24 bg-white">
-            <div className="max-w-[1248px] mx-auto px-6">
+            <div className="container-narrow">
               <Reveal className="lg:w-[calc(50%-15px)]">
                 <h2 className="t-h2 text-ink">{t.heading}</h2>
                 <div className="mt-8 space-y-6">
@@ -313,7 +318,7 @@ export default function ProgrammeDetail() {
           <div aria-hidden="true" className="hidden lg:block absolute inset-y-0 left-0 right-1/2 bg-primary" />
           <div aria-hidden="true" className="hidden lg:block absolute inset-y-0 left-1/2 right-0 bg-offwhite" />
 
-          <div className="relative max-w-[1248px] mx-auto px-6 grid lg:grid-cols-2">
+          <div className="relative container-narrow grid lg:grid-cols-2">
             {/* below lg there are no halves to bleed into, so each column
                 paints its own ground and -mx-6 px-6 takes it full width */}
             <Reveal className="bg-primary lg:bg-transparent -mx-6 px-6 py-14 lg:mx-0 lg:px-0 lg:py-24 lg:pr-20">
@@ -373,7 +378,7 @@ export default function ProgrammeDetail() {
         <section className="py-14 md:py-20 lg:py-24 bg-white">
           {/* gap-x-[30px], not gap-x-16: with the 1200px content column a 30px
               gutter makes each track 585 — the reference's column exactly. */}
-          <div className="max-w-[1248px] mx-auto px-6 grid lg:grid-cols-2 gap-x-[30px] gap-y-14">
+          <div className="container-narrow grid lg:grid-cols-2 gap-x-[30px] gap-y-14">
             <div>
               <Reveal>
                 {/* kindLabel, not a hardcoded "Citizenship by Investment" —
@@ -439,7 +444,7 @@ export default function ProgrammeDetail() {
 
         {/* ---- 4. procedure — left column, empty right ---- */}
         <section className="py-14 md:py-20 lg:py-24 bg-offwhite">
-          <div className="max-w-[1248px] mx-auto px-6">
+          <div className="container-narrow">
             <Reveal className="lg:w-[calc(50%-15px)]">
               <h2 className="t-h2 text-ink">Procedure for the {name} Programme</h2>
               <div className="mt-8 space-y-6">
@@ -461,7 +466,7 @@ export default function ProgrammeDetail() {
         <section className="relative bg-white">
           <div aria-hidden="true" className="hidden lg:block absolute inset-y-0 left-0 right-1/2 bg-primary" />
 
-          <div className="relative max-w-[1248px] mx-auto px-6">
+          <div className="relative container-narrow">
             <Reveal className="lg:w-1/2 lg:pr-20 bg-primary lg:bg-transparent -mx-6 px-6 py-14 lg:mx-0 lg:px-0 lg:py-24">
               <h2 className="t-h2 !text-white">Why Choose Cynosure?</h2>
               <RuleList items={whyChoose} tone="light" className="mt-9" />
@@ -476,7 +481,7 @@ export default function ProgrammeDetail() {
 
         {/* ---- 6. FAQ ---- */}
         <section className="py-14 md:py-20 lg:py-24 bg-white">
-          <div className="max-w-[1248px] mx-auto px-6">
+          <div className="container-narrow">
             <div className="lg:w-[calc(50%-15px)]">
               <Reveal>
                 <h2 className="t-h2 text-ink">
@@ -515,9 +520,9 @@ export default function ProgrammeDetail() {
                 <Reveal className="mt-10">
                   <Link
                     to={related.to}
-                    className="inline-flex items-center gap-1.5 text-ink font-heading font-semibold text-[12px] uppercase tracking-[0.16em] border-b-2 border-primary pb-1.5 hover:gap-3 transition-all duration-300"
+                    className="link-arrow"
                   >
-                    {related.label} <FaAngleRight className="text-xs" />
+                    {related.label} <FaAngleRight />
                   </Link>
                 </Reveal>
               )}
@@ -535,7 +540,7 @@ export default function ProgrammeDetail() {
             contact block; the left-hand measure when it does not, rather than
             a paragraph running the full width of the page. */}
         <section className="py-14 md:py-20 lg:py-24 bg-offwhite border-t border-hairline">
-          <div className="max-w-[1248px] mx-auto px-6">
+          <div className="container-narrow">
             <div className={ctaImage ? "grid lg:grid-cols-2 gap-x-16 gap-y-10 items-center" : ""}>
               <Reveal className={ctaImage ? "" : "lg:w-[calc(50%-15px)]"}>
                 <h2 className="t-h2 text-ink mb-5">{closing.title}</h2>
@@ -558,6 +563,6 @@ export default function ProgrammeDetail() {
         </section>
 
       </div>
-    </div>
+    </>
   );
 }

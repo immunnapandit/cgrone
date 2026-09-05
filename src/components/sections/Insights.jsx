@@ -17,7 +17,7 @@ export default function Insights() {
 
   return (
     <section id="insights" className="py-14 md:py-20 lg:py-24 bg-white scroll-mt-28">
-      <div className="max-w-[1400px] mx-auto px-6">
+      <div className="container-page">
         <Reveal className="max-w-2xl mb-16">
           <div className="eyebrow mb-6">
             <span className="chev">»</span> Insights
@@ -42,7 +42,7 @@ export default function Insights() {
               <div className="p-8 flex flex-col flex-1">
                 <time
                   dateTime={p.date}
-                  className="text-muted text-[12px] uppercase tracking-[0.16em] mb-4"
+                  className="t-label mb-4"
                 >
                   {DATE.format(new Date(p.date))}
                 </time>
@@ -50,9 +50,9 @@ export default function Insights() {
                 <p className="t-body mb-7">{p.summary}</p>
                 <Link
                   to={p.href}
-                  className="mt-auto inline-flex items-center gap-1.5 text-ink font-heading font-semibold text-[12px] uppercase tracking-[0.16em] border-b-2 border-primary pb-1.5 self-start hover:gap-3 transition-all duration-300"
+                  className="link-arrow mt-auto self-start"
                 >
-                  Read More <FaAngleRight className="text-xs" />
+                  Read More <FaAngleRight />
                 </Link>
               </div>
             </article>

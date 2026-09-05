@@ -22,6 +22,21 @@ export const DEFAULT_META = {
     "An international advisory platform for immigration, global mobility, investment migration and cross-border expansion across India, the UK, Canada, Australia and New Zealand.",
 };
 
+/* Unknown paths. Added 2026-09-05 alongside the real not-found page.
+   The fallback used to be `{ ...DEFAULT_META, path: "/" }`, which was
+   defensible while an unknown URL redirected to the home page and became it.
+   It is not defensible now that /nope renders a not-found page and stays at
+   /nope: that fallback titled the page "Cynosure Global Residency |
+   Immigration & Global Mobility" and pointed the CANONICAL at "/", i.e. told
+   every crawler that each broken URL on the site is a duplicate of the home
+   page. server.js sends a 404 status for these, so the metadata is the last
+   part still claiming otherwise. */
+export const NOT_FOUND_META = {
+  title: "Page Not Found | Cynosure Global Residency",
+  description:
+    "The page you were looking for has been moved, renamed, or never existed.",
+};
+
 /* Static routes. Country pages are matched separately below so a new country
    does not need an entry here. */
 const ROUTES = {
@@ -143,7 +158,9 @@ export function getRouteMeta(pathname = "/") {
     PROGRAMME_META[path.slice("/investment-migration/".length)];
   if (programme) return { ...programme, path };
 
-  return { ...DEFAULT_META, path: "/" };
+  /* `path` stays the requested one, so the canonical is self-referential
+     rather than claiming to be the home page. */
+  return { ...NOT_FOUND_META, path };
 }
 
 /** Every indexable path, for the sitemap.

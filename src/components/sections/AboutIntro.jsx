@@ -11,7 +11,7 @@ export default function AboutIntro() {
 
   return (
     <section className="about-section-two">
-      <div className="max-w-[1400px] mx-auto px-6">
+      <div className="container-page">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* copy sits right on desktop (reference uses order-lg-2) */}
           <Reveal

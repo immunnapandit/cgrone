@@ -24,7 +24,7 @@ export default function Services() {
           resolve is not worth the association. */}
       <div className="absolute top-0 left-0 w-full h-[calc(100%+334px)] bg-offwhite overflow-hidden -z-10 pointer-events-none" />
 
-      <div className="relative max-w-[1400px] mx-auto px-6">
+      <div className="relative container-page">
         <Reveal className="text-center max-w-3xl mx-auto mb-10 md:mb-16">
           <div className="eyebrow mx-auto justify-center mb-6">
             <span className="chev">»</span> What We Do
@@ -78,7 +78,7 @@ export default function Services() {
                     {sub.map((s) => (
                       <li
                         key={s}
-                        className="border-b border-hairline py-2.5 text-muted text-[11px] uppercase tracking-[0.14em]"
+                        className="t-label-sm border-b border-hairline py-2.5"
                       >
                         {s}
                       </li>
@@ -87,9 +87,9 @@ export default function Services() {
 
                   <Link
                     to={to}
-                    className="mt-auto self-start inline-flex items-center gap-1.5 text-ink font-heading font-semibold text-[12px] uppercase tracking-[0.16em] border-b-2 border-primary pb-1.5 hover:gap-3 transition-all duration-300"
+                    className="link-arrow mt-auto self-start"
                   >
-                    Explore <FaAngleRight className="text-xs" />
+                    Explore <FaAngleRight />
                   </Link>
                 </div>
               </article>

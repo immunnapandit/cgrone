@@ -32,7 +32,7 @@ export default function WorkforceSector() {
       />
 
       <section className="py-14 md:py-20 lg:py-24 bg-white">
-        <div className="max-w-[1400px] mx-auto px-6">
+        <div className="container-page">
           <div className="grid lg:grid-cols-12 gap-x-16 gap-y-10 items-end pb-12 mb-12 border-b border-hairline">
             <Reveal className="lg:col-span-7">
               <div className="eyebrow mb-6">
@@ -76,7 +76,7 @@ export default function WorkforceSector() {
 
       {/* ---- five-step approach ---- */}
       <section className="py-14 md:py-20 lg:py-24 bg-white border-t border-hairline">
-        <div className="max-w-[1400px] mx-auto px-6">
+        <div className="container-page">
           <Reveal className="max-w-3xl mb-10">
             <h2 className="t-h2 text-ink">Our Approach</h2>
           </Reveal>
@@ -94,7 +94,7 @@ export default function WorkforceSector() {
                   <span className="t-num block text-2xl text-ink/30 leading-none mb-4">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <span className="font-heading font-semibold text-[11px] uppercase tracking-[0.2em] text-muted">
+                  <span className="t-label-sm">
                     {s.n}
                   </span>
                   <p className="t-body mt-4">{s.text}</p>
@@ -115,7 +115,7 @@ export default function WorkforceSector() {
 
       {/* ---- markets ---- */}
       <section className="py-14 md:py-20 lg:py-24 bg-white">
-        <div className="max-w-[1400px] mx-auto px-6 grid lg:grid-cols-12 gap-x-16 gap-y-10">
+        <div className="container-page grid lg:grid-cols-12 gap-x-16 gap-y-10">
           <Reveal className="lg:col-span-5">
             <h2 className="t-h2 text-ink">{d.marketsTitle}</h2>
           </Reveal>
@@ -124,7 +124,7 @@ export default function WorkforceSector() {
               {d.markets.map((m) => (
                 <span
                   key={m.name}
-                  className="flex items-center gap-3 border border-hairline text-ink font-heading font-medium text-[13px] uppercase tracking-[0.14em] pl-3 pr-4 py-2.5"
+                  className="t-label text-ink flex items-center gap-3 border border-hairline pl-3 pr-4 py-2.5"
                 >
                   <m.Flag
                     title={m.name}
@@ -141,7 +141,7 @@ export default function WorkforceSector() {
 
       {/* ---- employers ---- */}
       <section className="py-14 md:py-20 lg:py-24 bg-white border-y border-hairline">
-        <div className="max-w-[1400px] mx-auto px-6">
+        <div className="container-page">
           <Reveal className="max-w-3xl mb-9">
             <h2 className="t-h2 text-ink mb-5">{d.employers.title}</h2>
             <p className="t-body">{d.employers.text}</p>
@@ -151,7 +151,7 @@ export default function WorkforceSector() {
               {d.employers.chain.map((step, i) => (
                 <div key={step} className="bg-white border border-hairline px-6 py-7 text-center">
                   <span className="t-num text-sm text-muted block mb-2">0{i + 1}</span>
-                  <span className="font-heading font-medium text-[13px] uppercase tracking-[0.14em] text-ink">
+                  <span className="t-label text-ink">
                     {step}
                   </span>
                 </div>
@@ -163,7 +163,7 @@ export default function WorkforceSector() {
 
       {/* ---- closing ---- */}
       <section className="py-14 md:py-20 lg:py-24 bg-white">
-        <div className="max-w-[1400px] mx-auto px-6 grid lg:grid-cols-12 gap-x-16 gap-y-12">
+        <div className="container-page grid lg:grid-cols-12 gap-x-16 gap-y-12">
           <Reveal className="lg:col-span-7">
             <h2 className="t-h3 text-ink mb-6">{d.closing}</h2>
             <p className="t-body mb-9">{d.closingText}</p>

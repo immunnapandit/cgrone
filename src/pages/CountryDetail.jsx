@@ -100,7 +100,7 @@ export default function CountryDetail() {
 
       {/* ---- intro ---- */}
       <section className="py-14 md:py-20 lg:py-24 bg-white">
-        <div className="max-w-[1400px] mx-auto px-6">
+        <div className="container-page">
           <div className="grid lg:grid-cols-12 gap-x-16 gap-y-10 items-end pb-14 mb-14 border-b border-hairline">
             <Reveal className="lg:col-span-7">
               <div className="flex items-center gap-5 mb-7">
@@ -162,7 +162,7 @@ export default function CountryDetail() {
              the intro block above it already ends on one. */
           className={`py-14 md:py-20 lg:py-24 scroll-mt-28 bg-white${i === 0 ? "" : " border-t border-hairline"}`}
         >
-          <div className="max-w-[1400px] mx-auto px-6">
+          <div className="container-page">
             <Reveal className="max-w-3xl mb-12">
               <h2 className="t-h2 text-ink mb-5">{s.title}</h2>
               {s.lead && <p className="t-body">{s.lead}</p>}
@@ -189,7 +189,7 @@ export default function CountryDetail() {
                         <span className="t-num text-sm text-muted block mb-2">
                           0{n + 1}
                         </span>
-                        <span className="font-heading font-medium text-[13px] uppercase tracking-[0.14em] text-ink">
+                        <span className="t-label text-ink">
                           {step}
                         </span>
                       </div>
@@ -237,7 +237,7 @@ export default function CountryDetail() {
       {/* ---- official sources, where the document asks for it ---- */}
       {official && (
         <section className="py-14 md:py-20 lg:py-24 bg-white">
-          <div className="max-w-[1400px] mx-auto px-6">
+          <div className="container-page">
             <Reveal className="border border-hairline bg-offwhite p-9 lg:p-11 max-w-4xl">
               <h2 className="t-h4 text-ink mb-4">{official.title}</h2>
               <p className="t-body mb-6">{official.text}</p>
@@ -245,9 +245,9 @@ export default function CountryDetail() {
                 href={official.url}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="inline-flex items-center gap-2 text-ink font-heading font-semibold text-[12px] uppercase tracking-[0.16em] border-b-2 border-primary pb-1.5 hover:gap-3 transition-all duration-300"
+                className="link-arrow"
               >
-                {official.label} <FaExternalLinkAlt className="text-[10px]" />
+                {official.label} <FaExternalLinkAlt />
               </a>
             </Reveal>
           </div>
@@ -256,7 +256,7 @@ export default function CountryDetail() {
 
       {/* ---- closing + sideways navigation ---- */}
       <section className="py-14 md:py-20 lg:py-24 bg-white border-t border-hairline">
-        <div className="max-w-[1400px] mx-auto px-6 grid lg:grid-cols-12 gap-x-16 gap-y-12">
+        <div className="container-page grid lg:grid-cols-12 gap-x-16 gap-y-12">
           <Reveal className="lg:col-span-7">
             <h2 className="t-h3 text-ink mb-6">{name} Starts With a Conversation</h2>
             <p className="t-lead text-ink border-l-2 border-primary pl-6 mb-9">{closing}</p>

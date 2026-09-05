@@ -40,7 +40,7 @@ export default function Contact() {
       />
 
       <section className="py-14 md:py-20 lg:py-24 bg-white">
-        <div className="max-w-[1400px] mx-auto px-6">
+        <div className="container-page">
           <Reveal className="max-w-2xl mb-16">
             <div className="eyebrow mb-6">
               <span className="chev">»</span> Get in Touch
@@ -70,7 +70,7 @@ export default function Contact() {
                     <span className="w-14 h-14 mb-8 flex items-center justify-center text-2xl text-ink border border-hairline transition-colors duration-300 group-hover:bg-primary group-hover:border-primary group-hover:text-white">
                       <Icon />
                     </span>
-                    <p className="font-heading font-medium text-[12px] uppercase tracking-[0.18em] text-muted mb-2">
+                    <p className="t-label mb-2">
                       {label}
                     </p>
                     <p className="t-h4 text-ink mb-3 break-words">{value}</p>

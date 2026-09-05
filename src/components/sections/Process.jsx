@@ -10,7 +10,7 @@ import { processSteps } from "@/data/processSteps";
 export default function Process() {
   return (
     <section id="process" className="relative py-14 md:py-20 lg:py-24 bg-white overflow-hidden scroll-mt-28">
-      <div className="relative max-w-[1400px] mx-auto px-6">
+      <div className="relative container-page">
         <Reveal className="text-center mb-20">
           <div className="eyebrow mx-auto justify-center mb-6">
             <span className="chev">»</span> Our Approach
@@ -45,7 +45,12 @@ export default function Process() {
                 </div>
 
                 <div className="max-w-[280px] mx-auto px-6 py-5">
-                  <span className="text-muted font-heading font-semibold tracking-[0.22em] text-[12px]">STEP {s.n}</span>
+                  {/* .t-label, not the 0.22em eyebrow tracking this carried.
+                      0.22em is reserved for the SECTION kicker, which sits
+                      alone above a heading; this is a card-level label with a
+                      title 10px under it, and at that spacing the wider
+                      tracking read as a second competing kicker. */}
+                  <span className="t-label">STEP {s.n}</span>
                   <h3 className="t-h4 text-ink mt-2.5 mb-3 whitespace-pre-line">{s.title}</h3>
                   <p className="t-body text-balance">{s.text}</p>
                 </div>
