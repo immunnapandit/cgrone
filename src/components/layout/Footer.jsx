@@ -54,7 +54,13 @@ export default function Footer() {
                 </div>
                 <div>
                   <p className="t-label mb-0.5">{it.label}</p>
-                  <p className="t-h5 text-ink leading-snug break-all">{it.value}</p>
+                  {/* break-words, not break-all. break-all was defensive cover
+                      for the email address and it breaks ANY word at any
+                      character — harmless on one 15-character address, wrong
+                      the moment a value is a phrase, which the jurisdictions
+                      one now is. break-words only breaks a word that cannot
+                      fit on its own, so it still saves the address. */}
+                  <p className="t-h5 text-ink leading-snug break-words">{it.value}</p>
                 </div>
               </Wrapper>
             );

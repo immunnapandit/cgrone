@@ -49,7 +49,11 @@ import contactImage from "@/assets/images/contact/tower-blue-hour.webp";
    firm is making. Nothing here is new copy — the details restate what the
    About section and the hero already say. */
 const CREDENTIALS = [
-  { term: "20+ Years Experience", detail: "International advisory across five jurisdictions." },
+  /* Was "International advisory across five jurisdictions." — five is the
+     firm's own footprint, and putting it after "advisory across" made it the
+     scope of the advice instead. This block sits beside the enquiry form, so
+     it is the last thing read before someone decides whether to write. */
+  { term: "20+ Years Experience", detail: "International advisory, from five home jurisdictions to destinations worldwide." },
   {
     term: "Global Mobility Platform",
     detail: "Immigration, investment migration and workforce mobility in one place.",
@@ -68,7 +72,12 @@ const BUTTON_LABEL = {
    the same form, two sizes. Both are .t-label now. */
 const LABEL = "t-label mb-2";
 const FIELD =
-  "bg-transparent border-b border-hairline pb-2.5 text-ink outline-none focus:border-ink transition-colors font-body";
+  /* border-strong, not hairline. --c-hairline is the SEPARATOR weight — it
+     divides things that are already laid out. An input's rule is the only
+     thing telling you there is a field there at all, and at hairline weight
+     on white the form read as floating labels with nothing to type into.
+     focus goes to the brand blue, matching the site-wide ring. */
+  "bg-transparent border-b border-border-strong pb-2.5 text-ink outline-none focus:border-primary-600 transition-colors font-body";
 
 export default function Contact() {
   const { status, error, submit } = useFormSubmit("/api/contact");

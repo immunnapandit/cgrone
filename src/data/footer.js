@@ -11,7 +11,17 @@ import { LuCalendarCheck, LuGlobe, LuMail } from "react-icons/lu";
    confirmed. */
 export const footerContactInfo = [
   { icon: LuMail, label: "Email Us", value: "info@cgrone.com", href: "mailto:info@cgrone.com" },
-  { icon: LuGlobe, label: "Where We Operate", value: "India · UK · Canada · Australia · New Zealand" },
+  /* The five are where the firm itself is established — they are NOT the list
+     of places it can help you go, and read as exactly that when they stood
+     alone. The site advises on programmes across the Caribbean, Europe and the
+     Gulf, none of which appear here. "Selected Global Destinations" is the
+     phrase pillars.js and NotFound.jsx already use for the same job, so the
+     catch-all is the site's own wording rather than a new one. */
+  {
+    icon: LuGlobe,
+    label: "Where We Operate",
+    value: "India · UK · Canada · Australia · New Zealand · Selected Global Destinations",
+  },
   { icon: LuCalendarCheck, label: "Enquiries", value: "Book a Consultation", href: "/contact" },
 ];
 
@@ -32,7 +42,6 @@ export const footerLinks = [
   { label: "Home", href: "/" },
   { label: "About Cynosure", href: "/about" },
   { label: "Leadership", href: "/leadership" },
-  { label: "Our Story", href: "/about#our-story" },
   { label: "Canada", href: "/countries/canada" },
   { label: "Australia", href: "/countries/australia" },
   { label: "New Zealand", href: "/countries/new-zealand" },

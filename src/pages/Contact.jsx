@@ -20,7 +20,12 @@ const WAYS = [
     icon: LuGlobe,
     label: "Where We Operate",
     value: "India · UK · Canada · Australia · New Zealand",
-    text: "Every matter is routed to regulated professionals in the destination jurisdiction.",
+    /* This card has a `text` line, which the footer tile does not, so the
+       correction is made in a sentence here rather than by extending the list.
+       The five are the firm's own jurisdictions; the destinations it advises
+       on are a much longer list, and a visitor reading five country names with
+       nothing after them has no way to know that. */
+    text: "Those are our own jurisdictions, not the limit of where we advise — investment migration routes run across the Caribbean, Europe and the Gulf. Every matter is routed to regulated professionals in the destination jurisdiction.",
   },
   {
     icon: LuMessageCircle,

@@ -19,11 +19,34 @@ import { programmeBySlug } from "@/data/programmePages";
  *      the right, each bleeding off its own edge of the viewport; "why choose
  *      us" is the same slate panel with nothing beside it.
  *   3. A LEFT-HAND MEASURE. Body sections occupy the left column and leave the
- *      right one empty, apart from one photograph that rides sticky beside
- *      Benefits and Requirements. The empty half is the point: it is what
- *      holds the measure near 70 characters.
+ *      right one empty, apart from one photograph beside Benefits. The empty
+ *      half is the point: it is what holds the measure near 70 characters.
  *   4. DASH BULLETS. A short rule in the margin, not a disc — the same mark
  *      .eyebrow uses.
+ *
+ * ---- THE 2026-09-06 DESIGN AUDIT --------------------------------------------
+ * Four changes, all of them to hierarchy rather than to style. Nothing in the
+ * palette, the type scale, the radius rule or the section rhythm moved, and no
+ * figure or claim on the page changed.
+ *
+ *   HEADER      gained the page's only above-the-fold action and its only
+ *               above-the-fold figure. It had neither, and 220px of empty white
+ *               beneath the copy where they now sit.
+ *   KEY FACTS   the overview's pale half had "Minimum investment" at 26px over
+ *               "US$230,000" at 15px. Figure first now, and four facts rather
+ *               than two in a panel that was two-thirds empty.
+ *   ROUTES      were four paragraphs in the left column with the government
+ *               minimums buried mid-sentence, stacked under Benefits in a block
+ *               that left 1000px of empty column beside it. They are their own
+ *               full-width four-column comparison now — the one section on the
+ *               page that breaks the measure, and the note in programmePages.js
+ *               explains why that is the right call for tabular data and the
+ *               wrong one for everything else here.
+ *   PROCEDURE   three untitled paragraphs that were always three named stages.
+ *
+ * What was deliberately NOT changed: the empty right column on Procedure, Why
+ * Choose and the FAQ. That is the measure decision above, it is correct, and
+ * filling it was the obvious wrong move.
  *
  * Rendered in the site's own tokens throughout: --c-primary slate, Garamond
  * 400 heads, hairlines, zero radius. Two deliberate departures from the
@@ -62,19 +85,39 @@ import { programmeBySlug } from "@/data/programmePages";
 
 /* The reference's list bullet is a short horizontal rule set in the margin.
    It is .eyebrow's `.chev` at a lighter weight, and it is most of why those
-   lists read as a document's rather than as a feature grid's. */
-function RuleList({ items, tone = "dark", className = "" }) {
+   lists read as a document's rather than as a feature grid's.
+
+   Two shapes of item, because two callers need different things from the same
+   object. `whyChoose` passes plain strings — five one-line claims about the
+   firm, where a label per row would be noise. `benefits` passes
+   { label, text }: four full sentences, where the label is what lets a reader
+   scan the column without reading it. A string is normalised to { text }, so an
+   entry written either way renders rather than throwing on `.slice`. */
+function RuleList({ items, tone = "dark", className = "", spacing = "space-y-6" }) {
   const rule = tone === "light" ? "bg-white/60" : "bg-ink/40";
   const text = tone === "light" ? "!text-white/85" : "";
+  const label = tone === "light" ? "!text-white/70" : "";
 
   return (
-    <ul className={`space-y-6 ${className}`}>
-      {items.map((item) => (
-        <li key={item.slice(0, 40)} className="flex items-start gap-6 sm:gap-8">
-          <span aria-hidden="true" className={`mt-[0.72em] h-px w-6 sm:w-8 shrink-0 ${rule}`} />
-          <p className={`t-body m-0 ${text}`}>{item}</p>
-        </li>
-      ))}
+    <ul className={`${spacing} ${className}`}>
+      {items.map((raw) => {
+        const item = typeof raw === "string" ? { text: raw } : raw;
+        return (
+          <li key={item.text.slice(0, 40)} className="flex items-start gap-6 sm:gap-8">
+            {/* 0.72em lands the rule on the centre of a 15px/1.6 body line.
+                With a label above it the first line is the 11px one instead,
+                so the rule comes up to meet it. */}
+            <span
+              aria-hidden="true"
+              className={`${item.label ? "mt-2" : "mt-[0.72em]"} h-px w-6 sm:w-8 shrink-0 ${rule}`}
+            />
+            <div>
+              {item.label && <p className={`t-label-sm m-0 mb-2 ${label}`}>{item.label}</p>}
+              <p className={`t-body m-0 ${text}`}>{item.text}</p>
+            </div>
+          </li>
+        );
+      })}
     </ul>
   );
 }
@@ -187,9 +230,9 @@ export default function ProgrammeDetail() {
   if (!p) return <Navigate to="/investment-migration" replace />;
 
   const {
-    name, Flag, kindLabel, lede, hero, intro, keyFacts, feature,
-    benefits, requirements, procedure, whyChoose, faqs, related,
-    disclosure, ctaImage, closing, tabs = [],
+    name, Flag, kindLabel, lede, headline = [], hero, intro, keyFacts, feature,
+    benefits, routes = [], routesIntro, costs = [], procedure, whyChoose, faqs,
+    related, disclosure, ctaImage, closing, tabs = [],
   } = p;
 
   /* The reference orders its strip country-background → programme → property,
@@ -200,9 +243,13 @@ export default function ProgrammeDetail() {
   allTabs.splice(Math.min(1, tabs.length), 0, { id: "programme", label: kindLabel });
 
   const panel = (id) => (id === tab ? "" : "hidden");
-  /* `procedure` is three paragraphs now and was one string before; accept both
-     so an older entry cannot render as a blank section. */
-  const procedureParas = Array.isArray(procedure) ? procedure : [procedure];
+  /* `procedure` has been a single string, then an array of paragraphs, and is
+     now an array of { title, text } stages. Accept all three, so an entry
+     written against an older shape renders its prose rather than a blank
+     section or a crash. */
+  const procedureSteps = (Array.isArray(procedure) ? procedure : [procedure]).map((s) =>
+    typeof s === "string" ? { text: s } : s
+  );
 
   return (
     <>
@@ -247,6 +294,61 @@ export default function ProgrammeDetail() {
               <WordsSlideUp as="h1" text={`${name} ${kindLabel}`} className="t-display text-ink mt-7" />
 
               <p className="t-body mt-9 max-w-[44ch]">{lede}</p>
+
+              {/* ---- the header's answer to "how much, and what are my options"
+                  Measured before this was added: the copy column ended 220px
+                  above the foot of the photograph beside it, and the first
+                  screen carried no figure and no action at any width. A visitor
+                  had to scroll a full viewport to learn the minimum or to find
+                  anything to click.
+
+                  The two additions are sized to that gap rather than poured
+                  into it. Copy column at 1440 was 405px against a 529px
+                  photograph; the fact row (50px) and the action row (96px) take
+                  it to 551, so the column now runs 22px past the picture
+                  instead of stopping 124px short of it. Anything more — the
+                  four-fact grid this started as, or a second paragraph — puts
+                  the tab strip below the fold on a 900px window, which is the
+                  one thing in this header that must stay visible. */}
+              {/* Separated by space, not by a rule. The hairline dividers this
+                  had are the Crumbs idiom and they do not survive a wrap: the
+                  row needs 562px and the column is 473 at lg and 585 only from
+                  xl, so on a phone AND on a 1024–1170 laptop the last divider
+                  on each line was left hanging at the end of it. A gap cannot
+                  strand. At 0.16em tracking the space between two of these
+                  phrases is six times the space inside one, which is separation
+                  enough without a mark. */}
+              {headline.length > 0 && (
+                <p className="t-label text-ink mt-8 flex flex-wrap gap-x-8 gap-y-2">
+                  {headline.map((h) => (
+                    <span key={h}>{h}</span>
+                  ))}
+                </p>
+              )}
+
+              {/* One slab and one arrow link, not two slabs. Two buttons come
+                  to 692px against a 585px column, so they wrap into a stacked
+                  pair that reads as a menu; and the site already has a tier for
+                  the softer of two actions. The heavy action is the
+                  consultation — the comparison link is where a visitor who is
+                  not ready for one goes. */}
+              {/* shrink-0 on both, and the row wraps rather than compressing.
+                  Without it the pair is 616px of content in a 585px column and
+                  flex takes the difference out of the two items: the button's
+                  label broke to "BOOK A CONFIDENTIAL / CONSULTATION" and the
+                  link's to two lines under its own rule. They wrap to a second
+                  row at lg, where the column is 585, and sit side by side from
+                  sm to md, where it is the full page width. */}
+              <div className="mt-10 flex flex-col items-start gap-6 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-10 sm:gap-y-6">
+                <Link to="/contact" className="btn-primary shrink-0 whitespace-nowrap">
+                  Book a Confidential Consultation <FaArrowRight />
+                </Link>
+                {related?.short && (
+                  <Link to={related.to} className="link-arrow shrink-0 whitespace-nowrap">
+                    {related.short} <FaAngleRight />
+                  </Link>
+                )}
+              </div>
             </div>
 
             {hero && (
@@ -258,11 +360,17 @@ export default function ProgrammeDetail() {
 
           {/* Tab band. Stops short of the right edge so the picture shows past
               its end: the reference's band ends at 1153 of 1440, which is 80%,
-              so right-[20%] rather than the 21% that was here by estimate. */}
+              so right-[20%] rather than the 21% that was here by estimate.
+
+              The inset is FOR the photograph, so it goes when there is none.
+              Four of the five programmes ship without a hero (see the note in
+              programmePages.js) and on those the 20% was a band stopping short
+              of nothing, which reads as a truncated element rather than as a
+              deliberate reveal. Full width there instead. */}
           <div className="relative">
             <div
               aria-hidden="true"
-              className="absolute inset-y-0 left-0 right-0 lg:right-[20%] bg-offwhite"
+              className={`absolute inset-y-0 left-0 right-0 bg-offwhite ${hero ? "lg:right-[20%]" : ""}`}
             />
             <div className="relative container-narrow">
               <Tabs tabs={allTabs} active={tab} onChange={setTab} />
@@ -348,25 +456,37 @@ export default function ProgrammeDetail() {
               </div>
             </Reveal>
 
-            {/* the reference's two icon facts: line icon, Garamond head, one
-                line of copy beneath it */}
+            {/* ---- key facts, figure first --------------------------------
+                The reference's version of this panel is two icon rows: a line
+                icon, a Garamond heading, one line of copy. Copying it put
+                "Minimum investment" at 26px and "US$230,000" at 15px, so the
+                number a visitor came for was the smallest text in its own
+                block. The label is an 11px caption above the figure now and the
+                figure carries the Garamond.
+
+                A ruled definition list rather than four more icon rows. Two of
+                these four facts have an obvious glyph and two do not, and the
+                hairline between rows does the separating work an icon was
+                standing in for. */}
             <Reveal
               delay={0.1}
               className="bg-offwhite lg:bg-transparent -mx-6 px-6 py-14 lg:mx-0 lg:px-0 lg:py-24 lg:pl-20"
             >
-              <dl className="m-0 space-y-12">
+              <p className="t-label">At a glance</p>
+
+              {/* Label above value at every width. A two-column label/value row
+                  is the tidier object, but the panel is only 393px wide at lg —
+                  half the container less its 80px inset — and a fixed label
+                  column leaves the note squeezed into 185px. One column holds at
+                  320px and at 1440 alike. */}
+              <dl className="m-0 mt-8 border-t border-hairline">
                 {keyFacts.map((f) => (
-                  <div key={f.label} className="flex items-start gap-7">
-                    {f.icon && (
-                      <f.icon aria-hidden="true" className="w-11 h-11 shrink-0 text-ink/70" strokeWidth={1} />
-                    )}
-                    <div>
-                      <dt className="t-h3 text-ink">{f.label}</dt>
-                      <dd className="t-body m-0 mt-4">
-                        {f.value}
-                        {f.note ? ` — ${f.note}` : ""}
-                      </dd>
-                    </div>
+                  <div key={f.label} className="border-b border-hairline py-7">
+                    <dt className="t-label-sm">{f.label}</dt>
+                    <dd className="m-0 mt-2">
+                      <span className="t-num block text-[1.375rem] leading-[1.25]">{f.value}</span>
+                      {f.note && <span className="t-small block mt-2">{f.note}</span>}
+                    </dd>
                   </div>
                 ))}
               </dl>
@@ -374,7 +494,14 @@ export default function ProgrammeDetail() {
           </div>
         </section>
 
-        {/* ---- 2 + 3. benefits and requirements, photograph riding sticky ---- */}
+        {/* ---- 2. benefits, photograph in the right column ------------------
+            The qualifying routes used to share this section, stacked beneath
+            the benefits in the same left column, and between them they made a
+            1236px block against a 250px photograph — 1000px of empty right
+            column, in the one place on the page that had something to put
+            there. The routes are their own full-width section now and this one
+            is close to balanced: four labelled benefits come to roughly the
+            height of the picture beside them. */}
         <section className="py-14 md:py-20 lg:py-24 bg-white">
           {/* gap-x-[30px], not gap-x-16: with the 1200px content column a 30px
               gutter makes each track 585 — the reference's column exactly. */}
@@ -387,37 +514,7 @@ export default function ProgrammeDetail() {
                 <h2 className="t-h2 text-ink">Benefits of {name} {kindLabel}</h2>
               </Reveal>
               <Reveal className="mt-9">
-                <RuleList items={benefits} />
-              </Reveal>
-
-              {/* The reference numbers its qualifying routes. The numbering is
-                  its convention, not a claim that the routes are ranked. */}
-              <Reveal className="mt-16 lg:mt-20">
-                <h2 className="t-h2 text-ink">Requirements of {name} {kindLabel}</h2>
-                <p className="t-body mt-7">
-                  To qualify, the main applicant must be over 18, meet the application requirements, and
-                  select one of the following four options. Which one suits you depends on family size
-                  and how long you want capital committed:
-                </p>
-              </Reveal>
-
-              {/* Flat numbered sentences, which is what the reference has: a
-                  number in the margin and one statement beside it. This carried
-                  a heading, a tracked-out amount chip and a paragraph per route
-                  — three typographic levels where the reference has none, and
-                  about twice its word count. The figures now sit inside the
-                  sentence, where the reference keeps them. */}
-              <Reveal className="mt-9">
-                <ol className="space-y-6">
-                  {requirements.map((r, i) => (
-                    <li key={r.slice(0, 40)} className="flex items-start gap-6 sm:gap-8">
-                      <span aria-hidden="true" className="w-6 shrink-0 pt-0.5 text-[15px] text-ink tabular-nums">
-                        {i + 1}.
-                      </span>
-                      <p className="t-body m-0">{r}</p>
-                    </li>
-                  ))}
-                </ol>
+                <RuleList items={benefits} spacing="space-y-8" />
               </Reveal>
             </div>
 
@@ -442,18 +539,158 @@ export default function ProgrammeDetail() {
           </div>
         </section>
 
-        {/* ---- 4. procedure — left column, empty right ---- */}
-        <section className="py-14 md:py-20 lg:py-24 bg-offwhite">
+        {/* ---- 3. the qualifying routes -------------------------------------
+            The full container width, and the only body section on the page that
+            takes it. The reasoning is in programmePages.js: the left-hand
+            measure exists to hold PROSE near 70 characters, and four government
+            minimums a visitor is choosing between are not prose. Held in the
+            585px column they were four paragraphs with the figures buried
+            mid-sentence, which is the one thing this page could not afford to
+            get wrong.
+
+            .routes-table in index.css carries the responsive half — four columns
+            from lg, a stacked block per route below it, one table either way. */}
+        {routes.length > 0 && (
+          <section id="investment-routes" className="py-14 md:py-20 lg:py-24 bg-offwhite scroll-mt-28">
+            <div className="container-narrow">
+              <Reveal className="lg:w-[calc(50%-15px)]">
+                <h2 className="t-h2 text-ink">{name} Investment Routes</h2>
+                {routesIntro && <p className="t-body mt-7">{routesIntro}</p>}
+              </Reveal>
+
+              <Reveal className="mt-12 lg:mt-14">
+                <table className="routes-table">
+                  <caption className="sr-only">
+                    The {routes.length} qualifying investment routes, with the government minimum,
+                    the profile each suits and its binding condition.
+                  </caption>
+                  {/* Percentages, not widths: the container is fluid between
+                      1024 and 1248 and the proportions have to hold across that
+                      range. Sized off the WORST case, which is the amount
+                      column at the narrow end — "US$1,500,000" measures 135px
+                      at 24px Garamond, and at 18% of a 976px table less the
+                      40px gutter the cell offered 136px. One pixel of margin,
+                      and `table-layout: fixed` does not wrap a number at its
+                      commas: it would have spilled the figure into the next
+                      column on any 1024–1150 laptop. 20% and a 22px figure
+                      until xl gives it 31px of clearance at the narrow end and
+                      65px at the wide one. */}
+                  <colgroup>
+                    <col className="w-[38%]" />
+                    <col className="w-[20%]" />
+                    <col className="w-[18%]" />
+                    <col className="w-[24%]" />
+                  </colgroup>
+                  <thead>
+                    <tr>
+                      <th scope="col" className="t-label-sm">Route</th>
+                      <th scope="col" className="t-label-sm">Minimum investment</th>
+                      <th scope="col" className="t-label-sm">Best for</th>
+                      <th scope="col" className="t-label-sm">Key condition</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {routes.map((r) => (
+                      <tr key={r.name}>
+                        {/* A row header, not a cell. The route name is what
+                            every other cell in the row is about, and scope="row"
+                            is what lets a screen reader announce "Real Estate,
+                            minimum investment, US$300,000" instead of reading
+                            four unattached values. font-normal because <th>
+                            defaults to bold and .t-h4 sets its own weight. */}
+                        <th scope="row" className="font-normal">
+                          <span className="t-h4 block text-ink">{r.name}</span>
+                          <span className="t-body block mt-3">{r.detail}</span>
+                        </th>
+                        <td data-label="Minimum investment">
+                          <span className="t-num block text-[1.375rem] xl:text-[1.5rem] leading-[1.15]">
+                            {r.amount}
+                          </span>
+                          {r.amountNote && <span className="t-small block mt-2">{r.amountNote}</span>}
+                        </td>
+                        <td data-label="Best for">
+                          <span className="t-body block">{r.bestFor}</span>
+                        </td>
+                        <td data-label="Key condition">
+                          <span className="t-body block">{r.condition}</span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </Reveal>
+
+              {/* What the four figures above do not include. Three separate
+                  places on this page said "there is more to pay than this" —
+                  a clause in the fund route, an FAQ answer and the disclosure
+                  line — and a reader had to assemble the picture from all
+                  three. No amounts: none are published for any of the three
+                  additional categories, and the structure is what tells you the
+                  headline figure is a floor. */}
+              {costs.length > 0 && (
+                <Reveal className="mt-16 lg:mt-20 pt-12 border-t border-hairline">
+                  <h3 className="t-h4 text-ink">What the figures cover</h3>
+                  <dl className="m-0 mt-9 grid gap-x-10 gap-y-9 sm:grid-cols-2 lg:grid-cols-4">
+                    {costs.map((c) => (
+                      <div key={c.label}>
+                        <dt className="t-label-sm">{c.label}</dt>
+                        <dd className="t-body m-0 mt-3">{c.text}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </Reveal>
+              )}
+
+              {/* Moved up from the foot of the FAQ, four sections below the
+                  only figures it qualifies. */}
+              <Reveal className="mt-12">
+                <p className="t-small border-l-2 border-primary pl-6">{disclosure}</p>
+              </Reveal>
+            </div>
+          </section>
+        )}
+
+        {/* ---- 4. procedure — left column, empty right ----------------------
+            Still the left measure: this is prose and the empty half is what
+            holds it near 70 characters.
+
+            What changed is that the three stages are visible. They were always
+            three — the data file's own note called them "filing, due diligence,
+            completion" — but they rendered as three untitled paragraphs, so the
+            structure existed only for whoever read all of it. A ruled row per
+            stage, an ordinal in the margin and the stage's name as its heading.
+            White, not the offwhite it used to be: the routes section above took
+            the tint, and two tinted sections in a row lose the seam between
+            them.
+
+            The ordinal is aria-hidden. It is a visual index, the <ol> already
+            carries the order, and the stage title is what actually names the
+            step — so reading "01" aloud before every heading would be noise. */}
+        <section className="py-14 md:py-20 lg:py-24 bg-white">
           <div className="container-narrow">
             <Reveal className="lg:w-[calc(50%-15px)]">
               <h2 className="t-h2 text-ink">Procedure for the {name} Programme</h2>
-              <div className="mt-8 space-y-6">
-                {procedureParas.map((t) => (
-                  <p key={t.slice(0, 40)} className="t-body">
-                    {t}
-                  </p>
+            </Reveal>
+            <Reveal className="mt-10 lg:w-[calc(50%-15px)]">
+              <ol className="m-0 list-none p-0">
+                {procedureSteps.map((s, i) => (
+                  <li
+                    key={s.text.slice(0, 40)}
+                    className="grid grid-cols-[2rem_1fr] gap-x-6 border-t border-hairline py-8 first:border-t-0 first:pt-0 sm:gap-x-8"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="t-num text-primary text-[1.375rem] leading-[1.4]"
+                    >
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <div>
+                      {s.title && <h3 className="t-h4 text-ink">{s.title}</h3>}
+                      <p className={`t-body ${s.title ? "mt-3" : ""}`}>{s.text}</p>
+                    </div>
+                  </li>
                 ))}
-              </div>
+              </ol>
             </Reveal>
           </div>
         </section>
@@ -515,9 +752,11 @@ export default function ProgrammeDetail() {
               </Reveal>
 
               {/* the reference closes its FAQ with a link out to the regional
-                  programmes, so this does too */}
+                  programmes, so this does too. The disclosure line used to
+                  follow it and has moved up to the routes section, beside the
+                  figures it qualifies. */}
               {related && (
-                <Reveal className="mt-10">
+                <Reveal className="mt-12">
                   <Link
                     to={related.to}
                     className="link-arrow"
@@ -526,11 +765,6 @@ export default function ProgrammeDetail() {
                   </Link>
                 </Reveal>
               )}
-
-              {/* The slot the reference fills with "minimum investment". */}
-              <Reveal className="mt-12">
-                <p className="t-body border-l-2 border-primary pl-6">{disclosure}</p>
-              </Reveal>
             </div>
           </div>
         </section>
@@ -545,9 +779,20 @@ export default function ProgrammeDetail() {
               <Reveal className={ctaImage ? "" : "lg:w-[calc(50%-15px)]"}>
                 <h2 className="t-h2 text-ink mb-5">{closing.title}</h2>
                 <p className="t-body mb-9">{closing.text}</p>
-                <Link to="/contact" className="btn-primary">
-                  Book a Confidential Consultation <FaArrowRight />
-                </Link>
+                {/* Same pair as the header, and deliberately the same shapes:
+                    the visitor who reaches the foot of the page without booking
+                    is the one who wants to compare first, and sending them back
+                    to an empty page end is how that visitor leaves. */}
+                <div className="flex flex-col items-start gap-6 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-10 sm:gap-y-6">
+                  <Link to="/contact" className="btn-primary shrink-0 whitespace-nowrap">
+                    Book a Confidential Consultation <FaArrowRight />
+                  </Link>
+                  {related?.short && (
+                    <Link to={related.to} className="link-arrow shrink-0 whitespace-nowrap">
+                      {related.short} <FaAngleRight />
+                    </Link>
+                  )}
+                </div>
               </Reveal>
 
               {ctaImage && (

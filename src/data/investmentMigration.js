@@ -51,21 +51,25 @@ export const investmentMigration = {
           text: "Qualifying contribution, approved real estate and other permitted routes.",
         },
         {
+          to: "/investment-migration/dominica",
           title: "Dominica",
           Flag: DM,
           text: "Established program with contribution and approved real estate options.",
         },
         {
+          to: "/investment-migration/grenada",
           title: "Grenada",
           Flag: GD,
           text: "Qualifying contribution and approved investment routes.",
         },
         {
+          to: "/investment-migration/st-kitts-nevis",
           title: "St. Kitts & Nevis",
           Flag: KN,
           text: "One of the Caribbean's longest-established investment citizenship programs.",
         },
         {
+          to: "/investment-migration/st-lucia",
           title: "Saint Lucia",
           Flag: LC,
           text: "Qualifying contribution, approved investments and other permitted routes.",

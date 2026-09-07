@@ -10,8 +10,12 @@
  * stay under ~60 characters and descriptions under ~160 so neither is
  * truncated in a listing.
  *
- * Coverage: India, the UK, Canada, Australia and New Zealand. The United
- * States is NOT served — an early version of this file advertised it.
+ * Coverage: the firm is ESTABLISHED in India, the UK, Canada, Australia and
+ * New Zealand, and ADVISES ON destinations well beyond them — the Caribbean
+ * citizenship programmes and the European and Gulf residence ones among them.
+ * Descriptions that name the five must not imply the five are the limit; the
+ * default one below is the place that got this wrong. The United States is NOT
+ * served as a destination — an early version of this file advertised it.
  */
 
 export const SITE_NAME = "Cynosure Global Residency";
@@ -19,7 +23,7 @@ export const SITE_NAME = "Cynosure Global Residency";
 export const DEFAULT_META = {
   title: "Cynosure Global Residency | Immigration & Global Mobility",
   description:
-    "An international advisory platform for immigration, global mobility, investment migration and cross-border expansion across India, the UK, Canada, Australia and New Zealand.",
+    "Immigration, global mobility and investment migration advisory across India, the UK, Canada, Australia, New Zealand and selected destinations worldwide.",
 };
 
 /* Unknown paths. Added 2026-09-05 alongside the real not-found page.
@@ -63,7 +67,7 @@ const ROUTES = {
   "/global-immigration": {
     title: "Global Immigration | Canada, Australia, New Zealand | Cynosure",
     description:
-      "Permanent residence, work, study and family pathways to Canada, Australia and New Zealand, coordinated with the regulated professional in each country.",
+      "Residence, work, study and family pathways to Canada, Australia, New Zealand and selected global destinations, via the regulated professional in each country.",
   },
 
   "/workforce-mobility": {
@@ -137,6 +141,30 @@ const PROGRAMME_META = {
     title: "Antigua & Barbuda Citizenship by Investment | Cynosure",
     description:
       "Citizenship by investment in Antigua and Barbuda — qualifying routes, who may be included, the application process and due diligence, coordinated with licensed agents in-country.",
+  },
+  /* These four ran 187–192 characters when they were written and the rule at
+     the top of this file is ~160, so every one of them was being truncated in
+     a listing at the point it named the routes — which is the part a searcher
+     is looking for. Trimmed to fit. */
+  dominica: {
+    title: "Dominica Citizenship by Investment | Cynosure",
+    description:
+      "Citizenship by investment in Dominica — the two qualifying routes, which relatives may be included, the process and due diligence.",
+  },
+  grenada: {
+    title: "Grenada Citizenship by Investment | Cynosure",
+    description:
+      "Citizenship by investment in Grenada — the two qualifying routes, the US E-2 treaty position, who may be included and the application process.",
+  },
+  "st-kitts-nevis": {
+    title: "St. Kitts & Nevis Citizenship by Investment | Cynosure",
+    description:
+      "Citizenship by investment in St Kitts and Nevis — the three qualifying routes, who may be included, the mandatory interview and due diligence.",
+  },
+  "st-lucia": {
+    title: "Saint Lucia Citizenship by Investment | Cynosure",
+    description:
+      "Citizenship by investment in Saint Lucia — the four qualifying routes including government bonds, who may be included and the process.",
   },
 };
 

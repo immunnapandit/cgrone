@@ -6,6 +6,21 @@ import NZ from "country-flag-icons/react/3x2/NZ";
 import canadaImg from "@/assets/images/services/Canada Immigiration.webp";
 import ukImg from "@/assets/images/services/Global Residency & Investment Migration.webp";
 
+/* Canada destination photography, added 2026-09-07 with the page rebuild.
+   Unsplash, commercial use, no attribution — same licence bar and the same
+   opened-and-looked-at-before-committing rule as the programme images.
+   Prepared by scripts/convert-country-images.mjs.
+
+   NOT used: services/Canada Immigiration.webp, the passport-flag-and-rubber-
+   stamp composite this page opened on. It is the exact "generic stock" the
+   brief rules out, and a page about somebody's life should not lead with an
+   image of paperwork. It stays imported as `img` because PageTitle still
+   falls back to it for other callers. */
+import caHero from "@/assets/images/countries/canada-vancouver-golden-hour.webp";
+import caMountains from "@/assets/images/countries/canada-vancouver-mountains.webp";
+import caLake from "@/assets/images/countries/canada-moraine-lake.webp";
+import caStreet from "@/assets/images/countries/canada-toronto-distillery.webp";
+
 /* Five country pages, rebuilt 2026-08-27 from the client's own website copy.
  *
  * Sources, one per country:
@@ -39,7 +54,11 @@ export const countryPages = [
       {
         id: "how-we-help",
         title: "How We Help",
-        lead: "Indian businesses and individuals planning a move into the UK, Canada, Australia or New Zealand.",
+        /* "or further afield" matters on this page specifically: an Indian
+           client looking at a Caribbean or European investment route would
+           otherwise read four destination names and conclude the practice does
+           not cover theirs, on the one page most likely to be their first. */
+        lead: "Indian businesses and individuals planning a move into the UK, Canada, Australia, New Zealand or further afield.",
         items: [
           "Business structured in India alongside the overseas entity, planned as one cross-border move",
           "The corporate relationship between the Indian and overseas businesses that later mobility planning depends on",
@@ -108,10 +127,321 @@ export const countryPages = [
       "Canada has been at the heart of our immigration expertise for many years. Whether your goal is permanent residence, employment, study, family reunification or establishing a business in Canada, the right pathway starts with understanding your circumstances, your objectives and your long-term plans.",
       "At Cynosure Global Residency, we provide the international client relationship and strategic coordination, working with qualified Canadian immigration professionals to deliver the appropriate regulated immigration services for each case.",
     ],
+
+    /* =====================================================================
+       CANADA DESTINATION PAGE — added 2026-09-07
+       =====================================================================
+       Every key below is OPT-IN. CountryDetail.jsx renders each block only
+       when the country carries it, so India, the UK, Australia and New
+       Zealand are untouched by all of this and keep the original layout.
+
+       ---- WHAT CONSTRAINS THE CONTENT ---------------------------------
+       Two things, and they pull in the same direction.
+
+       1. `official` at the foot of this entry states the site's own policy:
+          "We therefore keep this website focused on our services rather than
+          reproducing detailed program rules." 2. `regulated` states that
+          regulated immigration advice and representation stay with the
+          qualified Canadian professional.
+
+       So this page NAMES what exists and says who it suits. It does not
+       state thresholds, scores, fees or processing times, and it does not
+       tell a reader whether they qualify — that is the assessment, and the
+       determination is IRCC's. Where a reader needs the actual rule, the
+       page sends them to IRCC (see `official`).
+
+       ---- EVERY PROGRAM STATUS HERE WAS VERIFIED ----------------------
+       Checked against canada.ca/en/immigration-refugees-citizenship on
+       2026-09-07, against the department's own "Immigrate to Canada" index,
+       which sorts its programs into open / paused / closed:
+
+         OPEN    Express Entry - Provincial Nominee Program - Atlantic
+                 Immigration Program - Rural and Francophone Community
+                 Immigration Pilots - home care workers - physicians -
+                 Quebec-selected skilled workers - Quebec investors and
+                 entrepreneurs - family sponsorship
+         PAUSED  Start-up Visa - Self-employed persons
+         CLOSED  Agri-Food Pilot - Rural and Northern Immigration Pilot
+                 (RNIP) - TR-to-PR pathway - Economic Mobility Pathways
+                 Pilot - and several situation-specific streams
+
+       The paused pair is PUBLISHED rather than quietly omitted, in
+       `pathways.paused`. A reader who has been researching Canada for a
+       year has heard of the Start-up Visa; a page that simply leaves it out
+       looks incomplete, and one that still lists it as open is wrong.
+
+       RE-CHECK THIS BLOCK BEFORE ANY EDIT. Program status is the one thing
+       on this page that goes stale silently, and `pathways.checked` carries
+       the date it was last verified. That date is the thing to keep current.
+       ===================================================================== */
+
+    hero: {
+      eyebrow: "Canada",
+      title: "Immigrate to Canada",
+      /* Not "Canada is a land of opportunity". The one thing a reader
+         actually needs at the top is that there is no single Canadian
+         route — which is also the reason to talk to somebody. */
+      lede: "Canada does not run one immigration programme. It runs a federal points system, a nomination stream for every province, regional and community pilots, and a separate family route — and the one that fits depends on your work, your language, your family and where you intend to settle.",
+      /* The brief asked for "Speak to an Immigration Expert" as the second
+         action. Both CTAs would then land on /contact, which is two buttons
+         doing one job. The second is the in-page jump instead: a visitor who
+         is not ready to talk wants to see the options, and that is the
+         section immediately below. */
+      primary: { label: "Check Your Eligibility", to: "/contact" },
+      secondary: { label: "Explore the Pathways", to: "#pathways" },
+      image: {
+        src: caHero,
+        alt: "False Creek and the downtown Vancouver skyline at golden hour, with the North Shore mountains behind",
+      },
+    },
+
+    /* Five, all sourced. The two figures are from the 2026-2028 Immigration
+       Levels Plan; the category count is IRCC's current Express Entry list.
+       No "quality of life" ranking, no "one of the world's most welcoming" —
+       those are the invented statistics the brief rules out. */
+    quickFacts: [
+      { label: "Planned PR admissions", value: "380,000", note: "A year, for each of 2026, 2027 and 2028" },
+      { label: "Express Entry admissions", value: "109,000", note: "Planned for 2026, rising to 111,000 in 2027 and 2028" },
+      { label: "Permanent residence routes", value: "Multiple", note: "Federal, provincial, regional, Quebec and family streams" },
+      { label: "Express Entry categories", value: "Ten", note: "Occupation and language categories used in current rounds" },
+      { label: "Official languages", value: "English & French", note: "French proficiency is its own selection category" },
+    ],
+
+    whyCountry: {
+      title: "Why Canada",
+      lead: "Most of the reasons are structural rather than promotional — Canada's system is unusually explicit about who it is trying to select, which is what makes it possible to plan against.",
+      items: [
+        {
+          title: "Routes that end in permanent residence",
+          text: "The main economic streams apply for permanent residence directly, rather than granting a temporary status you must later convert.",
+        },
+        {
+          title: "Selection aimed at occupations",
+          text: "Express Entry runs category-based rounds for named fields — healthcare and social services, trades, STEM, education, transport and others.",
+        },
+        {
+          title: "Provinces select their own",
+          /* NOT "every province and territory except Quebec" — that was the
+             first draft and it is wrong. Nunavut does not run a nominee
+             programme, so the universal quantifier is a false claim on a page
+             whose whole credibility rests on not making them. */
+          text: "Provinces and territories run their own nomination streams for the skills their labour markets are short of, and Quebec selects separately again.",
+        },
+        {
+          title: "Regional and community routes",
+          text: "The Atlantic Immigration Program and the rural and francophone community pilots exist for people willing to settle outside the largest cities.",
+        },
+        {
+          title: "Family is its own stream",
+          text: "Sponsorship of spouses, partners, dependent children and other eligible relatives is a named route, not an exception to the economic ones.",
+        },
+        {
+          title: "Two official languages",
+          text: "French-language proficiency is one of the current Express Entry selection categories, and the francophone community pilot exists alongside it.",
+        },
+      ],
+      image: {
+        src: caMountains,
+        alt: "Downtown Vancouver from across False Creek, with the snow-capped North Shore mountains behind the city",
+      },
+    },
+
+    pathways: {
+      id: "pathways",
+      title: "Immigration Pathways",
+      lead: "The routes below are the ones Immigration, Refugees and Citizenship Canada currently lists as open. Which of them applies to you depends on your circumstances, and the eligibility determination is IRCC's.",
+      checked: "Program status last verified against IRCC on 7 September 2026.",
+      /* ---- ONE TABLE, NOT A PROSE LIST PLUS A TABLE (2026-09-07, second pass)
+         This was nine routes as a ruled list, each with a `text` paragraph AND
+         a `detail` paragraph, followed by a SEPARATE five-row comparison table
+         that restated five of them. Measured: 2,249px + 831px = 3,080px, just
+         over four screens, to answer one question twice.
+
+         It is one table now, covering all nine. `turns` is the column that
+         earns its place — the single condition that most often decides whether
+         a route is open to you at all, which is the thing a reader is actually
+         scanning for. The old `detail` lines are gone; the two facts worth
+         keeping from them (the ten Express Entry categories, and that the
+         pilot communities are a named list) moved into `text`.
+
+         No "Outcome" column: it read "Permanent residence" nine times. That
+         belongs in the lead sentence, said once. */
+      open: [
+        {
+          name: "Express Entry",
+          who: "Skilled workers and tradespeople",
+          text: "The federal system, covering the Federal Skilled Worker and Federal Skilled Trades Programs and the Canadian Experience Class. Ten category-based streams currently run alongside the general rounds.",
+          turns: "Qualifying work experience and language ability",
+        },
+        {
+          name: "Provincial Nominee Program",
+          who: "Applicants committed to one province",
+          text: "Participating provinces and territories nominate for the occupations each one needs. Some streams connect to Express Entry, others are applied for directly.",
+          turns: "A nomination from that province or territory",
+        },
+        {
+          name: "Atlantic Immigration Program",
+          who: "Workers moving to Atlantic Canada",
+          text: "An employer-driven route for New Brunswick, Newfoundland and Labrador, Nova Scotia and Prince Edward Island.",
+          turns: "An offer from a designated Atlantic employer",
+        },
+        {
+          name: "Rural Community Immigration Pilot",
+          who: "Workers settling in a participating rural community",
+          text: "For people prepared to settle in one of the specific rural communities taking part. The list of communities is named by IRCC, not open-ended.",
+          turns: "A role in a participating community, and its endorsement",
+        },
+        {
+          name: "Francophone Community Immigration Pilot",
+          who: "French-speaking workers outside Quebec",
+          text: "The francophone counterpart to the rural pilot, for participating French-speaking communities outside Quebec.",
+          turns: "French ability and a participating community",
+        },
+        {
+          name: "Home care workers",
+          who: "Caregivers",
+          text: "Permanent residence routes for home care workers. Intake arrangements are set by IRCC and worth checking before planning around this one.",
+          turns: "Qualifying care work experience",
+        },
+        {
+          name: "Physicians",
+          who: "Medical doctors",
+          text: "A route for doctors, alongside an Express Entry category for physicians with Canadian work experience. Provincial licensing runs separately, on its own timetable.",
+          turns: "Medical qualifications and, for the category, Canadian experience",
+        },
+        {
+          name: "Quebec programs",
+          who: "Applicants intending to settle in Quebec",
+          text: "Quebec selects its own economic immigrants — skilled worker routes plus investor and entrepreneur streams — under criteria set by the province rather than by IRCC.",
+          turns: "Selection by Quebec, under Quebec's own rules",
+        },
+        {
+          name: "Family sponsorship",
+          who: "Close relatives of citizens and permanent residents",
+          text: "Sponsorship of a spouse or partner, dependent children and other eligible relatives. The sponsor's eligibility is assessed alongside the applicant's.",
+          turns: "An eligible sponsor already in Canada",
+        },
+      ],
+      /* Published, not omitted — see the note at the head of this block. */
+      paused: {
+        title: "Currently paused",
+        text: "Two business routes are not accepting new applications. They appear here because they are widely written about elsewhere and a reader who has heard of them deserves the current position rather than silence.",
+        items: [
+          {
+            name: "Start-up Visa",
+            text: "IRCC stopped accepting new applications after 31 December 2025. Applicants holding a valid 2025 commitment from a designated organisation had until 30 June 2026 to file. Applications already accepted continue to be processed.",
+          },
+          {
+            name: "Self-employed persons",
+            text: "Paused. Not accepting new applications.",
+          },
+        ],
+      },
+    },
+
+
+    /* `process`, NOT `journey`. The market-entry section further down already
+       carries a `journey` key (Strategy -> Growth) and the renderer reads it
+       inside the sections loop; reusing the name at country level would have
+       been two different shapes under one word. */
+    process: {
+      title: "How an Application Runs",
+      /* The honest caveat is doing real work here. The brief's six-step
+         journey is the shape MOST applications take, but the Atlantic
+         programme starts with an employer and family sponsorship starts with
+         the sponsor, so presenting one universal process would be wrong. */
+      lead: "This is the shape most applications take. It is not universal — an Atlantic or community application starts with an employer, a provincial stream starts with the province, and a sponsorship starts with the sponsor in Canada.",
+      steps: [
+        { title: "Assessment", text: "Your work history, qualifications, language, family and intended province, against the routes actually open to you." },
+        { title: "Route selection", text: "Narrowing to the one or two streams worth preparing for, and deciding what has to be true before filing." },
+        { title: "Evidence", text: "Language testing, credential assessment and the employment evidence the chosen route turns on. Usually the longest stage." },
+        { title: "Filing", text: "Prepared and submitted by the regulated Canadian professional handling the file." },
+        { title: "Assessment by IRCC", text: "Including background and medical checks. Timelines differ by programme and are published by IRCC." },
+        { title: "Arrival", text: "Landing formalities, and the practical side of settling — province, housing, schooling, credential recognition." },
+      ],
+    },
+
+    profiles: {
+      title: "Which Applies to You?",
+      lead: "Most people arrive at this page already fitting one of these descriptions. It is the fastest way to narrow nine routes down to two or three worth discussing.",
+      items: [
+        { title: "Skilled professionals", text: "Degree-level work experience in a field Canada is selecting for.", route: "Express Entry, or a provincial stream" },
+        { title: "Tradespeople", text: "Certified trades experience, with trades as a named Express Entry category.", route: "Express Entry or PNP" },
+        { title: "Workers with a Canadian offer", text: "An employer in Atlantic Canada or a participating community changes which routes open up.", route: "Atlantic Immigration Program, community pilots, PNP" },
+        { title: "Families", text: "A spouse, partner, child or eligible relative already a citizen or permanent resident.", route: "Family sponsorship" },
+        { title: "French speakers", text: "French-language ability is selected for in its own right, inside and outside Quebec.", route: "Express Entry French category, FCIP, Quebec" },
+        { title: "Healthcare and medical", text: "Healthcare and social services is a category; physicians have a route of their own.", route: "Express Entry, physician routes, PNP" },
+      ],
+    },
+
+    gallery: {
+      title: "Life in Canada",
+      lead: "Where you settle changes the immigration route as much as it changes the life — the community pilots and provincial streams exist precisely because Vancouver, Halifax and a rural prairie town are not the same proposition.",
+      images: [
+        { src: caStreet, alt: "A pedestrian street in Toronto's Distillery District at dusk, strung with lights, the CN Tower beyond", caption: "Cities" },
+        { src: caLake, alt: "Moraine Lake in Banff National Park, Alberta, below the snow-covered Valley of the Ten Peaks", caption: "Landscape" },
+        { src: caMountains, alt: "Downtown Vancouver seen across the water, the North Shore mountains rising behind it", caption: "Coast and mountains" },
+      ],
+    },
+
+    factors: {
+      title: "What an Assessment Looks At",
+      lead: "These are the factors Canadian economic routes are built around. Deliberately no numbers: the thresholds differ by programme, several are scored rather than pass-or-fail, and the determination belongs to IRCC and to the regulated professional handling the file — not to a website.",
+      groups: [
+        { q: "Age", a: "Most economic streams score age, with the strongest scoring in the earlier working years. It is a scored factor rather than a cut-off in Express Entry." },
+        { q: "Language", a: "English or French ability, evidenced by an approved test. French is scored separately and is also its own Express Entry selection category." },
+        { q: "Education", a: "Qualifications gained outside Canada generally need an Educational Credential Assessment before they can be counted." },
+        { q: "Work experience", a: "Skilled experience, classified against Canada's occupational system. Canadian experience and foreign experience are counted differently." },
+        { q: "Job offer", a: "Not required for every route, and decisive for some — the Atlantic Immigration Program and the community pilots are built around one." },
+        { q: "Provincial nomination", a: "A nomination from a province or territory is a route in itself and materially changes an Express Entry profile." },
+        { q: "Settlement funds", a: "Several routes require you to show funds to support yourself and your family on arrival. The amount depends on family size and is set by IRCC." },
+      ],
+    },
+
+    documents: {
+      title: "What You Will Be Asked to Gather",
+      lead: "Requirements vary by programme and by your own circumstances — this is the shape of it, not a checklist. The regulated professional handling your file confirms what is actually needed.",
+      items: [
+        { title: "Identity and travel", text: "Passports and travel history for everyone included in the application." },
+        { title: "Language results", text: "Results from an approved English or French test, within their validity period." },
+        { title: "Education", text: "Degrees, transcripts and, where qualifications are foreign, an Educational Credential Assessment." },
+        { title: "Work history", text: "Employment letters and evidence establishing duties, hours and dates." },
+        { title: "Funds", text: "Proof of settlement funds where the route requires it." },
+        { title: "Family", text: "Marriage, birth and relationship documents for accompanying family." },
+        { title: "Police certificates", text: "From countries where you have lived, as directed." },
+        { title: "Medical examination", text: "Completed by a panel physician when instructed." },
+      ],
+    },
+
+    faqs: [
+      { q: "Which pathway is right for me?", a: "That is what an assessment establishes. In practice it turns on your occupation, your language ability, whether you hold a Canadian job offer and which province you intend to settle in." },
+      { q: "What is Express Entry?", a: "The federal system covering three skilled-worker programmes. Eligible candidates sit in a pool, are ranked, and are invited to apply for permanent residence in rounds — some general, some targeting named categories." },
+      { q: "What is a Provincial Nominee Program?", a: "Each province and territory outside Quebec runs its own streams for the skills it needs and can nominate candidates for permanent residence. Some streams connect to Express Entry; others are applied for directly." },
+      { q: "Do I need a job offer?", a: "Not for every route. Express Entry can be entered without one. The Atlantic Immigration Program and the community pilots are built around an offer from a designated or participating employer." },
+      { q: "Can I include my family?", a: "Economic applications generally include a spouse or partner and dependent children. Sponsoring a relative already separated from you is a different route — family sponsorship." },
+      { q: "Is the Start-up Visa still available?", a: "No. IRCC stopped accepting new applications after 31 December 2025, and the final window for holders of a valid 2025 commitment closed on 30 June 2026. Applications already accepted are still being processed." },
+      { q: "How long does an application take?", a: "It depends on the programme and IRCC publishes current processing times itself. We do not quote a figure here, because a stale timeline is worse than none." },
+      { q: "Does Quebec work differently?", a: "Yes. Quebec selects its own economic immigrants under its own criteria, so a Quebec plan and a federal plan are genuinely different applications." },
+      { q: "Who actually files the application?", a: "A regulated Canadian immigration professional. We handle the assessment, the strategy and the coordination; regulated advice and representation stay with the qualified practitioner in-country." },
+    ],
+
+    finalCta: {
+      title: "The Right Route Is the Whole Question",
+      text: "Nine open pathways, each with its own criteria and its own timetable. A first conversation covers your work, your family, where you want to settle and which two or three routes are realistically worth preparing for.",
+      primary: { label: "Check Your Eligibility", to: "/contact" },
+      secondary: { label: "Speak to an Adviser", to: "/contact" },
+    },
+
     sections: [
       {
         id: "immigration",
-        title: "Your Canadian Immigration Options",
+        /* Retitled 2026-09-07. Was "Your Canadian Immigration Options", which
+           now sits three sections below "Immigration Pathways" and read as a
+           second, vaguer version of it. These six are SERVICE lines — what we
+           help with, including study, temporary residence and citizenship,
+           none of which are permanent-residence programmes — so the heading
+           says that instead. The cards themselves are unchanged. */
+        title: "How We Support You",
         lead: "Individuals and families planning a future in Canada.",
         cards: [
           {

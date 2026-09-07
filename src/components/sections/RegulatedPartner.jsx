@@ -47,11 +47,11 @@ export default function RegulatedPartner({ data }) {
                       }`}
                     >
                       {/* The bullet followed neither column. It was ink/25 on
-                          BOTH, and this second column is bg-primary: navy at
-                          25% over the slate composites to #364759, which
-                          measures 1.20:1 against it — the bullets on the dark
+                          BOTH, and this second column is bg-primary — navy at
+                          25% over the brand fill composites to something very
+                          close to the fill itself, so the bullets on the dark
                           half were not faint, they were invisible. White at
-                          50% is 3.34:1 there. The type already switches per
+                          50% carries on it. The type already switches per
                           column; the mark beside it has to as well. */}
                       <span
                         className={`w-1.5 h-1.5 mt-2.5 rounded-full shrink-0 ${
@@ -66,7 +66,13 @@ export default function RegulatedPartner({ data }) {
             ))}
           </div>
 
-          <p className="t-body mt-8 max-w-4xl border-l-2 border-primary pl-6">
+          {/* max-w-4xl is 896px, which at 15px body measured 119 characters
+              per line — the longest running text on any country page, and half
+              again the ~70 the rest of the site holds to. A ch cap is the
+              right unit for a measure: it tracks the type scale rather than
+              drifting when it changes. Shared component, so this fixes the
+              same defect on all five country pages at once. */}
+          <p className="t-body mt-8 max-w-[70ch] border-l-2 border-primary pl-6">
             {note}
           </p>
         </Reveal>

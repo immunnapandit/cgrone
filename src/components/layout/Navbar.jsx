@@ -37,11 +37,11 @@ export default function Navbar() {
      it matches every route on the site.
 
      `isCurrent` compares the fragment too, not just the pathname. Comparing
-     pathnames alone marked THREE children current on /about — "About
-     Cynosure", "Our Story" and "Our Process" all live at /about — so the menu
-     announced "current page" three times and highlighted three rows. A
-     fragment-bearing child is current only when that fragment is the one in
-     the URL; the bare child is current only when there is no fragment. */
+     pathnames alone marked every child on /about current — "About Cynosure"
+     and "Our Process" both live there — so the menu announced "current page"
+     more than once and highlighted more than one row. A fragment-bearing child
+     is current only when that fragment is the one in the URL; the bare child
+     is current only when there is no fragment. */
   const isCurrent = (to) => {
     const [base, frag] = to.split("#");
     if (pathname !== base) return false;
@@ -151,7 +151,10 @@ export default function Navbar() {
                     site built entirely from right angles and hairlines. It
                     takes the hairline and the .feature-block shadow instead. */}
                 <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 w-72 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 transition-all duration-300">
-                  <div className="bg-white border border-hairline shadow-[0_18px_40px_-20px_rgba(17,34,61,0.45)] py-2 normal-case">
+                  {/* Shadow on the --c-ink var, not a literal: this was
+                      rgba(17,34,61,0.45), the pre-rebuild navy, and it did not
+                      move when the palette did. */}
+                  <div className="bg-white border border-hairline shadow-[0_18px_40px_-20px_rgb(var(--c-ink)/0.45)] py-2 normal-case">
                     {l.children.map((c) =>
                       c.to ? (
                         <Link
@@ -162,7 +165,7 @@ export default function Navbar() {
                              visible equivalent, so which of the six children
                              you are on is answerable without opening anything
                              else. Hash children resolve to their pathname, so
-                             "About Cynosure" and "Our Story" both read as
+                             "About Cynosure" and "Our Process" both read as
                              current on /about — correct, since they are the
                              same document. */
                           aria-current={isCurrent(c.to) ? "page" : undefined}

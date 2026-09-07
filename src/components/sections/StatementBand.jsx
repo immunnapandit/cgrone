@@ -31,8 +31,20 @@ export default function StatementBand({ image, position = "50% 50%", eyebrow, li
         <div className="max-w-2xl">
           {eyebrow && (
             <div className="eyebrow text-white/70 mb-6">
-              {/* white rule, not the accent — #405363 is 2.0:1 on this navy */}
-              <span className="chev bg-white/60">»</span> {eyebrow}
+              {/* The accent, inherited from .chev rather than overridden.
+
+                  This band had `bg-white/60` here, which never applied — see
+                  the specificity note on :where(.eyebrow) .chev in index.css.
+                  Now that the override WOULD work, it is removed on purpose:
+                  the eyebrow sits at the left edge, where the veil is ink/90,
+                  i.e. effectively flat navy. The logo orange is 5.68:1 there.
+
+                  So this rule keeps the brand mark the same colour it is on
+                  every light section instead of inverting for no reason. The
+                  hero is the one place that still inverts, because its veil is
+                  ink/46 over rotating photography and no accent can be
+                  guaranteed against an unknown image. */}
+              <span className="chev">»</span> {eyebrow}
             </div>
           )}
           <p className="t-h2 text-white">{line}</p>

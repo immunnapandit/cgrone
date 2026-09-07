@@ -24,5 +24,12 @@ export const whyChooseUsPerks = [
 export const whyChooseUsFacts = [
   { value: "2006", label: "Practising since — Cynosure Consultancy Services" },
   { value: "20+", label: "Years of international advisory experience" },
-  { value: "5", label: "Jurisdictions — India, UK, Canada, Australia, New Zealand" },
+  /* The "5" is the problem row of the three, because a figure set at 3xl beside
+     five country names quantifies the firm's REACH at five countries. It
+     measures the established footprint, not the destinations advised on, and
+     the label has to say which. */
+  {
+    value: "5",
+    label: "Home jurisdictions — India, UK, Canada, Australia, New Zealand — advising worldwide",
+  },
 ];

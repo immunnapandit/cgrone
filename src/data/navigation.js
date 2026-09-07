@@ -21,7 +21,10 @@ export const navLinks = [
     label: "About",
     children: [
       { label: "About Cynosure", to: "/about" },
-      { label: "Our Story", to: "/about#our-story" },
+      /* "Our Story" sat here and is gone with the section it scrolled to —
+         a nav item pointing at a #fragment that no element carries lands the
+         visitor at the top of /about with nothing highlighted, which reads as
+         a broken link rather than a moved one. */
       { label: "Leadership", to: "/leadership" },
       { label: "Our Process", to: "/about#process" },
     ],

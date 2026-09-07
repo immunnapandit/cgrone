@@ -257,9 +257,28 @@ export default function Hero() {
             {/* headline and standfirst are the homepage block from
                 Cynosure_Website_Layout_Pattern.docx, verbatim */}
             <div className="eyebrow mb-6 text-white/85">
-              {/* plain white or plain navy, never the accent — the slate is
-                  2.0:1 on a night sky and 2.4:1 on pale stone */}
-              <span className="chev bg-white/70">»</span> Global Mobility Advisory
+              {/* The accent, same as every other eyebrow on the site.
+                  The old note here said "never the accent" and it was right
+                  about the OLD accent: the slate measured 2.0:1 on a night
+                  sky. The logo orange is a different proposition and this was
+                  measured rather than assumed.
+
+                  Method: composite skyline-toronto.webp under .hero-veil the
+                  way the browser does (ink/.46 -> ink/.42 across this band),
+                  then take the contrast of #FC7A1E against every pixel the
+                  32x2px rule can land on. The rule sits ~32% down the hero
+                  element on the live page; the sweep covers 24-46% so every
+                  viewport height is included.
+
+                      worst 3.51:1   p05 3.58:1   median 4.06:1
+
+                  Clears the 3:1 non-text floor everywhere in the band, with
+                  margin. Note the hero is a SINGLE image now — the other
+                  skylines are in assets but not imported — so this is a
+                  closed measurement, not a sample. RE-MEASURE BEFORE ADDING A
+                  SLIDE: a brighter photograph is exactly what would push the
+                  low end under 3:1, and the fallback is `bg-white/70`. */}
+              <span className="chev">»</span> Global Mobility Advisory
             </div>
 
             <h1 className="t-display mb-7 text-white">{homeIntro.title}</h1>

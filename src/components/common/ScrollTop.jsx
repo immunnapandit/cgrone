@@ -20,7 +20,11 @@ export default function ScrollTop() {
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           /* Icon-only, so it needs a name — it announced as "button". */
           aria-label="Back to top"
-          className="fixed bottom-7 right-7 z-50 w-11 h-11 bg-primary text-white flex items-center justify-center shadow-[0_10px_28px_-12px_rgba(17,34,61,0.6)] hover:bg-dark transition-colors"
+          /* The shadow references --c-ink rather than a literal. It was
+             rgba(17,34,61,0.6) — the navy the palette used BEFORE the
+             2026-09-07 logo rebuild — so it kept painting the old colour
+             after every token moved. A var cannot drift. */
+          className="fixed bottom-7 right-7 z-50 w-11 h-11 bg-primary text-white flex items-center justify-center shadow-[0_10px_28px_-12px_rgb(var(--c-ink)/0.6)] hover:bg-dark transition-colors"
         >
           <FaChevronUp aria-hidden="true" />
         </motion.button>

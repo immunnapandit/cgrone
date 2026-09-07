@@ -6,54 +6,166 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ------------------------------------------------------------------
-   Palette: midnight navy + Henley slate.
+/* ==================================================================
+   PALETTE — derived from the logo. (2026-09-07 rebuild)
 
-   Navy carries almost all the weight (surfaces, buttons, type) and the
-   accent appears only as thin rules and small marks.
+   ---- WHY THIS WAS REBUILT ----------------------------------------
+   The brief: the site read "dull, pale, washed-out, visually weak".
+   That had one measurable cause. The old --c-primary was #405363, a
+   slate at 21% saturation, chosen because it "barely registers as a
+   colour at all". It was doing two jobs at once — the site's only
+   accent AND (since 2026-09-04) its dark surface fill, so the single
+   colour in the system was a grey, used at large sizes. Meanwhile the
+   navies sat at ~56% saturation against the logo's 100%. The site was
+   navy-grey; the logo is navy-blue-orange.
 
-   Two accents have been rejected here, and the reason is the same both
-   times — saturation.
-     2026-08-31 (a) gold #AB8A21: "golden color remove karo, premium look
-                    nahi de rahi."
-     2026-08-31 (b) steel blue #3E6FB5: "existing blue color is not look
-                    like premium."
-   The replacement is not a third guess. #405363 is henleyglobal.com's own
-   colour, the single most-used value in their stylesheet at 170
-   occurrences, and Henley is the reference the client named. It is a
-   desaturated slate: it barely registers as a colour at all, which is
-   exactly why it reads expensive where the other two read decorative.
+   ---- THE LOGO IS THE SOURCE OF TRUTH -----------------------------
+   Sampled from src/assets/images/logo/cgr-one-logo.png, by pixel
+   frequency, not by eye:
+
+     #001848 / #002050   deep navy  — the wordmark and the shadowed
+                                      half of the globe. ~60% of all
+                                      non-white pixels.
+     #0054AE / #005AB4   azure      — the lit half of the globe.
+     #FC6C1E / #FC841E   orange     — the star at the centre of the
+                                      globe, and the two rules
+                                      flanking the tagline.
+
+   Every value below is on the axis between those three. The orange is
+   the logo's focal point and appeared NOWHERE on the site before this.
+
+   ---- HOW THIS RESPECTS THE TWO EARLIER REJECTIONS ----------------
+   The record here matters, so it is kept rather than overwritten:
+     2026-08-31 (a) gold #AB8A21: "golden color remove karo, premium
+                    look nahi de rahi."
+     2026-08-31 (b) steel blue #3E6FB5: "not look like premium."
+     2026-09-04     navy #11223D fills: too dark.
+
+   Those constrain this rebuild in a specific and useful way. The
+   complaint "too dark" and the complaint "too dull" are different
+   axes, and the old palette answered the first by giving up the
+   second — it lightened the fill by DESATURATING it. Measured
+   relative luminance:
+
+     #11223D  L=1.6%   navy fill      — rejected, too dark
+     #405363  L=8.2%   slate fill     — accepted, but dull
+     #0E4A90  L=7.0%   THIS           — same lightness band, 4x chroma
+
+   So the new fill is not a return to the dark navy. It sits where the
+   accepted slate sits and spends the difference on colour instead.
+
+   The orange is a warm accent and the gold was rejected as one, so it
+   is deliberately held to the logo's OWN proportion: thin rules and
+   small state marks, never a fill, never a button. In the logo the
+   orange is one small star and two hairlines against a navy wordmark.
+   If it still reads wrong, --c-accent is one line to change and the
+   fallback is --c-primary-600.
 
    Stored as "r g b" channels so Tailwind opacity modifiers
    (bg-primary/10, text-ink/60, ...) keep working.
-   ------------------------------------------------------------------ */
+   ================================================================== */
 :root {
-  /* ONE accent, used everywhere — rules, icons, focus edges alike.
-        on white          7.9:1  — clears AA comfortably for link text
-        white on it       7.9:1  — accent FILLS take white type
-        on --c-ink navy   2.0:1  — DOES NOT READ. On a navy panel use
-                                   white at a low alpha instead, never
-                                   this. See the hero eyebrow rule and
-                                   .why-choose-us for the two cases. */
-  --c-primary: 64 83 99;         /* #405363 slate                       */
-  --c-primary-dark: 51 66 79;    /* #33424F — hover only, same hue      */
+  /* ---- PRIMARY RAMP ------------------------------------------------
+     Hue ~212, anchored on the logo's azure at 600. 50-200 are surface
+     tints, 300-500 are decorative/illustrative, 600 is the interactive
+     colour, 700+ are fills and structure. 900/950 ARE --c-ink and
+     --c-ink-deep — the navy is the dark end of this one ramp rather
+     than a separate family, which is why the site now reads as one
+     colour instead of navy-plus-a-grey. */
+  --c-primary-50: 238 244 252;   /* #EEF4FC brand tint surface          */
+  --c-primary-100: 216 230 247;  /* #D8E6F7                             */
+  --c-primary-200: 180 205 239;  /* #B4CDEF                             */
+  --c-primary-300: 131 172 226;  /* #83ACE2                             */
+  --c-primary-400: 74 135 210;   /* #4A87D2                             */
+  --c-primary-500: 21 103 190;   /* #1567BE                             */
+  --c-primary-600: 0 84 174;     /* #0054AE THE LOGO BLUE — links,
+                                    focus rings, active states.
+                                    7.29:1 on white, 6.79:1 on offwhite */
+  --c-primary-700: 14 74 144;    /* #0E4A90 the fill. white on it 8.75:1
+                                    (the old slate managed 7.9:1)       */
+  --c-primary-800: 12 53 99;     /* #0C3563                             */
+  --c-primary-900: 11 39 72;     /* #0B2748 = --c-ink                   */
+  --c-primary-950: 7 26 49;      /* #071A31 = --c-ink-deep              */
+
+  /* ---- THE NAMED TOKENS ARE ALIASES INTO THE RAMP ------------------
+     --c-primary, --c-ink, --c-ink-deep and --c-tint below all point at a
+     ramp step rather than repeating its channels. Two reasons, and the
+     second is the one that matters:
+
+       1. One literal per colour. Retuning a step retunes everything
+          built on it, and the two can no longer drift apart.
+       2. It makes the ramp LOAD-BEARING. The note in tailwind.config.js
+          removed a previous ramp for being dead — twenty values nothing
+          referenced — and this file has to hold itself to that. Aliasing
+          puts 50/700/900/950 into real use.
+
+     Steps 100-500 and 800 are NOT consumed yet. They are kept because
+     they are wired to the same :root tokens, so `bg-primary-200` is on
+     palette by construction — the failure mode the old ramp had was that
+     its steps were colours the system did NOT contain. If a step is
+     still unused at the next audit, delete it rather than inventing a
+     use for it.
+
+     The workhorse brand colour is 700. Everything that was a slate fill
+     — buttons, footer tiles, icon chips, numbered discs, the scroll-top
+     button — is this, at the lightness the slate already had. */
+  --c-primary: var(--c-primary-700);
+  --c-primary-dark: 11 60 119;   /* #0B3C77 — hover, between 700 and 800 */
+
+  /* ---- ACCENT — the logo's orange star ----------------------------
+     Held to thin rules and small marks. Two values because they do
+     different jobs and only one of them is decorative:
+
+       --c-accent         #FC7A1E  the logo value. 2.64:1 on white,
+                                   which is FINE for the eyebrow rule
+                                   (decorative, aria-hidden, carries no
+                                   meaning) and NOT fine for anything a
+                                   user must perceive to use the page.
+       --c-accent-strong  #D9600F  3.73:1 on white — clears the 3:1
+                                   non-text floor, so this is the one
+                                   for state: active nav, current-page
+                                   marks, anything conveying position.
+
+     Do not put white type on either. Do not use them as a fill.
+
+     There is deliberately no --c-accent-soft. A pale orange GROUND was
+     defined in the first pass of this rebuild and removed at the audit:
+     nothing used it, and an orange field contradicts the whole rule that
+     the accent is a hairline. If a warm ground is ever wanted, argue for
+     it then rather than leaving a loaded token lying about. */
+  --c-accent: 252 122 30;        /* #FC7A1E logo orange — rules only    */
+  --c-accent-strong: 217 96 15;  /* #D9600F state marks, 3.73:1         */
 
   /* The navies were lifted one step in Aug 2026 — the client read the site
      as too dark. Every navy here is a blue now rather than a near-black,
      which is what actually reads as "lighter" on the big flat panels.
      --c-ink is both the dark surface AND the heading/button-label colour,
-     so it cannot go lighter than this: white-on-navy is 13.6:1 at #11223D
-     and the whole button system is white type on this fill. */
-  --c-ink: 17 34 61;             /* #11223D midnight navy — the workhorse */
-  --c-ink-deep: 11 24 44;        /* #0B182C deepest navy                */
+     so it cannot go lighter than this: white on it is 15.02:1 and the whole
+     button system is white type on this fill. */
+  --c-ink: var(--c-primary-900);  /* #0B2748. Was #11223D:
+                                    same lightness band (L 1.6 -> 2.2)
+                                    but 74% saturation against 56%, so
+                                    it reads as navy rather than as a
+                                    blue-black. White on it 15.02:1.   */
+  --c-ink-deep: var(--c-primary-950); /* #071A31                        */
   /* The second navy, one step off --c-ink, for the two places that need a
      navy which separates from the workhorse one: the page-title gradient and
      the SecurityPrivacy top rule. --c-brand-dark (#1C3054) and
      --c-brand-light (#3A598F) sat here too and were never referenced by
      anything — removed 2026-08-31 in the palette audit. */
-  --c-brand: 38 62 105;          /* #263E69 lifted navy                  */
-  --c-muted: 89 96 110;          /* #59606E — body copy                 */
-  --c-soft: 107 115 133;         /* #6B7385 — captions, labels          */
+  --c-brand: 18 58 107;          /* #123A6B lifted navy                  */
+
+  /* ---- TEXT HIERARCHY ---------------------------------------------
+       --c-ink     headings, emphasis        15.02:1 on white
+       --c-muted   body copy                  6.97:1 on white
+       --c-soft    NON-TEXT only (see below)  4.81:1 on offwhite
+       #fff        inverse, on ink/primary fills
+     Both greys were neutral (#59606E / #6B7385) and are blue-greys now,
+     one hue family with the navy — a neutral grey beside a saturated
+     navy is what made the old body copy look washed out next to its own
+     headings. Both got DARKER, not lighter, so every ratio improved. */
+  --c-muted: 78 90 110;          /* #4E5A6E — body copy, 6.97:1 on white */
+  --c-soft: 98 110 128;          /* #626E80 — non-text marks only        */
 
   /* The ground was a warm ivory (#FBF9F5) with a warm hairline (#E7E2D8).
      Both reference firms serve pure white — henleyglobal.com and
@@ -71,10 +183,19 @@
      separate the sections but the page reads as white rather than as white
      and grey.
 
-     Measured on the page, not estimated: --c-soft is 4.59:1 on this ground
-     and --c-muted 6.10:1, so both clear AA — but note --c-soft has only
-     0.09 of margin. It is the caption colour and must not be lightened, and
-     this ground must not be darkened, without re-checking.
+     Tinted 2026-09-07 (#FAFBFC -> #F4F7FB). Read the "white, light white"
+     instruction before touching this again: it still holds, and this value
+     honours it. The change is 2% of lightness and all of it went into the
+     BRAND HUE, so an alternating section now reads as a quiet blue ground
+     instead of a grey one. That was the actual complaint — the page was
+     washed out, which is a chroma problem, and the previous fix for
+     "too dark" had been paying for lightness with saturation.
+
+     Measured on the page, not estimated: on this ground --c-soft is 4.81:1
+     and --c-muted 6.49:1. Both improved in the 2026-09-07 rebuild (from
+     4.59 and 6.10) because both greys got darker, not lighter. --c-soft no
+     longer has the 0.09 of margin this note used to warn about, but the
+     rule below still stands for a better reason: it is not a text token.
 
      The eyebrow used to be on --c-soft and is on --c-muted as of 2026-09-04.
      It was set as `--c-soft / 0.85`, which is a lightening this note already
@@ -86,11 +207,39 @@
      A token that fails the moment anyone touches it is a trap, not a token, so
      rather than keep 0.09 of margin under guard the design audit moved every
      text use off it: 19 `text-soft` utilities in JSX plus `.t-small` and
-     `.about-section-two … .read-more` here, all now --c-muted at 6.10:1.
+     `.about-section-two … .read-more` here, all now --c-muted at 6.49:1.
      --c-soft is retained for non-text use only (hairline-adjacent marks, muted
      iconography). Do not reintroduce it as a type colour. */
-  --c-offwhite: 250 251 252;     /* #FAFBFC near-white, cool            */
-  --c-hairline: 226 229 234;     /* #E2E5EA cool hairline               */
+  /* ---- SURFACE HIERARCHY ------------------------------------------
+       #fff            page ground, cards
+       --c-offwhite    alternating sections    #F4F7FB
+       --c-tint        brand-tinted sections   #EEF4FC
+       --c-primary     brand panels (solid)
+       --c-ink         deep panels (solid)
+
+     --c-offwhite went #FAFBFC -> #F4F7FB. That is only 2% darker, so it
+     does not undo the 2026-08-30 "white, light white" instruction — the
+     page still reads white. What changed is that the tint is now on the
+     brand hue instead of neutral, so an alternating section reads as a
+     quiet blue ground rather than as grey. The washed-out complaint was
+     about chroma, not about brightness, and this is the chroma answer.
+
+     --c-tint is new: one step further into the brand for sections that
+     should feel owned by it without going solid. Muted body copy is
+     6.30:1 on it. */
+  --c-offwhite: 244 247 251;     /* #F4F7FB section ground              */
+  --c-tint: var(--c-primary-50); /* #EEF4FC brand ground                 */
+
+  /* ---- BORDERS ----------------------------------------------------
+       --c-hairline        default separator, most rules on the site
+       --c-border-strong   inputs, card edges that must be seen
+       --c-primary / .25   brand border (use the opacity modifier)
+       --c-primary-600     focus — see the :focus-visible block
+     Both neutrals moved onto the brand hue for the same reason as the
+     text greys. Used sparingly: the site separates with space and
+     ground changes first, borders second. */
+  --c-hairline: 220 227 237;     /* #DCE3ED cool hairline               */
+  --c-border-strong: 194 206 222; /* #C2CEDE                            */
 
   /* The one colour outside the navy/slate system, and it earns its place:
      form errors have to read as errors, and no navy can do that. It was
@@ -325,7 +474,7 @@ p {
      keeping the weight step aligned to interactivity is what lets a reader tell
      a label from a link without reading it.
 
-     Colour is --c-muted (6.10:1 on offwhite, 6.32:1 on white) and NOT --c-soft,
+     Colour is --c-muted (6.49:1 on offwhite, 6.97:1 on white) and NOT --c-soft,
      per the note on that token above. Both are overridable by a `text-*`
      utility at the call site — utilities are a later layer — which is how the
      dark-panel and text-ink uses keep working. */
@@ -367,26 +516,49 @@ p {
     font-weight: 500;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    /* --c-muted at full opacity, 6.10:1 on offwhite and 6.32:1 on white.
+    /* --c-muted at full opacity, 6.49:1 on offwhite and 6.97:1 on white.
        Was `--c-soft / 0.85`, which computed to #818897 — 3.46:1 on offwhite,
-       i.e. BELOW the 4.5:1 floor, and the client read it as faded. The note on
-       --c-soft says it has 0.09 of margin and must not be lightened; the 0.85
-       alpha was doing exactly that. Plain --c-soft would pass at 4.59:1, but
-       12px uppercase tracked out to 0.22em reads harder than its ratio
-       suggests, so this takes the body-copy token and its comfortable margin.
-       Do not reintroduce an alpha here. */
+       i.e. BELOW the 4.5:1 floor, and the client read it as faded. Plain
+       --c-soft passes, but 12px uppercase tracked out to 0.22em reads harder
+       than its ratio suggests, so this takes the body-copy token and its
+       comfortable margin. Do not reintroduce an alpha here.
+       (Ratios post-rebuild: 6.97:1 on white, 6.49:1 on offwhite.) */
     color: rgb(var(--c-muted));
     padding: 0;
     border: 0;
     line-height: 1;
   }
 
-  /* the "»" glyph is replaced by a thin brand rule */
-  .eyebrow .chev {
+  /* The "»" glyph is replaced by a thin brand rule — and this rule is where
+     the logo's orange lives.
+
+     It is the one place the accent is spent, and it is spent here because it
+     is the logo's own idiom rather than a decoration invented for the site:
+     the mark sets two orange hairlines either side of "YOUR GLOBAL FUTURE.
+     OUR FOCUS." This is that hairline, at that weight, doing the same job
+     beside a section kicker.
+
+     Safe at 2.64:1 because it is purely decorative — text-indent pushes the
+     glyph off-screen, it carries no state and no information, and the label
+     beside it is --c-muted at 6.97:1. Anything that has to be PERCEIVED to
+     use the page takes --c-accent-strong instead. */
+  /* ---- :where() ON THE PARENT, AND IT IS A BUG FIX ----------------------
+     This was `.eyebrow .chev` — two classes, specificity (0,2,0). Hero.jsx
+     and StatementBand.jsx both pass `bg-white/60`-style utilities to invert
+     the rule on their dark grounds, and a Tailwind colour utility is a single
+     class at (0,1,0). Specificity beats layer order, so BOTH overrides were
+     silently doing nothing and had been since they were written: those two
+     rules were rendering the old slate at 2.0:1 on navy — the exact
+     "disappears on dark" failure their own comments were written to prevent.
+
+     `:where(.eyebrow)` contributes zero, dropping this to (0,1,0). The
+     utilities now tie on specificity and win on source order, which is what
+     was intended all along. */
+  :where(.eyebrow) .chev {
     display: inline-block;
     width: 32px;
     height: 2px;
-    background: rgb(var(--c-primary));
+    background: rgb(var(--c-accent));
     overflow: hidden;
     text-indent: -999em;
     flex-shrink: 0;
@@ -396,12 +568,16 @@ p {
 
      The fill was --c-ink (#11223D) and the client read it as too dark — it is
      a near-black navy, and at 380x54px it was the heaviest object on every
-     page. It is #405363 now, which is henleyglobal.com's own action colour
-     and the site's --c-primary. Two steps lighter, still corporate, and white
-     on it is 7.9:1.
+     page. It became the slate #405363, which fixed "too dark" by removing the
+     colour: a 21%-saturation grey.
 
-     For Henley #405363 is a SURFACE colour rather than an accent, which is
-     what makes it defensible as a large fill.
+     ---- IT IS #0E4A90 NOW (2026-09-07) ----
+     The brand-colour rebuild. Same lightness band as the slate it replaces
+     (L 7.0% against 8.2%, where the rejected navy was 1.6%), so it does NOT
+     reopen the too-dark complaint — but it is the logo's blue rather than a
+     grey, and white on it is 8.75:1 where the slate managed 7.9:1. This is
+     the button that has to say "main action" and it now does it with colour
+     instead of relying on being the only filled rectangle in view.
 
      ---- THE SLATE IS NOW THE SITE'S DARK SURFACE (2026-09-04) ----
      This note used to end "it does not license the slate anywhere else at this
@@ -411,7 +587,7 @@ p {
      button, the footer contact tiles, the RegulatedPartner dark card, the
      SecurityPrivacy badges, the pillar-card icon chips and the two numbered
      discs — are all --c-primary now, and .btn-outline fills to it rather than
-     to the navy. White on it is 7.9:1.
+     to the navy. White on it is 8.75:1.
 
      --c-ink remains the HEADING and body-emphasis colour, untouched at
      15.9:1 on white; only fills moved. Three dark uses were deliberately left:
@@ -604,7 +780,7 @@ p {
      navy fill because it sits over a photograph. On a flat slate panel that
      fill reads as a second, darker rectangle inside the first, so this one is
      genuinely transparent and the hairline does all the work. White on
-     --c-primary is 7.9:1; the border alpha matches .btn-ghost-light's. */
+     --c-primary is 8.75:1; the border alpha matches .btn-ghost-light's. */
   .btn-outline-light {
     display: inline-flex;
     align-items: center;
@@ -814,12 +990,14 @@ p {
      and only keyboard traversal is marked — the form fields below are the
      deliberate exception.
 
-     Ink navy is 13.6:1 on white and carries the ring without introducing a
-     colour the palette does not already have. Square, offset by 3px: the
-     system is built from hairlines and right angles and a rounded ring would
-     be the only curve on the page. */
+     The ring was --c-ink, chosen when the palette had no colour worth using
+     for it. It is --c-primary-600 now — the logo's azure, 7.29:1 on white,
+     comfortably past the 3:1 that a focus indicator needs and unmistakably
+     the brand rather than a dark outline that could be anything. Square,
+     offset by 3px: the system is built from hairlines and right angles and a
+     rounded ring would be the only curve on the page. */
   :where(a, button, summary, [tabindex]:not([tabindex="-1"])):focus-visible {
-    outline: 2px solid rgb(var(--c-ink));
+    outline: 2px solid rgb(var(--c-primary-600));
     outline-offset: 3px;
     border-radius: 0;
   }
@@ -892,7 +1070,7 @@ p {
   input:focus-visible,
   textarea:focus-visible,
   select:focus-visible {
-    outline: 2px solid rgb(var(--c-ink));
+    outline: 2px solid rgb(var(--c-primary-600));
     outline-offset: 2px;
   }
 
@@ -1195,6 +1373,123 @@ svg[fill="none"][stroke="currentColor"] {
 
 details[open] > summary .faq-marker {
   transform: rotate(45deg);
+}
+
+/* ---- programme investment-routes comparison ---------------------------
+   One <table>, two presentations. From lg it is an ordinary four-column
+   comparison; below that each row becomes a stacked block and the three
+   short columns reprint their own heading from `data-label`.
+
+   The obvious alternative — a table for desktop plus a duplicate card list
+   for phones, both in the DOM, one hidden — was rejected on the two counts
+   that matter here. Every figure on the page would exist twice, which a
+   screen reader can be made to skip but a crawler reads as repeated content,
+   and the two copies drift the moment anyone edits one of them. One semantic
+   table, restyled at the breakpoint, has neither problem.
+
+   No horizontal scroll on the small end either. A comparison you have to
+   swipe sideways to read is one nobody completes: the row becomes the unit
+   instead, which is the same information in the order a phone can hold it.
+
+   `table-layout: fixed` from lg so the columns are the colgroup's and not the
+   content's — with `auto`, the business route's 12-character figure widened
+   the amount column and the four rows stopped aligning. */
+.routes-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.routes-table th,
+.routes-table td {
+  text-align: left;
+  vertical-align: top;
+}
+
+@media (min-width: 1024px) {
+  .routes-table {
+    table-layout: fixed;
+  }
+
+  /* padding-BLOCK, not the `padding: 30px 0` shorthand this had. The shorthand
+     is a higher-specificity selector than the column-gutter rule below it
+     (0,1,2 against 0,1,1), so it won on specificity rather than order and reset
+     every gutter to zero — the four columns were butted together and the route
+     sentence ran to within 10px of the figure beside it. A longhand that only
+     touches the block axis cannot collide with one that only touches the inline
+     axis, whatever the specificities are. */
+  .routes-table tbody th,
+  .routes-table tbody td {
+    padding-block: 30px;
+    border-top: 1px solid rgb(var(--c-hairline));
+  }
+
+  /* The head rule is the darker one: it separates the labels from the data
+     rather than one data row from the next, and at hairline weight it read as
+     a fifth row divider. */
+  .routes-table thead th {
+    padding-block: 0 16px;
+    border-bottom: 1px solid rgb(var(--c-ink) / 0.28);
+  }
+
+  .routes-table tr > * {
+    padding-inline-start: 40px;
+  }
+
+  .routes-table tr > *:first-child {
+    padding-inline-start: 0;
+  }
+}
+
+@media (max-width: 1023px) {
+  .routes-table,
+  .routes-table tbody,
+  .routes-table tr,
+  .routes-table th,
+  .routes-table td {
+    display: block;
+  }
+
+  /* Clipped rather than removed: the column headings are still the table's
+     header cells for anything reading the markup, and `display: none` would
+     take them out of the accessibility tree entirely. */
+  .routes-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .routes-table tbody tr {
+    padding: 28px 0;
+    border-top: 1px solid rgb(var(--c-hairline));
+  }
+
+  .routes-table tbody tr:first-child {
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .routes-table tbody tr > * + * {
+    margin-top: 18px;
+  }
+
+  /* .t-label-sm, as a generated string — the row's own cells cannot carry the
+     class because the label is not in the markup at this width. Keep the two
+     in step. */
+  .routes-table td[data-label]::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 5px;
+    font-family: "Roboto", system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgb(var(--c-muted));
+  }
 }
 
 /* ---- inner page banner ---- */
@@ -1738,10 +2033,12 @@ details[open] > summary .faq-marker {
    1.3-1.9:1 against the bleed — so the panel is one step lighter than the
    bleed and gets a hairline to cut a crisp edge instead.
 
-   The hairline is WHITE at low alpha, not the accent. #405363 is 2.0:1 on
-   this navy and simply disappears; the two accents before it were lighter
-   and could just about hold the edge. This is the general rule for the
-   slate — it belongs on the light ground only. */
+   The hairline is WHITE at low alpha, not --c-primary. The brand blue is
+   1.72:1 on this navy and simply disappears. --c-accent is the one exception
+   in the rebuilt palette — the logo orange is 5.68:1 here, where the old
+   slate was 2.0:1 — but this is a structural edge rather than a brand mark,
+   so it stays white. This is the general rule for --c-primary: it belongs
+   on the light ground only. */
 .why-choose-us .features-column .inner-column {
   position: relative;
   overflow: hidden;
@@ -1797,8 +2094,8 @@ details[open] > summary .faq-marker {
   line-height: 1em;
   margin-top: 2px;
   /* White at 80%, NOT --c-primary. This block only ever renders on the navy
-     panel inside .why-choose-us, and the slate accent is a light-ground colour:
-     measured against this panel's #263E69 it is 1.33:1, i.e. invisible. White
+     panel inside .why-choose-us, and the brand blue is a light-ground colour:
+     measured against this panel's --c-brand it is 1.30:1, i.e. invisible. White
      at 0.8 is 7.46:1. The glyphs are Lucide strokes now, so this matters more
      than it did — a 1.75px outline at 1.33:1 disappears completely where a
      solid filled glyph at least still read as a smudge. */
