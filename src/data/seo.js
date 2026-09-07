@@ -166,6 +166,26 @@ const PROGRAMME_META = {
     description:
       "Citizenship by investment in Saint Lucia — the four qualifying routes including government bonds, who may be included and the process.",
   },
+  portugal: {
+    title: "Portugal Golden Residence Permit | Cynosure",
+    description:
+      "Portugal Golden Residence Permit - Schengen travel, a low physical-presence expectation and a potential long-term citizenship pathway.",
+  },
+  uae: {
+    title: "UAE Golden Visa | Cynosure",
+    description:
+      "UAE Golden Visa - renewable long-term residence for qualifying investors, entrepreneurs and other eligible applicants.",
+  },
+  greece: {
+    title: "Greece Golden Visa | Cynosure",
+    description:
+      "Greece Golden Visa - qualifying residence investment options, a five-year permit and family inclusion considerations.",
+  },
+  malta: {
+    title: "Malta Citizenship by Naturalization | Cynosure",
+    description:
+      "Malta citizenship by naturalization for exceptional services by direct investment, subject to the applicable legal requirements.",
+  },
 };
 
 /**

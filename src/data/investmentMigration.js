@@ -84,24 +84,28 @@ export const investmentMigration = {
       lead: "Residence routes through qualifying investment, for investors seeking long-term flexibility in Europe and the Gulf.",
       cards: [
         {
+          to: "/investment-migration/portugal",
           title: "Portugal Golden Visa",
           Flag: PT,
           text: "A European residence-by-investment route through qualifying investment options, suited to investors seeking long-term European residency flexibility.",
         },
         {
+          to: "/investment-migration/uae",
           title: "UAE Golden Visa",
           Flag: AE,
           text: "Long-term UAE residence for qualifying investors, entrepreneurs, professionals and other eligible categories.",
         },
         {
+          to: "/investment-migration/greece",
           title: "Greece Golden Visa",
           Flag: GR,
           text: "Residence through qualifying investment, including permitted real estate routes. Requirements vary by location and investment type.",
         },
         {
-          title: "Malta Permanent Residence",
+          to: "/investment-migration/malta",
+          title: "Malta Citizenship by Naturalization",
           Flag: MT,
-          text: "A permanent residence framework combining qualifying property, government contributions and other eligibility requirements.",
+          text: "A citizenship route for exceptional services by direct investment, subject to Maltese law and certification requirements.",
         },
       ],
       note: "Program requirements, investment thresholds and qualifying routes may change. Detailed eligibility, investment options, costs, documentation and timelines are provided during the consultation and assessment stage.",
