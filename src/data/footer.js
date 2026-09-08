@@ -31,6 +31,7 @@ export const footerServices = [
   { label: "Investment & Business Migration", href: "/investment-migration" },
   { label: "Citizenship by Investment", href: "/investment-migration#cbi" },
   { label: "Residency by Investment", href: "/investment-migration#rbi" },
+  { label: "Business Expansion & Market Entry", href: "/market-entry" },
   { label: "Global Immigration", href: "/global-immigration" },
   { label: "Workforce Mobility", href: "/workforce-mobility" },
   { label: "Healthcare", href: "/workforce-mobility/healthcare" },

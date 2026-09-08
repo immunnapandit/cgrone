@@ -13,6 +13,7 @@ import CountryDetail from "@/pages/CountryDetail";
 import InvestmentMigration from "@/pages/InvestmentMigration";
 import ProgrammeDetail from "@/pages/ProgrammeDetail";
 import GlobalImmigration from "@/pages/GlobalImmigration";
+import MarketEntry from "@/pages/MarketEntry";
 import WorkforceMobility from "@/pages/WorkforceMobility";
 import WorkforceSector from "@/pages/WorkforceSector";
 import NotFound from "@/pages/NotFound";
@@ -126,6 +127,11 @@ export default function App() {
             under /countries/, which is for the jurisdictions we operate in */}
         <Route path="/investment-migration/:slug" element={<ProgrammeDetail />} />
         <Route path="/global-immigration" element={<GlobalImmigration />} />
+        {/* Corporate market entry — from Cynosure_Global_Advisory_Profile ppt.pptx.
+            Sits beside the pillars rather than inside them: its audience is a
+            company, not a person. Same reasoning that gave /global-mobility its
+            own route. */}
+        <Route path="/market-entry" element={<MarketEntry />} />
         <Route path="/workforce-mobility" element={<WorkforceMobility />} />
         <Route path="/workforce-mobility/:slug" element={<WorkforceSector />} />
         <Route path="/countries/:slug" element={<CountryDetail />} />

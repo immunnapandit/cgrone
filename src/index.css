@@ -544,7 +544,12 @@ p {
 
   .eyebrow {
     display: inline-flex;
-    align-items: center;
+    /* flex-start, not center: the kicker WRAPS below ~495px (the longest one,
+       StatementBand's "For Businesses Expanding Internationally", is 453px
+       wide), and centring pushed the orange rule down between the two lines
+       instead of leaving it beside the first. The .chev rule below pays the
+       matching half-leading offset so a single-line eyebrow is unmoved. */
+    align-items: flex-start;
     gap: 14px;
     font-family: "Roboto", system-ui, sans-serif;
     font-size: 13px;
@@ -561,7 +566,14 @@ p {
     color: rgb(var(--c-muted));
     padding: 0;
     border: 0;
-    line-height: 1;
+    /* Was `1`, which is only safe while the kicker stays on one line. It does
+       not: at 13px tracked to 0.22em the longest eyebrow needs 453px, so every
+       phone wraps it — and a 13px line box under 15px of text stepped the
+       second line UP INTO the first (measured at 390px: line 1 spanned
+       6140.6->6155.6, line 2 started at 6152.6, a 2px overlap). Uppercase has
+       no descenders, which is the only reason it stayed legible.
+       1.4 is the leading .t-label already uses for the same 13px face. */
+    line-height: 1.4;
   }
 
   /* The "»" glyph is replaced by a thin brand rule — and this rule is where
@@ -597,6 +609,13 @@ p {
     overflow: hidden;
     text-indent: -999em;
     flex-shrink: 0;
+    /* Half of the first line box, less half the rule's own 2px — i.e. the rule
+       sits on the optical centre of the FIRST line rather than of the whole
+       block, which is what the parent's align-items: flex-start hands over.
+       In em so it tracks the font-size wherever an eyebrow is resized; at the
+       13px default this is 8.1px, and a one-line eyebrow lands within 0.2px of
+       where align-items: center used to put it. */
+    margin-top: calc((1.4em - 2px) / 2);
   }
 
   /* A slate rectangle, white label.
@@ -897,10 +916,28 @@ p {
      <span> inside a card-wide <Link class="group">, so the arrow answers to the
      card rather than to itself. Tailwind's `group` is a plain marker class, so
      ordinary CSS descends through it. */
+  /* ---- inline-block, NOT inline-flex, AND IT IS A BUG FIX ----------------
+     As a flex container the label was one anonymous flex item and the <svg>
+     was a second. flex-wrap defaults to nowrap, so when the label ran out of
+     room it wrapped INSIDE its own item and the row stayed one line: the arrow
+     kept its place beside a now two-line block and floated out to the far
+     right, ~180px clear of the last word. Measured on the home StatementBand,
+     whose CTA is 331px wide: fine at 390px, broken at 375 (iPhone SE) and 360
+     (Galaxy), where the link goes 27.5px -> 47px tall.
+
+     inline-block puts the label and the arrow in one normal line box, so the
+     arrow flows after the last word and wraps with it. Everything the flex
+     box was doing survives: shrink-to-fit width (so the rule is still exactly
+     as wide as the content), padding-bottom + border-bottom on the whole box,
+     and the `mt-*` / `mt-auto self-start` utilities at the 14 call sites,
+     which act on this element as a flex ITEM of its own parent and are
+     unaffected by the display it declares for its children.
+
+     `gap` goes with the flex box. The 6px it contributed is replaced by the
+     ordinary word space that already sits before <FaArrowRight /> in the JSX
+     at every call site — 5.4px here, once 0.16em of tracking is counted. */
   .link-arrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
+    display: inline-block;
     font-family: "Roboto", system-ui, sans-serif;
     font-size: 13px;
     font-weight: 600;
@@ -914,8 +951,17 @@ p {
   }
 
   .link-arrow svg {
-    flex-shrink: 0;
+    /* inline-block rather than the svg default of inline, so the translateX
+       below is guaranteed a transformable box, and so vertical-align has
+       something to act on. */
+    display: inline-block;
     font-size: 11px;
+    /* The label is uppercase, so the arrow wants the centre of the CAP height,
+       not the baseline it would sit on by default and not the x-height middle
+       `middle` would give it. Cap height at 13px Roboto is ~9.4px, half of it
+       4.7px, against the arrow's own 5.5px half-height — so the box drops
+       0.8px below the baseline. */
+    vertical-align: -0.8px;
     transition: transform 0.3s ease;
   }
 
@@ -935,6 +981,31 @@ p {
 
   .link-arrow-light:hover {
     border-bottom-color: #fff;
+  }
+
+  /* ---- THE TRACKING IS THE REASON THESE WRAP AT ALL --------------------
+     0.16em on a 33-character label is 69px of pure letter-spacing — a fifth
+     of the link's width. The two longest CTAs on the site, "Business
+     Expansion & Market Entry" (331px) and "Book a Confidential Consultation"
+     (320px), therefore overflow a phone content box by a few pixels and no
+     more: 331 against 327 available at 375px, against 312 at 360px.
+
+     Losing a few px of tracking below 480px buys 26px and puts both back on
+     one line at every common phone width (305px against 312 at 360px), which
+     keeps the arrow beside the last word where it belongs. It is still
+     unmistakably tracked-out uppercase, and the type SIZE is untouched, so
+     the 25.5px pointer target the note above sizes for is unaffected.
+
+     This is a mitigation, not a guarantee — a longer label, or a 320px
+     device, still wraps. That case now degrades sanely rather than badly:
+     see the inline-block note above. Chrome allows a line break before an
+     atomic inline whatever you put in front of it, &nbsp; included (checked),
+     so nothing short of wrapping the last word and the icon together in the
+     markup can truly glue them, and the labels are dynamic at 6 call sites. */
+  @media (max-width: 479px) {
+    .link-arrow {
+      letter-spacing: 0.1em;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -2053,9 +2124,34 @@ details[open] > summary .faq-marker {
   /* above the navy backdrop that Services bleeds down into this section */
   z-index: 1;
   /* no top padding: the panel and the light band start flush with the
-     section top so they sit on that bleed, exactly as in the reference */
-  padding: 0;
+     section top so they sit on that bleed, exactly as in the reference.
+
+     The BOTTOM is a different question and used to share the same `0`, which
+     was never argued for — only the top is load-bearing. <StatementBand> is
+     full-bleed and follows this section immediately, so a zero bottom put the
+     navy panel's bottom edge exactly on the band's top edge (measured
+     3721.7 = 3721.7 at 1440, 6088.9 = 6088.9 at 390). On desktop half that
+     seam is offwhite meeting the band and survives; on a phone the panel is
+     the full column width and #123A6B met the band's ink/90 with no edge at
+     all, so the two blocks read as one navy mass.
+
+     The steps are Contact's own py-14 md:py-20 lg:py-24, because Contact is
+     what sits on the other side of the band — the band now has equal air above
+     and below rather than being wedged against one neighbour. */
+  padding: 0 0 56px;
   overflow: hidden; /* the light band below is meant to bleed off the right */
+}
+
+@media (min-width: 768px) {
+  .why-choose-us {
+    padding-bottom: 80px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .why-choose-us {
+    padding-bottom: 96px;
+  }
 }
 
 .why-choose-us .outer-box {
@@ -2098,6 +2194,22 @@ details[open] > summary .faq-marker {
   box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.16);
   padding: 90px 100px 70px 70px;
   margin-right: 6px;
+  /* ---- WHERE THE STRETCH SLACK GOES ------------------------------------
+     height: 100% above stretches this panel to the light column beside it,
+     which carries more copy AND more padding (108/99 against 90/70). At
+     1440px that is 440px of content in a 770px panel — 169px of slack, and
+     with the content in normal flow every pixel of it fell to the bottom:
+     the last line sat 239px clear of the panel's edge while the title stayed
+     put, so the panel read as having run out of things to say.
+
+     space-between hands that slack to the gaps between the blocks instead.
+     The title still pins to the top — it has to, it is optically aligned with
+     the eyebrow in the light column — and the last perk now ends on the
+     padding edge. Nothing moves on phones: the columns stack there, nothing
+     stretches, the free space is zero and this is inert. */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .why-choose-us .features-column .bg {

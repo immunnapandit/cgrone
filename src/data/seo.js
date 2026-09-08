@@ -70,6 +70,12 @@ const ROUTES = {
       "Residence, work, study and family pathways to Canada, Australia, New Zealand and selected global destinations, via the regulated professional in each country.",
   },
 
+  "/market-entry": {
+    title: "International Market Entry & Business Expansion | Cynosure",
+    description:
+      "Market assessment, entry strategy, local partnerships and business setup coordination for companies expanding into India and international growth markets.",
+  },
+
   "/workforce-mobility": {
     title: "International Workforce Mobility | Cynosure",
     description:
