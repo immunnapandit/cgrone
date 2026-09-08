@@ -41,7 +41,7 @@ export default function SecurityPrivacy() {
         </div>
 
         <Reveal delay={0.1}>
-          <p className="t-body mt-14 max-w-4xl">{note}</p>
+          <p className="t-body mt-14">{note}</p>
           <p className="t-lead text-ink border-l-2 border-primary pl-6 mt-8 max-w-4xl">
             {closing}
           </p>

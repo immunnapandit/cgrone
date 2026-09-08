@@ -76,6 +76,8 @@ export default function Footer() {
                 logo's wider aspect has room here — no width cap needed. */}
             <img
               src={logo}
+              width="460"
+              height="101"
               alt="Cynosure Global Residency — Your Global Future. Our Focus."
               className="h-11 w-auto"
             />

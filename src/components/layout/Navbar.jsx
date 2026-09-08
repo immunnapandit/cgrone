@@ -80,6 +80,8 @@ export default function Navbar() {
         <Link to="/" className="flex items-center h-14 sm:h-16">
           <img
             src={logo}
+            width="460"
+            height="101"
             alt="Cynosure Global Residency — Your Global Future. Our Focus."
             className="max-h-full w-auto max-w-[210px] sm:max-w-[240px] xl:max-w-[228px] 2xl:max-w-[240px] object-contain"
           />

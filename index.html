@@ -15,12 +15,28 @@
          picked that one out of the four by name. Their stylesheet serves
          Classical Garamond BT from their own CDN, which is a licensed
          Bitstream face we can neither hotlink nor redistribute; EB Garamond is
-         the open equivalent. Their body stack resolves to Roboto. -->
+         the open equivalent. Their body stack resolves to Roboto.
+
+         ---- 600 IS IN THIS LIST BECAUSE THE CSS ASKS FOR IT (2026-09-08) ----
+         The request was `300;400;500;700` while .link-arrow, .btn and several
+         label rules are all set at font-weight: 600. 600 was therefore never
+         delivered, and every call-to-action on the site resolved to 700.
+         Measured before the fix, rendering the same string at 40px:
+
+             w500  579.42px
+             w600  581.84px   <- identical to 700, i.e. snapped to it
+             w700  581.84px
+
+         That silently broke the one weight step the type system leans on:
+         index.css reasons that "weight is 500 on both [label tokens]; 600
+         belongs to .link-arrow, which is an ACTION", and the intended 500->600
+         step was painting as 500->700. Anything added to this list must exist
+         in the CSS, and any weight the CSS uses must be in this list. -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400..600&family=Roboto:wght@300;400;500;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400..600&family=Roboto:wght@300;400;500;600;700&display=swap"
     />
 
     <!--seo-->

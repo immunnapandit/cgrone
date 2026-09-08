@@ -142,7 +142,7 @@ export default function InvestmentMigration() {
               )}
 
               {s.note && (
-                <p className="t-body mt-9 max-w-4xl border-l-2 border-primary pl-6">
+                <p className="t-body mt-9 border-l-2 border-primary pl-6">
                   {s.note}
                 </p>
               )}

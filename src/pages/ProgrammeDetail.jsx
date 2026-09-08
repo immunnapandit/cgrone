@@ -667,11 +667,16 @@ export default function ProgrammeDetail() {
             carries the order, and the stage title is what actually names the
             step — so reading "01" aloud before every heading would be noise. */}
         <section className="py-14 md:py-20 lg:py-24 bg-white">
-          <div className="container-narrow">
-            <Reveal className="lg:w-[calc(50%-15px)]">
+          {/* Heading left, steps right. Both were stacked in the same
+              half-width column, which held the measure correctly and left the
+              other 735px of the container empty down the whole section. The
+              column that protects the measure is still half the container —
+              the heading has simply moved into the half that was blank. */}
+          <div className="container-narrow lg:grid lg:grid-cols-2 lg:gap-x-[30px] lg:items-start">
+            <Reveal>
               <h2 className="t-h2 text-ink">Procedure for the {name} Programme</h2>
             </Reveal>
-            <Reveal className="mt-10 lg:w-[calc(50%-15px)]">
+            <Reveal className="mt-10 lg:mt-0">
               <ol className="m-0 list-none p-0">
                 {procedureSteps.map((s, i) => (
                   <li
@@ -695,22 +700,36 @@ export default function ProgrammeDetail() {
           </div>
         </section>
 
-        {/* ---- 5. why choose us — the slate panel, bleeding off the LEFT ----
+        {/* ---- 5. why choose us — a full-bleed band, two columns ------------
             Every line is checkable against the firm's own record: the
             reference's equivalent section leads with client and office counts
             this firm does not have, so those are absent rather than
-            invented. */}
-        <section className="relative bg-white">
-          <div aria-hidden="true" className="hidden lg:block absolute inset-y-0 left-0 right-1/2 bg-primary" />
+            invented.
 
-          <div className="relative container-narrow">
-            <Reveal className="lg:w-1/2 lg:pr-20 bg-primary lg:bg-transparent -mx-6 px-6 py-14 lg:mx-0 lg:px-0 lg:py-24">
+            ---- IT USED TO BLEED OFF THE LEFT ONLY (fixed 2026-09-08) -------
+            The panel was `absolute inset-y-0 left-0 right-1/2`, so the blue
+            filled the left half of the viewport and the right half stayed
+            white with nothing in it. Measured at 1440: the band is 706px tall
+            and the content ran 120 -> 720, leaving a 720x706 rectangle of bare
+            white beside a solid colour field. That does not read as restraint;
+            it reads as an image that failed to load.
+
+            The band is full width now and the content is a two-column grid —
+            heading left, the claims right. The prose measure the half-width
+            column existed to protect is unchanged, because the right column is
+            still half the container; the difference is that the other half now
+            carries the heading instead of nothing. */}
+        <section className="bg-primary">
+          <div className="container-narrow">
+            <Reveal className="py-14 lg:py-24 lg:grid lg:grid-cols-2 lg:gap-x-20 lg:items-start">
               <h2 className="t-h2 !text-white">Why Choose Cynosure?</h2>
-              <RuleList items={whyChoose} tone="light" className="mt-9" />
-              <div className="mt-11">
-                <Link to="/contact" className="btn-outline-light">
-                  Enquiry <FaArrowRight />
-                </Link>
+              <div className="mt-9 lg:mt-0">
+                <RuleList items={whyChoose} tone="light" />
+                <div className="mt-11">
+                  <Link to="/contact" className="btn-outline-light">
+                    Enquiry <FaArrowRight />
+                  </Link>
+                </div>
               </div>
             </Reveal>
           </div>
@@ -718,18 +737,23 @@ export default function ProgrammeDetail() {
 
         {/* ---- 6. FAQ ---- */}
         <section className="py-14 md:py-20 lg:py-24 bg-white">
-          <div className="container-narrow">
-            <div className="lg:w-[calc(50%-15px)]">
-              <Reveal>
-                <h2 className="t-h2 text-ink">
-                  {name} {kindLabel} Frequently Asked Questions
-                </h2>
-              </Reveal>
+          {/* Same two-column correction as Procedure above: the question list
+              keeps its half-width measure, the heading fills the half that was
+              white. On a long FAQ this is the biggest of the four — the
+              Saint Lucia list runs 1,251px tall, and all of that height had an
+              empty 735px column beside it. */}
+          <div className="container-narrow lg:grid lg:grid-cols-2 lg:gap-x-[30px] lg:items-start">
+            <Reveal>
+              <h2 className="t-h2 text-ink">
+                {name} {kindLabel} Frequently Asked Questions
+              </h2>
+            </Reveal>
 
+            <div className="mt-10 lg:mt-0">
               {/* Native <details>, not a JS accordion: keyboard-operable and
                   expandable by the browser's own find-in-page without us
                   writing or maintaining any of that. */}
-              <Reveal className="mt-10">
+              <Reveal>
                 <div className="border-t border-hairline">
                   {faqs.map((f) => (
                     <details key={f.q} className="group border-b border-hairline">
@@ -770,30 +794,54 @@ export default function ProgrammeDetail() {
         </section>
 
         {/* ---- 7. contact ----
-            Two columns when a photograph exists, matching the reference's
-            contact block; the left-hand measure when it does not, rather than
-            a paragraph running the full width of the page. */}
+            Two columns either way. It used to be two ONLY when a photograph
+            existed and the left-hand measure when it did not — and no
+            programme has ever set `ctaImage`, so in practice every page took
+            the fallback and closed on a half-empty band. The actions move into
+            the second column instead: the copy keeps its measure, the band
+            fills, and the last thing on the page is the pair of things a
+            visitor might do rather than 735px of nothing. */}
         <section className="py-14 md:py-20 lg:py-24 bg-offwhite border-t border-hairline">
           <div className="container-narrow">
-            <div className={ctaImage ? "grid lg:grid-cols-2 gap-x-16 gap-y-10 items-center" : ""}>
-              <Reveal className={ctaImage ? "" : "lg:w-[calc(50%-15px)]"}>
+            <div className="grid lg:grid-cols-2 gap-x-16 gap-y-10 items-center">
+              <Reveal>
                 <h2 className="t-h2 text-ink mb-5">{closing.title}</h2>
-                <p className="t-body mb-9">{closing.text}</p>
+                <p className="t-body mb-0">{closing.text}</p>
                 {/* Same pair as the header, and deliberately the same shapes:
                     the visitor who reaches the foot of the page without booking
                     is the one who wants to compare first, and sending them back
-                    to an empty page end is how that visitor leaves. */}
-                <div className="flex flex-col items-start gap-6 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-10 sm:gap-y-6">
-                  <Link to="/contact" className="btn-primary shrink-0 whitespace-nowrap">
-                    Book a Confidential Consultation <FaArrowRight />
-                  </Link>
-                  {related?.short && (
-                    <Link to={related.to} className="link-arrow shrink-0 whitespace-nowrap">
-                      {related.short} <FaAngleRight />
+                    to an empty page end is how that visitor leaves.
+
+                    They sit under the copy when a photograph takes the second
+                    column, and in the second column when none does. */}
+                {ctaImage && (
+                  <div className="mt-9 flex flex-col items-start gap-6 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-10 sm:gap-y-6">
+                    <Link to="/contact" className="btn-primary shrink-0 whitespace-nowrap">
+                      Book a Confidential Consultation <FaArrowRight />
                     </Link>
-                  )}
-                </div>
+                    {related?.short && (
+                      <Link to={related.to} className="link-arrow shrink-0 whitespace-nowrap">
+                        {related.short} <FaAngleRight />
+                      </Link>
+                    )}
+                  </div>
+                )}
               </Reveal>
+
+              {!ctaImage && (
+                <Reveal delay={0.1}>
+                  <div className="flex flex-col items-start gap-6 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-10 sm:gap-y-6 lg:flex-col lg:items-start lg:gap-7">
+                    <Link to="/contact" className="btn-primary shrink-0 whitespace-nowrap">
+                      Book a Confidential Consultation <FaArrowRight />
+                    </Link>
+                    {related?.short && (
+                      <Link to={related.to} className="link-arrow shrink-0 whitespace-nowrap">
+                        {related.short} <FaAngleRight />
+                      </Link>
+                    )}
+                  </div>
+                </Reveal>
+              )}
 
               {ctaImage && (
                 <Reveal delay={0.1}>

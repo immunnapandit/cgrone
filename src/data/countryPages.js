@@ -3,15 +3,15 @@ import CA from "country-flag-icons/react/3x2/CA";
 import GB from "country-flag-icons/react/3x2/GB";
 import IN from "country-flag-icons/react/3x2/IN";
 import NZ from "country-flag-icons/react/3x2/NZ";
-import canadaImg from "@/assets/images/services/Canada Immigiration.webp";
-import ukImg from "@/assets/images/services/Global Residency & Investment Migration.webp";
+import canadaImg from "@/assets/images/services/canada-immigration.webp";
+import ukImg from "@/assets/images/services/global-residency-investment-migration.webp";
 
 /* Canada destination photography, added 2026-09-07 with the page rebuild.
    Unsplash, commercial use, no attribution — same licence bar and the same
    opened-and-looked-at-before-committing rule as the programme images.
    Prepared by scripts/convert-country-images.mjs.
 
-   NOT used: services/Canada Immigiration.webp, the passport-flag-and-rubber-
+   NOT used: services/canada-immigration.webp, the passport-flag-and-rubber-
    stamp composite this page opened on. It is the exact "generic stock" the
    brief rules out, and a page about somebody's life should not lead with an
    image of paperwork. It stays imported as `img` because PageTitle still

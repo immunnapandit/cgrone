@@ -40,6 +40,30 @@ import kittsCoast from "@/assets/images/programmes/st-kitts-coastline.webp";
 import luciaPitonBeach from "@/assets/images/programmes/st-lucia-piton-beach.webp";
 import luciaSoufriere from "@/assets/images/programmes/st-lucia-soufriere.webp";
 
+/* The four RBI programmes, added 2026-09-08. Same licence and the same checks
+   as the Caribbean set above — Unsplash, free for commercial use, no
+   attribution required — and the same rule enforced the same way: every frame
+   was opened and identified from the photograph itself, not from its tags.
+
+   That rule did real work here. A candidate tagged "Malta" was dropped because
+   nothing in it was recognisably Maltese; a Valletta street shot was dropped
+   after a zoom showed a restaurant fascia and menu boards, which is the
+   third-party branding this project excludes. What survived carries a landmark
+   you can name: São Vicente de Fora and the Panteão dome, the Ponte Maria Pia,
+   the Burj Khalifa, the Sheikh Zayed Grand Mosque, the Parthenon, the Porch of
+   the Caryatids, the Grand Harbour bastions, and Valletta's gallarija.
+
+   Prepared by scripts/convert-programme-images.mjs' sibling,
+   scripts/convert-rbi-images.mjs — heroes 1600px, features 1100px. */
+import lisbonAlfama from "@/assets/images/programmes/portugal-lisbon-alfama.webp";
+import portoDouro from "@/assets/images/programmes/portugal-porto-douro.webp";
+import dubaiSkyline from "@/assets/images/programmes/uae-dubai-skyline.webp";
+import abuDhabiMosque from "@/assets/images/programmes/uae-abu-dhabi-grand-mosque.webp";
+import athensAcropolis from "@/assets/images/programmes/greece-athens-acropolis.webp";
+import athensCaryatids from "@/assets/images/programmes/greece-athens-caryatids.webp";
+import vallettaHarbour from "@/assets/images/programmes/malta-valletta-grand-harbour.webp";
+import vallettaFacades from "@/assets/images/programmes/malta-valletta-facades.webp";
+
 /* Programme detail pages for Pillar 1 — one per CBI/RBI programme listed on
  * /investment-migration. Distinct from countryPages.js, which covers the five
  * jurisdictions the firm operates IN; these cover programmes it advises ON.
@@ -1425,14 +1449,20 @@ export const programmePages = [
     sourceUrl: "https://www.henleyglobal.com/residence-investment/portugal",
     lede: "European residence through a qualifying investment, with a light physical-presence expectation and a long-term route to Portuguese citizenship.",
     headline: ["Schengen access", "Average 7 days/year", "Apply after 5 years"],
-    hero: null,
+    hero: {
+      src: lisbonAlfama,
+      alt: "Lisbon — São Vicente de Fora and the Panteão Nacional dome above the Alfama rooftops",
+    },
     intro: ["Portugal's Golden Residence Permit Program is a residence-by-investment option for qualifying investors. Henley highlights visa-free access to the Schengen Area and the possibility of applying for Portuguese citizenship after five years while maintaining the permit requirements."],
     keyFacts: [
       { label: "Travel", value: "Schengen Area", note: "Visa-free access for permit holders, as described by Henley" },
       { label: "Presence", value: "Average 7 days/year", note: "The average physical-presence expectation stated by Henley" },
       { label: "Long-term pathway", value: "Citizenship application", note: "Possible after five years, subject to the applicable requirements" },
     ],
-    feature: null,
+    feature: {
+      src: portoDouro,
+      alt: "Porto — the Douro below the Serra do Pilar monastery, crossed by the Ponte Maria Pia",
+    },
     benefits: [
       { label: "European residence", text: "A Portuguese residence route for investors seeking a long-term European base." },
       { label: "Schengen travel", text: "Visa-free travel across the Schengen Area is a core program benefit highlighted by Henley." },
@@ -1464,14 +1494,20 @@ export const programmePages = [
     sourceUrl: "https://www.henleyglobal.com/residence-investment/united-arab-emirates",
     lede: "Long-term UAE residence for qualifying investors, entrepreneurs and other eligible applicants who want to live, work or study in the Emirates.",
     headline: ["10-year renewable permit", "No sponsor required", "Family sponsorship"],
-    hero: null,
+    hero: {
+      src: dubaiSkyline,
+      alt: "Dubai — the Burj Khalifa rising above the Business Bay skyline",
+    },
     intro: ["The UAE Golden Visa is a renewable 10-year residence permit. Henley describes a route that allows foreign nationals to live, work and study in the UAE without a sponsor, with the ability to sponsor a spouse and children."],
     keyFacts: [
       { label: "Residence term", value: "10 years", note: "Renewable residence permit" },
       { label: "Sponsorship", value: "No sponsor", note: "Henley states that a sponsor is not required" },
       { label: "Family", value: "Spouse and children", note: "Eligible holders can sponsor immediate family members" },
     ],
-    feature: null,
+    feature: {
+      src: abuDhabiMosque,
+      alt: "Abu Dhabi — the Sheikh Zayed Grand Mosque mirrored in its reflecting pool at dusk",
+    },
     benefits: [
       { label: "Long-term residence", text: "A renewable 10-year permit for qualifying foreign nationals." },
       { label: "Everyday flexibility", text: "The permit supports living, working and studying in the United Arab Emirates." },
@@ -1503,14 +1539,20 @@ export const programmePages = [
     sourceUrl: "https://www.henleyglobal.com/residence-investment/greece",
     lede: "Greek residence through qualifying investment, with options in real estate or a company and a five-year residence permit for successful applicants.",
     headline: ["5-year residence", "Schengen access", "Family inclusion"],
-    hero: null,
+    hero: {
+      src: athensAcropolis,
+      alt: "Athens — the Parthenon on the Acropolis, above the Odeon of Herodes Atticus",
+    },
     intro: ["Greece's Golden Visa Program offers a range of investment options, including real estate or a company. Henley states that successful applicants obtain a five-year residence permit and visa-free travel access in the Schengen Area."],
     keyFacts: [
       { label: "Residence term", value: "5 years", note: "Permit term stated by Henley for successful applicants" },
       { label: "Investment options", value: "Real estate or company", note: "The two routes highlighted on the source page" },
       { label: "Family", value: "Immediate family", note: "Spouse, children under 21 and parents are listed by Henley" },
     ],
-    feature: null,
+    feature: {
+      src: athensCaryatids,
+      alt: "Athens — the Porch of the Caryatids on the Erechtheion",
+    },
     benefits: [
       { label: "European residence", text: "A Greek residence permit for qualifying investors." },
       { label: "Schengen travel", text: "Henley highlights visa-free access across the Schengen Area." },
@@ -1542,14 +1584,20 @@ export const programmePages = [
     sourceUrl: "https://www.henleyglobal.com/residence-investment/malta",
     lede: "A Maltese citizenship route for exceptional services by direct investment, distinct from a residence permit program and subject to certification under Maltese law.",
     headline: ["Citizenship route", "Exceptional services", "Maltese Citizenship Act"],
-    hero: null,
+    hero: {
+      src: vallettaHarbour,
+      alt: "Valletta — the fortified peninsula above the Grand Harbour",
+    },
     intro: ["Henley's Malta page covers citizenship by naturalization for exceptional services by direct investment. It describes a legal route for highly reputable foreign individuals and families who contribute to Malta's economic development, subject to the applicable criteria, exceptions and regulations."],
     keyFacts: [
       { label: "Outcome", value: "Maltese citizenship", note: "A naturalization route, not a residence permit program" },
       { label: "Basis", value: "Exceptional services", note: "Direct investment and contribution to economic development" },
       { label: "Certification", value: "Required", note: "Henley refers to certification under the Maltese Citizenship Act, Cap. 188" },
     ],
-    feature: null,
+    feature: {
+      src: vallettaFacades,
+      alt: "Valletta — limestone façades with the island's enclosed timber balconies",
+    },
     benefits: [
       { label: "Citizenship route", text: "A legal route to Maltese citizenship by naturalization for eligible applicants." },
       { label: "Family context", text: "Henley describes the route for highly reputable foreign individuals and families." },

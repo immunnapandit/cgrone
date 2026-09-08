@@ -1,7 +1,7 @@
 import { LuGlobe, LuTrendingUp, LuUsers } from "react-icons/lu";
-import investmentImg from "@/assets/images/services/Global Residency & Investment Migration.webp";
-import immigrationImg from "@/assets/images/services/Canada Immigiration.webp";
-import workforceImg from "@/assets/images/services/Business  Investor Immigration.webp";
+import investmentImg from "@/assets/images/services/global-residency-investment-migration.webp";
+import immigrationImg from "@/assets/images/services/canada-immigration.webp";
+import workforceImg from "@/assets/images/services/business-investor-immigration.webp";
 
 /* The three pillars, from Cynosure_Website_Layout_Pattern.docx (2026-08-29).
  *
