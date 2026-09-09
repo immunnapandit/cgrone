@@ -699,14 +699,19 @@ p {
   }
 
   /* The dark-surface counterpart, for CTAs sitting on the hero scrim or on
-     a navy panel. White fill, navy label — the same object, inverted, so
-     the two never look like two different buttons. */
+     a navy panel. White fill, brand-blue label — the same object, inverted,
+     so the two never look like two different buttons. The label is
+     --c-primary because that is literally what .btn-primary fills with:
+     white-on-primary and primary-on-white are one button seen from two
+     sides. It was --c-ink until 2026-09-09, which made the inversion
+     inexact and, more to the point, gave the page's loudest ACTION the
+     same colour as its headings. See .hero-cta for the full note. */
   .btn-light {
     display: inline-flex;
     align-items: center;
     gap: 10px;
     background: #fff;
-    color: rgb(var(--c-ink));
+    color: rgb(var(--c-primary));
     font-family: "Roboto", system-ui, sans-serif;
     font-weight: 600;
     font-size: 14px;
@@ -720,7 +725,7 @@ p {
   .btn-light:hover {
     background: rgb(var(--c-offwhite));
     border-color: rgb(var(--c-offwhite));
-    color: rgb(var(--c-ink));
+    color: rgb(var(--c-primary-dark));
   }
 
   /* ---- button sizes ----
@@ -805,9 +810,29 @@ p {
     padding: 17px 34px;
   }
 
-  /* The hero's primary action. A white slab with a navy label at every width:
-     it sits on the night photograph everywhere now, and a slate fill has
-     almost no edge against a night sky.
+  /* The hero's primary action. A white slab with a BRAND-BLUE label at every
+     width: it sits on the night photograph everywhere now, and a slate fill
+     has almost no edge against a night sky.
+
+     ---- WHY THE LABEL IS NOT --c-ink (2026-09-09) ----
+     "hero section m jo button h … use jo text pe color h wo acha nahi lag
+     raha h". The label was --c-ink #0B2748 — the HEADING colour — at 600
+     weight, 14px, uppercase, tracked, on pure white. Two things came out of
+     that. It was the darkest object in the hero, darker than the headline
+     (which is white), so the densest block of type on the screen was a
+     button label rather than the promise above it. And it carried no
+     signal: every other action on this site is blue — links and focus
+     rings on --c-primary-600, every solid fill on --c-primary-700 — so the
+     one button that matters most was the only one not saying "action".
+
+     It is --c-primary now, the fill colour, which makes this button the
+     exact inverse of .btn-primary rather than a heading laid on white.
+     8.75:1 on the white slab, so it gains contrast headroom over the 14px
+     floor rather than spending it. Hover deepens to --c-primary-dark,
+     matching what .btn-primary already does on its own hover.
+
+     The hero's own contrast decision is untouched: nothing was laid over
+     the photograph and the headline and standfirst are as they were.
 
      It used to change ground at lg — slate-on-white below, white slab above —
      because the phone put the copy on white beneath the picture. The phone
@@ -822,7 +847,7 @@ p {
     align-items: center;
     gap: 10px;
     background: #fff;
-    color: rgb(var(--c-ink));
+    color: rgb(var(--c-primary));
     font-family: "Roboto", system-ui, sans-serif;
     font-weight: 600;
     font-size: 14px;
@@ -836,7 +861,7 @@ p {
   .hero-cta:hover {
     background: rgb(var(--c-offwhite));
     border-color: rgb(var(--c-offwhite));
-    color: rgb(var(--c-ink));
+    color: rgb(var(--c-primary-dark));
   }
 
   .btn-outline {
@@ -1238,10 +1263,11 @@ p {
     outline-color: #fff;
   }
 
-  /* Type set directly on a photograph, with nothing behind it. Only the
-     Contact section's credential panel uses this now — the hero had it while
-     its copy was on the picture, and that copy is on white as of the band
-     rewrite.
+  /* Type set directly on a photograph, with nothing behind it. Two callers:
+     the hero copy block (Hero.jsx, .hero-copy) and the Contact section's
+     credential panel. The note here used to say the hero had stopped using
+     it — that stopped being true when the hero copy went back onto the
+     picture, and the stale note is part of how the bug below survived.
 
      A text-shadow is not a scrim: it paints a dark halo within a few pixels
      of each glyph and leaves every other pixel of the picture untouched. Two
@@ -1254,6 +1280,35 @@ p {
      be dark where the copy sits — see the note in Contact.jsx. */
   .on-photo {
     text-shadow: 0 1px 2px rgb(0 0 0 / 0.55), 0 2px 26px rgb(0 0 0 / 0.5);
+  }
+
+  /* ---- the halo stops at anything that brings its own ground ----------
+     2026-09-09: "button m jo text likha hua h … uske upar kuch fade laga
+     hua h".
+
+     text-shadow INHERITS. .on-photo is set on the hero's whole copy block,
+     so both buttons inside it were picking up the halo — and a button is
+     the one thing in that block that is NOT on the photograph. On the white
+     slab it painted a 26px black blur behind blue glyphs sitting on white:
+     no legibility to buy, so all it did was grey the letters and read as a
+     smudge over the label. Same story, quieter, for the ghost button's
+     white type on its own navy fill.
+
+     Scoped to the button classes rather than to '.on-photo *' because the
+     rule is about the OBJECT, not about this one hero: a button carries its
+     own ground wherever it is put, so it never wants the halo. Inheritance
+     loses to any declaration on the element itself, so no !important and no
+     specificity games are needed here.
+
+     The type that IS on the picture — the eyebrow, the headline, the
+     standfirst — is untouched and still gets its halo. */
+  .hero-cta,
+  .btn-primary,
+  .btn-light,
+  .btn-outline,
+  .btn-outline-light,
+  .btn-ghost-light {
+    text-shadow: none;
   }
 
   /* .on-photo-sm lived here — a denser halo for small type on the photograph,
