@@ -157,14 +157,40 @@
 
   /* ---- TEXT HIERARCHY ---------------------------------------------
        --c-ink     headings, emphasis        15.02:1 on white
-       --c-muted   body copy                  6.97:1 on white
+       --c-body    body copy                  17.4:1 on white
+       --c-muted   label tier, captions        6.97:1 on white
        --c-soft    NON-TEXT only (see below)  4.81:1 on offwhite
        #fff        inverse, on ink/primary fills
      Both greys were neutral (#59606E / #6B7385) and are blue-greys now,
      one hue family with the navy — a neutral grey beside a saturated
      navy is what made the old body copy look washed out next to its own
      headings. Both got DARKER, not lighter, so every ratio improved. */
-  --c-muted: 78 90 110;          /* #4E5A6E — body copy, 6.97:1 on white */
+  --c-muted: 78 90 110;          /* #4E5A6E — the label tier, not prose  */
+
+  /* ---- BODY COPY IS BLACK (2026-09-09) ----------------------------
+     "jo content h jaise ke paragraph text h wo black color m hona
+     chaiye". Prose was on --c-muted, a blue-grey at 6.97:1 — legible,
+     but read as grey-on-white next to its own navy headings.
+
+     --c-muted did NOT move. It keeps the label tier (.t-label,
+     .t-label-sm, .eyebrow, the mobile table keys, .read-more), which
+     is secondary BY ROLE: if those went black with the prose the page
+     would lose the one step of hierarchy that separates a kicker from
+     the sentence underneath it. Only the five prose rules moved —
+     body, .t-lead, .t-body, .t-small, .feature-block .text.
+
+     Dark panels are unaffected: they override at the call site with
+     `!text-white/85` and utilities are a later layer than these.
+
+     Pure #000 was tried first and read back as "black thoda harsh lag
+     raha h", so this is the near-black that note already named. It
+     still reads as black next to the navy headings — what it drops is
+     the edge vibration you get from a maximum-contrast stem at 16.5px
+     held over a 68ch measure, which is why long-form type is set just
+     off black almost everywhere it is set well.
+
+     17.4:1 on white, 16.2:1 on --c-offwhite. */
+  --c-body: 26 26 26;            /* #1A1A1A — prose only                 */
   --c-soft: 98 110 128;          /* #626E80 — non-text marks only        */
 
   /* The ground was a warm ivory (#FBF9F5) with a warm hairline (#E7E2D8).
@@ -282,7 +308,7 @@ body {
   font-size: 16px;
   font-weight: 400;
   line-height: 1.6;
-  color: rgb(var(--c-muted));
+  color: rgb(var(--c-body));
   background: #ffffff;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
@@ -453,7 +479,7 @@ p {
     font-size: 1.1875rem;
     line-height: 1.6;
     font-weight: 400;
-    color: rgb(var(--c-muted));
+    color: rgb(var(--c-body));
     max-width: 58ch;
   }
 
@@ -464,7 +490,7 @@ p {
     font-size: 1.03125rem;
     line-height: 1.6;
     font-weight: 400;
-    color: rgb(var(--c-muted));
+    color: rgb(var(--c-body));
     max-width: 68ch;
   }
 
@@ -473,7 +499,7 @@ p {
   .t-small {
     font-size: 0.9375rem;
     line-height: 1.6;
-    color: rgb(var(--c-muted));
+    color: rgb(var(--c-body));
   }
 
   /* ---- the label tier --------------------------------------------------
@@ -1478,7 +1504,7 @@ svg[fill="none"][stroke="currentColor"] {
 .feature-block .inner-box .text {
   font-size: 0.9375rem;
   line-height: 1.6;
-  color: rgb(var(--c-muted));
+  color: rgb(var(--c-body));
   margin-bottom: 0;
 }
 
